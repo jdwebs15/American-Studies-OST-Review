@@ -1,0 +1,1110 @@
+<!-- /games/block-02-declaration-of-independence-cs4.html  -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 02 — Declaration of Independence (CS 4)</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    /* Game-specific additions (keeps your hub look) */
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.03);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .topline{
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{
+      margin:6px 0 0;
+      font-size:22px;
+      letter-spacing:.2px;
+      font-weight:900;
+    }
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35; max-width:860px}
+    .stats{
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+      padding-top:4px;
+    }
+    .pill2{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    .qbox{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:rgba(0,0,0,.12);
+    }
+    .qmeta{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      color:var(--muted);
+      background:rgba(255,255,255,.02);
+    }
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+    .choices{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .choice{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      user-select:none;
+      background:rgba(255,255,255,.02);
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .choice:hover{
+      transform:translateY(-1px);
+      border-color:rgba(122,162,255,.55);
+      background:rgba(255,255,255,.04);
+    }
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55; cursor:not-allowed}
+    .choice .lbl{
+      font-family:var(--mono);
+      font-weight:900;
+      margin-right:10px;
+      color:var(--muted);
+    }
+    .msg{
+      margin-top:12px;
+      border-radius:14px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      display:none;
+      line-height:1.35;
+    }
+    .msg.good{display:block;background:rgba(43,213,118,.10); color:var(--text); border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10); color:var(--text); border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+    .bar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-top:12px;
+    }
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:900;
+      letter-spacing:.02em;
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(122,162,255,.55);
+      background:rgba(255,255,255,.045);
+    }
+    .btn:active{transform:translateY(0)}
+    .btn.warn{
+      border-color:rgba(255,209,102,.45);
+      background:rgba(255,209,102,.08);
+    }
+    .btn.bad{
+      border-color:rgba(255,92,122,.45);
+      background:rgba(255,92,122,.08);
+    }
+    .btn.good{
+      border-color:rgba(43,213,118,.45);
+      background:rgba(43,213,118,.08);
+    }
+    .hidden{display:none !important}
+
+    /* Start modal */
+    .modal{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.62);
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .modalcard{
+      width:min(680px, 92vw);
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(17,26,47,.96), rgba(10,14,26,.96));
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
+    .inp{
+      flex:1 1 240px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:14px;
+      padding:11px 12px;
+      font-weight:800;
+      outline:none;
+    }
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px; font-size:13px; color:var(--muted)}
+    .ticket{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.02);
+      padding:12px;
+      margin-top:12px;
+    }
+    .ticket pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-family:var(--mono);
+      color:var(--text);
+      font-size:13px;
+      line-height:1.35;
+    }
+    .quote{
+      display:block;
+      margin-top:8px;
+      padding:10px 12px;
+      border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);
+      border-radius:12px;
+      color:var(--text);
+      font-size:14px;
+      line-height:1.35;
+    }
+    .quote .qtag{
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 02 — Declaration of Independence (CS 4)</div>
+        <p class="subline">
+          CS4 focus: Unalienable rights, consent of the governed, equality of rights, and the responsibility of government to protect rights.
+          Apply the ideas to individuals, marginalized groups, and changes in government’s role over time.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+
+        <div class="qbox" id="gameBox">
+          <div class="qmeta">
+            <span class="tag" id="tagCS">CS 4</span>
+            <span class="tag" id="tagMode">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="quoteBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart" title="Hard restart clears saved run data.">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub" title="Return to hub (guarded).">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">
+              Reminder: Mastery requires <b>0 misses</b>. If you missed any, use Play Again.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>
+        Your name + timestamps + runtime will appear on the finish ticket.
+        Mastery requires <b>100% accuracy</b> (0 misses).
+      </p>
+
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">
+        Back-button protection is enabled to prevent “frozen” cached runs.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * bfcache/back-button fixes
+     ***********************/
+    window.addEventListener('pageshow', (e)=>{
+      if (e.persisted) location.reload();
+    });
+
+    // Guard against navigating back into an in-progress run
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=>{
+        history.pushState({guard:true}, "", location.href);
+      });
+    }catch(_){}
+
+    /***********************
+     * Storage keys (per-game)
+     ***********************/
+    const KEY = "legend_hist_cs4_block02_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+
+      stem: document.getElementById("stem"),
+      quoteBox: document.getElementById("quoteBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    /***********************
+     * Utilities
+     ***********************/
+    const pad2 = n => String(n).padStart(2,"0");
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      const m = Math.floor(s/60);
+      const r = s%60;
+      return `${pad2(m)}:${pad2(r)}`;
+    }
+
+    function nowStamp(d=new Date()){
+      const yyyy = d.getFullYear();
+      const mm = pad2(d.getMonth()+1);
+      const dd = pad2(d.getDate());
+      const hh = pad2(d.getHours());
+      const mi = pad2(d.getMinutes());
+      const ss = pad2(d.getSeconds());
+      return {
+        date: `${yyyy}-${mm}-${dd}`,
+        time: `${hh}:${mi}:${ss}`
+      };
+    }
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(_){ return null; }
+    }
+
+    function saveState(s){
+      localStorage.setItem(KEY, JSON.stringify(s));
+    }
+
+    function clearState(){
+      localStorage.removeItem(KEY);
+    }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /***********************
+     * Question Bank (teacher-created, OST-style, CS4 aligned)
+     * Short public-domain DOI excerpts only (<=25 words).
+     ***********************/
+    const BANK = [
+      {
+        stem:"Which idea from the Declaration of Independence best supports the principle of popular sovereignty?",
+        correct:"Government gets its authority from the people who are governed.",
+        wrong:[
+          "Government should be controlled by a small group of elites.",
+          "Rights are granted only by the government.",
+          "Citizens should avoid participating in government."
+        ],
+        hint:"Popular sovereignty = the people are the source of government power."
+      },
+      {
+        stem:"A student says: “The Declaration argues that rights exist before government.” Which phrase best matches that claim?",
+        quote:"“endowed…with certain unalienable Rights”",
+        correct:"Rights come from a source beyond government and cannot be legitimately taken away without violating the principle.",
+        wrong:[
+          "Rights only exist if a legislature votes to create them.",
+          "Rights are privileges earned through obedience.",
+          "Rights depend on how wealthy a person is."
+        ],
+        hint:"Unalienable rights are described as inherent—government’s job is to protect them, not create them."
+      },
+      {
+        stem:"Which statement best explains “consent of the governed” in a democratic society?",
+        correct:"People agree to be ruled by participating in elections and accepting the outcomes under the rule of law.",
+        wrong:[
+          "People must accept any rule because leaders are chosen by birth.",
+          "People consent only when government never taxes anyone.",
+          "People consent only when everyone agrees with every law."
+        ],
+        hint:"Consent involves legitimate processes (elections/representation), not unanimous agreement."
+      },
+      {
+        stem:"Which scenario best illustrates the Declaration’s argument that government must protect rights?",
+        correct:"A government provides due process protections and limits arbitrary arrests to safeguard liberty.",
+        wrong:[
+          "A government removes courts so leaders can punish critics quickly.",
+          "A government bans peaceful petitions to prevent complaints.",
+          "A government allows unequal laws based on ancestry."
+        ],
+        hint:"Protection of rights shows up through limits on power and safeguards like due process."
+      },
+      {
+        stem:"Which statement best captures the Declaration’s idea of equality of rights?",
+        quote:"“all men are created equal”",
+        correct:"All people have the same basic rights and deserve equal protection of those rights.",
+        wrong:[
+          "All people should have identical jobs and incomes.",
+          "All people must think the same way.",
+          "All people should be treated equally only if they own property."
+        ],
+        hint:"Equality here is about equal rights and equal protection—not identical outcomes."
+      },
+      {
+        stem:"Which action is most consistent with the Declaration’s claim that people can change an unjust government?",
+        correct:"Using lawful civic action—voting, petitioning, organizing—to reform policies that violate rights.",
+        wrong:[
+          "Ignoring government abuses because change is impossible.",
+          "Allowing leaders to rule without accountability.",
+          "Limiting political participation to one social class."
+        ],
+        hint:"The Declaration connects legitimacy to protecting rights; citizens can seek reform when government fails."
+      },
+      {
+        stem:"A historian argues the Declaration helped shape later civil rights movements. Which reasoning best supports that claim?",
+        correct:"Movements used its natural-rights language to argue government must extend equal rights to excluded groups.",
+        wrong:[
+          "Movements used it to argue only kings can protect rights.",
+          "Movements used it to argue elections should be ended.",
+          "Movements used it to argue rights depend on wealth."
+        ],
+        hint:"Look for natural rights + equality + government responsibility used to justify expanded rights."
+      },
+      {
+        stem:"Which claim best matches the Declaration’s view of government’s purpose?",
+        quote:"“to secure these rights”",
+        correct:"Government exists to protect people’s rights and freedoms.",
+        wrong:[
+          "Government exists mainly to increase leaders’ power.",
+          "Government exists to control every aspect of private life.",
+          "Government exists to privilege one group over another."
+        ],
+        hint:"Purpose = secure rights, not maximize arbitrary control."
+      },
+      {
+        stem:"Which scenario best applies “consent of the governed” to modern policymaking?",
+        correct:"Citizens elect representatives who pass laws; citizens can vote them out if policies violate public trust.",
+        wrong:[
+          "Leaders remain in power indefinitely regardless of elections.",
+          "Citizens are punished for criticizing laws.",
+          "Government refuses to hold elections during stable times."
+        ],
+        hint:"Consent is ongoing through representation and accountability."
+      },
+      {
+        stem:"Which evidence would best show the Declaration’s ideas changed the role of government over time?",
+        correct:"Constitutional amendments and laws that expanded voting rights and equal protection to more people.",
+        wrong:[
+          "A fashion trend inspired by colonial clothing.",
+          "A new sports league formed after independence.",
+          "An increase in overseas trade routes alone."
+        ],
+        hint:"Role of government changes are shown through rights protections, participation, and legal structures."
+      },
+
+      /* Marginalized groups / application */
+      {
+        stem:"A student claims the Declaration’s equality principle was not fully applied in 1776. Which example best supports that claim?",
+        correct:"Many groups—such as enslaved people and women—did not receive equal legal rights at the time.",
+        wrong:[
+          "All groups voted in every colony in 1776.",
+          "All groups had identical political power in 1776.",
+          "No group faced legal discrimination in 1776."
+        ],
+        hint:"Apply the principle to historical realities: who was included/excluded from rights and participation?"
+      },
+      {
+        stem:"Which argument best uses Declaration principles to support extending voting rights to a group denied participation?",
+        correct:"If government is based on consent, people affected by laws should have a voice in choosing leaders.",
+        wrong:[
+          "Voting should be limited to preserve tradition.",
+          "Voting should depend on family ancestry.",
+          "Voting should be restricted to those who agree with the government."
+        ],
+        hint:"Consent of the governed links legitimacy to participation and representation."
+      },
+      {
+        stem:"Which scenario most clearly reflects a government failing its responsibility described in the Declaration?",
+        correct:"Officials deny a group equal protection under the law and block lawful petitions for change.",
+        wrong:[
+          "Officials enforce laws equally and allow courts to review disputes.",
+          "Officials protect speech and hold regular elections.",
+          "Officials provide due process protections to accused persons."
+        ],
+        hint:"Failure = rights violations + blocked accountability."
+      },
+
+      /* Evidence + reasoning (OST style) */
+      {
+        stem:"Which statement best explains why the Declaration includes a list of grievances against the king?",
+        correct:"To provide evidence that the government had violated rights and broken the social contract.",
+        wrong:[
+          "To entertain readers with dramatic stories.",
+          "To show that taxes should never exist.",
+          "To argue that citizens should avoid politics."
+        ],
+        hint:"The grievances are evidence supporting the claim of failed legitimate government."
+      },
+      {
+        stem:"A historian says: “The Declaration’s ideas are examples of Enlightenment thought.” Which evidence best supports that?",
+        correct:"Its emphasis on natural rights, equality, and government based on consent aligns with Enlightenment political theory.",
+        wrong:[
+          "Its emphasis on monarchy and inherited power aligns with Enlightenment theory.",
+          "Its rejection of reason aligns with Enlightenment theory.",
+          "Its focus on military tactics aligns with Enlightenment theory."
+        ],
+        hint:"Enlightenment themes: natural rights, reason, consent, limits on power."
+      },
+
+      /* Quick quote-based items (short excerpts) */
+      {
+        stem:"What does the phrase below most directly support?",
+        quote:"“their just powers…from the consent of the governed”",
+        correct:"Government authority is legitimate only when people grant it.",
+        wrong:[
+          "Government authority comes from military force alone.",
+          "Government authority comes from ancestry.",
+          "Government authority comes from wealth."
+        ],
+        hint:"Legitimacy is tied to consent, not birth or force."
+      },
+      {
+        stem:"What does the phrase below most directly connect to?",
+        quote:"“Life, Liberty and the pursuit of Happiness”",
+        correct:"Natural rights that government should protect.",
+        wrong:[
+          "A promise that everyone will have the same income.",
+          "A plan for how Congress should be organized.",
+          "A rule that citizens must support every policy."
+        ],
+        hint:"These are core rights, not a policy blueprint for equal outcomes."
+      },
+      {
+        stem:"Which idea best matches the phrase below?",
+        quote:"“it is the Right of the People to alter or to abolish it”",
+        correct:"People can change a government that fails to protect rights.",
+        wrong:[
+          "People must accept any law without criticism.",
+          "People should avoid civic participation.",
+          "People should rely only on foreign powers for change."
+        ],
+        hint:"Right to alter/abolish = political legitimacy depends on rights protection."
+      },
+
+      /* Scenarios applying CS4 to government role over time */
+      {
+        stem:"Which example best shows the Declaration’s ideas being used to argue for broader civil rights later in U.S. history?",
+        correct:"Activists argue equal rights require ending laws that deny equal protection to certain groups.",
+        wrong:[
+          "Activists argue equal rights require ending elections.",
+          "Activists argue equal rights require a king.",
+          "Activists argue equal rights require banning peaceful protest."
+        ],
+        hint:"Equality language becomes a basis for challenging unequal laws."
+      },
+      {
+        stem:"Which government action best reflects the Declaration’s principle that rights are protected through legitimate institutions?",
+        correct:"Creating independent courts that can limit government actions that violate individual rights.",
+        wrong:[
+          "Allowing leaders to punish critics without trials.",
+          "Ending elections to increase efficiency.",
+          "Giving one group special legal privileges permanently."
+        ],
+        hint:"Institutions like courts help protect rights by limiting arbitrary power."
+      },
+      {
+        stem:"Which statement best shows how the Declaration’s ideas influenced the concept of limited government?",
+        correct:"Government power is justified only to the extent it protects rights and remains accountable to the people.",
+        wrong:[
+          "Government power should be unlimited to guarantee obedience.",
+          "Government power should be inherited to ensure stability.",
+          "Government power should only serve one class."
+        ],
+        hint:"Limited government + accountability connect to consent and rights protection."
+      },
+
+      /* “Best explains” / “Most supports” style */
+      {
+        stem:"Which choice best explains why the Declaration’s principles can be applied to marginalized groups even if they were excluded in 1776?",
+        correct:"Because the principles describe universal rights and legitimacy standards that later generations used to demand inclusion.",
+        wrong:[
+          "Because the Declaration states only certain groups have rights.",
+          "Because the Declaration rejects equality.",
+          "Because the Declaration argues governments should never change."
+        ],
+        hint:"Universal language enables later arguments for expanded rights and participation."
+      },
+      {
+        stem:"A student argues: “Consent means citizens must approve every law.” Which is the best correction using CS4 ideas?",
+        correct:"Consent works through representation and elections, not unanimous approval of each policy.",
+        wrong:[
+          "Consent means citizens cannot criticize laws.",
+          "Consent means leaders never face elections.",
+          "Consent means only property owners count as citizens."
+        ],
+        hint:"Consent = representative government + accountability mechanisms."
+      },
+      {
+        stem:"Which evidence would most strengthen an argument that a government has lost legitimacy under Declaration principles?",
+        correct:"Documented violations of rights combined with blocked peaceful ways to seek reform.",
+        wrong:[
+          "A leader’s popularity among a small group.",
+          "A government’s ability to silence critics.",
+          "A government’s military strength."
+        ],
+        hint:"Legitimacy depends on protecting rights and maintaining consent/accountability."
+      },
+
+      /* Additional applications to modern examples */
+      {
+        stem:"Which scenario best applies “responsibility of government to protect rights” to a school-policy debate?",
+        correct:"A policy must protect students’ rights while using fair procedures and equal rules for all students.",
+        wrong:[
+          "A policy should apply only to students from certain neighborhoods.",
+          "A policy should punish criticism of administrators.",
+          "A policy should deny due process because it is faster."
+        ],
+        hint:"Rights protection includes fairness, equal treatment, and due process safeguards."
+      },
+      {
+        stem:"Which example best fits “equality of rights” as a constitutional goal influenced by Declaration ideas?",
+        correct:"Laws that prohibit discrimination and require equal protection regardless of race or sex.",
+        wrong:[
+          "Laws that permanently privilege one group.",
+          "Laws that eliminate elections.",
+          "Laws that punish lawful petitions."
+        ],
+        hint:"Equality of rights = equal protection under the law."
+      },
+      {
+        stem:"A historian asks students to connect the Declaration to later reforms. Which connection is strongest?",
+        correct:"Expanding voting rights aligns with consent of the governed and equal rights principles.",
+        wrong:[
+          "Banning elections aligns with consent of the governed.",
+          "Hereditary leadership aligns with equality of rights.",
+          "Silencing protest aligns with government responsibility to protect rights."
+        ],
+        hint:"Consent + equality support broader participation."
+      },
+
+      /* More quote + reasoning */
+      {
+        stem:"Which idea is most directly supported by the excerpt below?",
+        quote:"“secure these rights”",
+        correct:"Government’s role is to protect people’s rights.",
+        wrong:[
+          "Government’s role is to create rights for only some people.",
+          "Government’s role is to remove courts.",
+          "Government’s role is to end elections."
+        ],
+        hint:"That phrase states purpose: secure rights."
+      },
+      {
+        stem:"Which claim best describes the relationship between rights and government in the Declaration?",
+        correct:"Rights are inherent; governments are formed to protect them.",
+        wrong:[
+          "Rights exist only when government grants them.",
+          "Rights should be limited to the wealthy.",
+          "Rights depend on birthplace alone."
+        ],
+        hint:"Inherent rights come first; government is created to secure them."
+      },
+      {
+        stem:"Which statement best shows the Declaration’s influence on the idea of civic responsibility?",
+        correct:"Citizens should hold leaders accountable through participation when rights are threatened.",
+        wrong:[
+          "Citizens should avoid politics and leave decisions to elites.",
+          "Citizens should accept injustice to preserve order.",
+          "Citizens should oppose all government action automatically."
+        ],
+        hint:"Accountability and participation support consent-based government."
+      },
+
+      /* Cause/effect style (OST) */
+      {
+        stem:"Which cause-and-effect relationship is most consistent with CS4?",
+        correct:"When a government violates rights and ignores petitions, people argue its legitimacy is weakened.",
+        wrong:[
+          "When a government holds elections, legitimacy is automatically lost.",
+          "When a government protects rights, consent is impossible.",
+          "When a government allows courts, rights disappear."
+        ],
+        hint:"Rights violations + blocked reform undermine consent/legitimacy."
+      },
+      {
+        stem:"Which choice best identifies a limitation of the Declaration in 1776 while still recognizing its long-term impact?",
+        correct:"Its ideals were not applied equally to all people at the time, but later movements used its language to argue for inclusion.",
+        wrong:[
+          "Its ideals were applied perfectly to everyone in 1776.",
+          "Its ideals rejected equality and rights entirely.",
+          "Its ideals argued citizens should never change government."
+        ],
+        hint:"Distinguish ideals vs. historical reality; note later expansion of rights arguments."
+      },
+      {
+        stem:"Which conclusion best fits the Declaration’s logic about government and rights?",
+        correct:"A government is legitimate when it protects rights and remains accountable to the people through consent.",
+        wrong:[
+          "A government is legitimate when it never faces criticism.",
+          "A government is legitimate when one group controls voting forever.",
+          "A government is legitimate when leaders inherit power."
+        ],
+        hint:"Legitimacy = rights protection + consent/accountability."
+      },
+
+      /* Make sure we land at 30 items total */
+      {
+        stem:"Which statement best explains how the Declaration can be used to evaluate government actions today?",
+        correct:"Compare policies to the principles of rights protection, equality, and consent to judge legitimacy and fairness.",
+        wrong:[
+          "Use it only to memorize historical dates.",
+          "Use it to argue that government should never change.",
+          "Use it to argue that rights belong to only one group."
+        ],
+        hint:"CS4 = apply the principles as criteria for evaluating government and rights."
+      }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    /***********************
+     * Controlled shuffling (balance correct answers across A/B/C/D)
+     ***********************/
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+
+        const targetPos = targetsShuffled[idx]; // 0..3
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i] == null) choices[i] = distractors[di++];
+        }
+        return {
+          stem: q.stem,
+          quote: q.quote || "",
+          hint: q.hint,
+          choices,
+          answerIndex: targetPos
+        };
+      });
+    }
+
+    /***********************
+     * Runtime state
+     ***********************/
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {
+        version: 1,
+        name: "",
+        started: false,
+        startIso: null,
+        startStamp: null,
+        runStartMs: null,
+        misses: 0,
+        i: 0,
+        locked: false,
+        missedOnQ: {},
+        runQuestions: null,
+        finished: false,
+        endStamp: null,
+        endIso: null
+      };
+    }
+
+    function openStartModal(){
+      els.startModal.style.display = "flex";
+      els.nameInput.focus();
+    }
+
+    function closeStartModal(){
+      els.startModal.style.display = "none";
+    }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi();
+      render();
+      startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        const elapsed = performance.now() - state.runStartMs;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(elapsed)}`;
+      }, 250);
+    }
+
+    function stopClock(){
+      if(tickTimer){ clearInterval(tickTimer); tickTimer = null; }
+    }
+
+    function total(){
+      return state?.runQuestions?.length || 0;
+    }
+
+    function accuracy(){
+      const totalAnswered = clamp(state.i, 0, total());
+      const denom = totalAnswered + state.misses;
+      if(denom <= 0) return 100;
+      const correctSoFar = totalAnswered; // they only advance on correct
+      return Math.round((correctSoFar / denom) * 100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1, total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderQuote(q){
+      if(q.quote){
+        els.quoteBox.classList.remove("hidden");
+        els.quoteBox.innerHTML = `
+          <div class="quote">
+            ${q.quote}
+            <span class="qtag">Declaration of Independence (public domain excerpt)</span>
+          </div>
+        `;
+      }else{
+        els.quoteBox.classList.add("hidden");
+        els.quoteBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+
+      if(state.finished){
+        showTicket();
+        return;
+      }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderQuote(q);
+
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+
+          if(state.i >= total()){
+            finishRun();
+            return;
+          }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad",
+        `❌ Not yet. <b>Hint:</b> ${q.hint}
+         <span class="small">Your miss is recorded. Choose again to continue.</span>`
+      );
+
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—", time:"—"};
+      const dEnd = state.endStamp || {date:"—", time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now() - state.runStartMs) : 0;
+
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 02 (Declaration of Independence — CS 4)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.quoteBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    /***********************
+     * Buttons
+     ***********************/
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState();
+      location.reload();
+    });
+
+    els.btnBackHub.addEventListener("click", ()=>{
+      location.href = "../index.html";
+    });
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent = "Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+
+    els.btnPlayAgain.addEventListener("click", ()=>{
+      clearState();
+      location.reload();
+    });
+
+    /***********************
+     * Start modal
+     ***********************/
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor = "rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor = "", 800);
+        return;
+      }
+      startRun(name);
+    }
+
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter") startClicked();
+    });
+
+    /***********************
+     * Boot
+     ***********************/
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+
+      closeStartModal();
+      initUi();
+      if(state.finished){
+        showTicket();
+      }else{
+        render();
+        startClock();
+      }
+    })();
+  </script>
+</body>
+</html>
