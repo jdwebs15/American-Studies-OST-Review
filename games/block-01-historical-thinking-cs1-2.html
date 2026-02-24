@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 01 — Historical Thinking Skills (CS 1–2)</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    /* Game-specific additions (keeps your hub look) */
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.03);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .topline{
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{
+      margin:6px 0 0;
+      font-size:22px;
+      letter-spacing:.2px;
+      font-weight:900;
+    }
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35}
+    .stats{
+      display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;
+      padding-top:4px;
+    }
+    .pill2{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    .qbox{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:rgba(0,0,0,.12);
+    }
+    .qmeta{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      color:var(--muted);
+      background:rgba(255,255,255,.02);
+    }
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+    .choices{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .choice{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      user-select:none;
+      background:rgba(255,255,255,.02);
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .choice:hover{
+      transform:translateY(-1px);
+      border-color:rgba(122,162,255,.55);
+      background:rgba(255,255,255,.04);
+    }
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55; cursor:not-allowed}
+    .choice .lbl{
+      font-family:var(--mono);
+      font-weight:900;
+      margin-right:10px;
+      color:var(--muted);
+    }
+    .msg{
+      margin-top:12px;
+      border-radius:14px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      display:none;
+      line-height:1.35;
+    }
+    .msg.good{display:block;background:rgba(43,213,118,.10); color:var(--text); border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10); color:var(--text); border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+    .bar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-top:12px;
+    }
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:900;
+      letter-spacing:.02em;
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(122,162,255,.55);
+      background:rgba(255,255,255,.045);
+    }
+    .btn:active{transform:translateY(0)}
+    .btn.warn{
+      border-color:rgba(255,209,102,.45);
+      background:rgba(255,209,102,.08);
+    }
+    .btn.bad{
+      border-color:rgba(255,92,122,.45);
+      background:rgba(255,92,122,.08);
+    }
+    .btn.good{
+      border-color:rgba(43,213,118,.45);
+      background:rgba(43,213,118,.08);
+    }
+    .hidden{display:none !important}
+
+    /* Start modal */
+    .modal{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.62);
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .modalcard{
+      width:min(640px, 92vw);
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(17,26,47,.96), rgba(10,14,26,.96));
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
+    .inp{
+      flex:1 1 240px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      border-radius:14px;
+      padding:11px 12px;
+      font-weight:800;
+      outline:none;
+    }
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px; font-size:13px; color:var(--muted)}
+    .ticket{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.02);
+      padding:12px;
+      margin-top:12px;
+    }
+    .ticket pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-family:var(--mono);
+      color:var(--text);
+      font-size:13px;
+      line-height:1.35;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 01 — Historical Thinking Skills (CS 1–2)</div>
+        <p class="subline">
+          CS1: credibility of sources (perspective, corroboration, qualifications, bias, context, accuracy).
+          CS2: thesis + evidence (support/refute, cite sources, refine explanations).
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+
+        <div class="qbox" id="gameBox">
+          <div class="qmeta">
+            <span class="tag" id="tagCS">CS —</span>
+            <span class="tag" id="tagMode">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+
+          <div class="choices" id="choices"></div>
+
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart" title="Hard restart clears saved run data.">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub" title="Return to hub (guarded).">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">
+              Reminder: Mastery requires <b>0 misses</b>. If you missed any, use Play Again.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>
+        Your name + timestamps + runtime will appear on the finish ticket.
+        Mastery requires <b>100% accuracy</b> (0 misses).
+      </p>
+
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">
+        If the back button “freezes” a page, this game auto-reloads to prevent bfcache issues.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /***********************
+     * bfcache/back-button fixes
+     ***********************/
+    window.addEventListener('pageshow', (e)=>{
+      if (e.persisted) location.reload();
+    });
+
+    // Guard against navigating back into an in-progress run
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=>{
+        // If they press back, push them forward again.
+        history.pushState({guard:true}, "", location.href);
+      });
+    }catch(_){}
+
+    /***********************
+     * Storage keys (per-game)
+     ***********************/
+    const KEY = "legend_hist_cs1_2_block01_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+
+      tagCS: document.getElementById("tagCS"),
+
+      stem: document.getElementById("stem"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    /***********************
+     * Utilities
+     ***********************/
+    const pad2 = n => String(n).padStart(2,"0");
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      const m = Math.floor(s/60);
+      const r = s%60;
+      return `${pad2(m)}:${pad2(r)}`;
+    }
+
+    function nowStamp(d=new Date()){
+      const yyyy = d.getFullYear();
+      const mm = pad2(d.getMonth()+1);
+      const dd = pad2(d.getDate());
+      const hh = pad2(d.getHours());
+      const mi = pad2(d.getMinutes());
+      const ss = pad2(d.getSeconds());
+      return {
+        date: `${yyyy}-${mm}-${dd}`,
+        time: `${hh}:${mi}:${ss}`
+      };
+    }
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(_){ return null; }
+    }
+
+    function saveState(s){
+      localStorage.setItem(KEY, JSON.stringify(s));
+    }
+
+    function clearState(){
+      localStorage.removeItem(KEY);
+    }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /***********************
+     * Question Bank (teacher-created, CS1–CS2 aligned)
+     * Sources: Ohio Model Curriculum CS1–CS2 expectations/elaboration.
+     ***********************/
+    const BANK = [
+      // CS1 — credibility factors
+      {
+        cs:"CS 1",
+        stem:"A historian finds a blog post about the Boston Tea Party written 200 years after the event. Which step best helps evaluate the source’s credibility?",
+        correct:"Check whether the claims match multiple credible primary/secondary sources and whether the author cites evidence.",
+        wrong:[
+          "Assume it is reliable because it was published recently.",
+          "Trust it because the writing is emotional and persuasive.",
+          "Use it as credible if it has many likes and shares."
+        ],
+        hint:"Credibility checks include agreement with other credible sources and whether evidence is cited."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which detail most strongly suggests a source may contain bias that reduces its credibility?",
+        correct:"The author uses stereotypes to describe a group involved in the event.",
+        wrong:[
+          "The author explains the time and place the document was created.",
+          "The author provides dates and names that can be verified.",
+          "The author compares the account to other sources."
+        ],
+        hint:"Bias can show up through stereotypes or one-sided language that conflicts with evidence."
+      },
+      {
+        cs:"CS 1",
+        stem:"A pamphlet about an event was written by someone who benefited financially from the outcome. Which credibility factor is most directly involved?",
+        correct:"The author’s perspective and possible bias.",
+        wrong:[
+          "The length of the document.",
+          "The font and formatting used.",
+          "The number of people who own a copy."
+        ],
+        hint:"Ask: what incentives or viewpoint might shape how the author describes events?"
+      },
+      {
+        cs:"CS 1",
+        stem:"Two sources describe the same event, but one contains internal contradictions and changing claims. Which credibility check best identifies this problem?",
+        correct:"Accuracy and consistency of arguments made throughout the source.",
+        wrong:[
+          "Whether the source is longer than others.",
+          "Whether the source uses old-fashioned language.",
+          "Whether the source is printed on paper rather than online."
+        ],
+        hint:"Credible sources are consistent in their reasoning and claims."
+      },
+      {
+        cs:"CS 1",
+        stem:"A speech was delivered during a heated election campaign. Which question best evaluates the circumstances of its creation?",
+        correct:"What was happening at the time, and how might that context have shaped the message?",
+        wrong:[
+          "How many pages is the transcript?",
+          "Was the speech delivered indoors or outdoors?",
+          "Did the speaker use humor?"
+        ],
+        hint:"Context matters: time, audience, purpose, and pressures can shape content."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which choice best demonstrates corroboration when evaluating a historical claim?",
+        correct:"Comparing the claim to multiple credible sources and noting where they agree and disagree.",
+        wrong:[
+          "Choosing the source with the strongest opinion.",
+          "Using only one source because it seems detailed.",
+          "Ignoring sources that challenge the claim."
+        ],
+        hint:"Corroboration = cross-checking across sources."
+      },
+      {
+        cs:"CS 1",
+        stem:"A historian is deciding whether to trust a secondary source written by an unknown author. Which detail most improves credibility?",
+        correct:"The author’s qualifications and reputation in the field, plus clear citations to evidence.",
+        wrong:[
+          "The source includes dramatic language.",
+          "The source is posted on a popular website.",
+          "The source has many pictures and bold headings."
+        ],
+        hint:"Qualifications/reputation + evidence/citations matter more than popularity."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which is the most reasonable concern when using an eyewitness account?",
+        correct:"The account may reflect the person’s limited viewpoint or memory distortions.",
+        wrong:[
+          "Eyewitness accounts are always false.",
+          "Eyewitness accounts cannot be compared to other sources.",
+          "Eyewitness accounts are not considered historical evidence."
+        ],
+        hint:"Eyewitnesses can be valuable, but perspective and memory can affect accuracy."
+      },
+      {
+        cs:"CS 1",
+        stem:"A textbook summary conflicts with several primary documents from the same period. What is the best next step?",
+        correct:"Re-check both sets of sources for context and credibility, then weigh which evidence is stronger and better supported.",
+        wrong:[
+          "Automatically accept the textbook because it is a secondary source.",
+          "Automatically reject the primary documents because they are old.",
+          "Ignore the conflict to keep the story simple."
+        ],
+        hint:"Credibility includes agreement with other credible sources and accurate, contextual interpretation."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which choice is a strong indicator that a source is credible?",
+        correct:"Claims are supported with evidence and align with other credible accounts after cross-checking.",
+        wrong:[
+          "The author uses emotional language to persuade readers.",
+          "The author’s website has a large number of visitors.",
+          "The author includes a single dramatic anecdote as proof."
+        ],
+        hint:"Look for evidence + corroboration with other credible sources."
+      },
+
+      // CS2 — thesis and evidence
+      {
+        cs:"CS 2",
+        stem:"Which statement is the best example of a historical thesis (not just a topic)?",
+        correct:"Industrialization transformed the U.S. economy by shifting labor toward factories, which increased urban growth and intensified debates over workers’ rights.",
+        wrong:[
+          "Industrialization in the United States.",
+          "Factories and cities in the late 1800s.",
+          "A timeline of inventions from 1865 to 1900."
+        ],
+        hint:"A thesis makes an interpretive claim that can be supported with evidence."
+      },
+      {
+        cs:"CS 2",
+        stem:"A student claims: “The Progressive Era improved American life.” Which evidence best supports the claim in an OST-style response?",
+        correct:"Specific reforms and outcomes (e.g., consumer protections, labor regulations, or expanded political participation) cited from credible sources.",
+        wrong:[
+          "A personal opinion that progressives were ‘good people.’",
+          "A modern social media post praising progressivism.",
+          "A claim repeated without naming any reforms."
+        ],
+        hint:"Support = specific, cited evidence tied directly to the claim."
+      },
+      {
+        cs:"CS 2",
+        stem:"Which action best demonstrates using evidence to refute a historical position?",
+        correct:"Citing credible documents and data that directly contradict the claim’s key point.",
+        wrong:[
+          "Changing the claim to avoid disagreement.",
+          "Using a single quote without context.",
+          "Ignoring evidence that challenges the claim."
+        ],
+        hint:"Refute = show why a claim doesn’t hold up using strong evidence."
+      },
+      {
+        cs:"CS 2",
+        stem:"A historian revises an explanation after finding new documents that change the interpretation of an event. Which CS2 skill is being used?",
+        correct:"Comparing and analyzing evidence from various sources to refine explanations.",
+        wrong:[
+          "Choosing the most popular account.",
+          "Keeping the original explanation to stay consistent.",
+          "Rejecting new evidence because it is inconvenient."
+        ],
+        hint:"Historians refine interpretations when evidence requires it."
+      },
+      {
+        cs:"CS 2",
+        stem:"Which list contains sources that can serve as evidence for a thesis (as described in CS2)?",
+        correct:"Artifacts, documents, eyewitness accounts, historical sites, photographs, and other sources.",
+        wrong:[
+          "Only textbooks and encyclopedias.",
+          "Only opinions from modern commentators.",
+          "Only sources that agree with the thesis."
+        ],
+        hint:"Evidence can come from many source types—primary and secondary."
+      },
+      {
+        cs:"CS 2",
+        stem:"Why do historians cite their sources when making an argument?",
+        correct:"So others can verify the evidence and evaluate whether the conclusion is supported.",
+        wrong:[
+          "To make the writing longer.",
+          "To avoid discussing conflicting evidence.",
+          "To guarantee everyone agrees with the thesis."
+        ],
+        hint:"Citations allow verification and strengthen credibility."
+      },
+      {
+        cs:"CS 2",
+        stem:"A thesis should provide a meaningful interpretation by explaining why evidence matters. Which revision best adds significance?",
+        correct:"Adding how the evidence connects to a larger context or broader historical pattern.",
+        wrong:[
+          "Removing all analysis and listing more dates.",
+          "Replacing evidence with stronger adjectives.",
+          "Limiting the thesis to one vague sentence."
+        ],
+        hint:"Connect evidence to broader meaning—why it matters."
+      },
+      {
+        cs:"CS 2",
+        stem:"A historian uses two sources that disagree about an event. What is the best CS2 move?",
+        correct:"Analyze differences in perspective/context, then use evidence to support the strongest explanation.",
+        wrong:[
+          "Discard both sources because they disagree.",
+          "Choose whichever source is longer.",
+          "Pick the source that uses the most confident tone."
+        ],
+        hint:"Disagreement is normal—analyze why they differ, then argue using evidence."
+      },
+      {
+        cs:"CS 2",
+        stem:"Which choice best shows evidence being used to support a thesis rather than replace it?",
+        correct:"The thesis states a claim, and evidence examples are used to prove the claim’s reasoning.",
+        wrong:[
+          "The thesis is replaced by a list of quotes.",
+          "The thesis is replaced by a timeline.",
+          "The thesis is omitted so evidence can “speak for itself.”"
+        ],
+        hint:"Thesis = claim; evidence = proof."
+      },
+      {
+        cs:"CS 2",
+        stem:"A student writes: “This source proves my point because I agree with it.” What is the best correction?",
+        correct:"Explain how specific evidence from credible sources supports the claim and address competing evidence when relevant.",
+        wrong:[
+          "Use more emotional language to persuade readers.",
+          "Remove citations to keep it simple.",
+          "Only choose sources that match the student’s opinion."
+        ],
+        hint:"Support requires reasons + evidence, not agreement."
+      },
+
+      // Mixed practice (CS1+CS2 applied)
+      {
+        cs:"CS 1",
+        stem:"Two articles describe the same protest. One includes evidence and citations; the other relies on stereotypes and insults. Which is more credible, and why?",
+        correct:"The cited article is more credible because evidence and corroboration reduce bias and strengthen reliability.",
+        wrong:[
+          "The insulting article is more credible because it is more passionate.",
+          "Both are equally credible because they cover the same topic.",
+          "The article with more readers is automatically more credible."
+        ],
+        hint:"Credibility increases with evidence + corroboration and decreases with biased stereotyping."
+      },
+      {
+        cs:"CS 2",
+        stem:"A historian argues that a policy change was a turning point. What evidence would be most convincing?",
+        correct:"Multiple credible sources showing conditions before and after the change and linking the change to measurable outcomes.",
+        wrong:[
+          "A single modern opinion post praising the policy.",
+          "A dramatic story without dates or sourcing.",
+          "A claim repeated by one source with no citations."
+        ],
+        hint:"Turning point claims need before/after evidence from credible sources."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which question most directly checks an author’s qualifications and reputation?",
+        correct:"What relevant training, expertise, or track record does the author have in this subject area?",
+        wrong:[
+          "Does the author use bold headings?",
+          "Is the writing entertaining?",
+          "Is the source shorter than a textbook?"
+        ],
+        hint:"Qualifications = expertise and credibility in the field."
+      },
+      {
+        cs:"CS 2",
+        stem:"A student must write a thesis about westward expansion. Which thesis is most defensible?",
+        correct:"Westward expansion increased U.S. land and resources but intensified conflict with American Indians through treaty violations and forced relocation.",
+        wrong:[
+          "Westward expansion happened.",
+          "People moved west for many reasons.",
+          "The West is an interesting topic."
+        ],
+        hint:"Defensible theses make an arguable claim that evidence can support."
+      },
+      {
+        cs:"CS 1",
+        stem:"A primary source was created years after the event and contains no references to other evidence. What is the best credibility concern?",
+        correct:"It may be less reliable due to distance from the event and lack of corroboration or supporting evidence.",
+        wrong:[
+          "It must be false because it is a primary source.",
+          "It is automatically credible because it is old.",
+          "It is credible if it has a compelling story."
+        ],
+        hint:"Time gap + no corroboration can weaken reliability."
+      },
+      {
+        cs:"CS 2",
+        stem:"Which action best supports a thesis when sources conflict?",
+        correct:"Use the most credible evidence, explain discrepancies using context/perspective, and justify why the conclusion fits best.",
+        wrong:[
+          "Ignore the conflict to keep the argument simple.",
+          "Only include evidence that supports your side.",
+          "Pick the source with the strongest opinion."
+        ],
+        hint:"Address conflicts with reasoning and evidence—don’t hide them."
+      },
+      {
+        cs:"CS 1",
+        stem:"A document accurately reports facts but omits key information that changes the interpretation. Which credibility check helps identify this risk?",
+        correct:"Considering the author’s perspective and circumstances/purpose for creating the source.",
+        wrong:[
+          "Counting how many times the document has been cited.",
+          "Measuring the document’s length.",
+          "Checking whether it uses old vocabulary."
+        ],
+        hint:"Purpose and perspective can shape what is included or left out."
+      },
+      {
+        cs:"CS 2",
+        stem:"A thesis about the Great Migration should do what to meet CS2 expectations?",
+        correct:"Make an interpretive claim and use evidence from credible sources to support or refute positions.",
+        wrong:[
+          "Only list cities people moved to.",
+          "Only define the term without making a claim.",
+          "Only include opinions without sources."
+        ],
+        hint:"CS2 = thesis + evidence + support/refute with cited sources."
+      },
+      {
+        cs:"CS 1",
+        stem:"Which detail best indicates that a source agrees with other credible sources?",
+        correct:"Multiple independent sources confirm the same key facts after cross-checking.",
+        wrong:[
+          "The author repeats the claim many times.",
+          "The author uses stronger adjectives.",
+          "The author posts it on multiple websites."
+        ],
+        hint:"Agreement is about corroborated facts, not repetition or popularity."
+      },
+      {
+        cs:"CS 2",
+        stem:"A historian reads new evidence that weakens their argument. What should they do?",
+        correct:"Revise the thesis or explanation to account for the evidence and cite it appropriately.",
+        wrong:[
+          "Hide the evidence to protect the thesis.",
+          "Dismiss it because it is inconvenient.",
+          "Keep the thesis unchanged to avoid confusion."
+        ],
+        hint:"Historians refine explanations when evidence changes."
+      }
+    ];
+
+    // Ensure we have 25–35 items (currently 30)
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    /***********************
+     * Controlled shuffling (balance correct answers across A/B/C/D)
+     ***********************/
+    function buildRunQuestions(raw){
+      // Build target correct-position schedule: 0,1,2,3 repeating, shuffled per run.
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+
+        const targetPos = targetsShuffled[idx]; // 0..3
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        // Fill remaining slots with distractors (shuffled already)
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i] == null){
+            choices[i] = distractors[di++];
+          }
+        }
+        return {
+          cs: q.cs,
+          stem: q.stem,
+          hint: q.hint,
+          choices,
+          answerIndex: targetPos
+        };
+      });
+    }
+
+    /***********************
+     * Runtime state
+     ***********************/
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {
+        version: 1,
+        name: "",
+        started: false,
+        startIso: null,
+        startStamp: null, // {date,time}
+        runStartMs: null, // performance.now baseline
+        misses: 0,
+        i: 0,
+        locked: false,
+        // Track per-question whether it already missed once (so only first wrong attempt counts)
+        missedOnQ: {},
+        // Per-run shuffled/balanced questions
+        runQuestions: null,
+        finished: false,
+        endStamp: null,
+        endIso: null
+      };
+    }
+
+    function openStartModal(){
+      els.startModal.style.display = "flex";
+      els.nameInput.focus();
+    }
+
+    function closeStartModal(){
+      els.startModal.style.display = "none";
+    }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi();
+      render();
+      startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        const elapsed = performance.now() - state.runStartMs;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(elapsed)}`;
+      }, 250);
+    }
+
+    function stopClock(){
+      if(tickTimer){ clearInterval(tickTimer); tickTimer = null; }
+    }
+
+    function accuracy(){
+      const totalAnswered = clamp(state.i, 0, total());
+      // At any point, "correct so far" = answered - misses (since misses record wrong attempts)
+      const denom = totalAnswered + state.misses;
+      if(denom <= 0) return 100;
+      const correctSoFar = totalAnswered; // they can only advance on correct, so progress = correct count
+      return Math.round((correctSoFar / denom) * 100);
+    }
+
+    function total(){
+      return state?.runQuestions?.length || 0;
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1, total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function render(){
+      initUi();
+
+      if(state.finished){
+        showTicket();
+        return;
+      }
+
+      const q = state.runQuestions[state.i];
+      els.tagCS.textContent = q.cs;
+      els.stem.textContent = q.stem;
+
+      setMsg("", "");
+
+      // Render choices
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+
+          // If finished
+          if(state.i >= total()){
+            finishRun();
+            return;
+          }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      // Wrong: record miss ONCE per question, show hint, require correction to move on
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad",
+        `❌ Not yet. <b>Hint:</b> ${q.hint}
+         <span class="small">Your miss is recorded. Choose again to continue.</span>`
+      );
+
+      // Update pills immediately
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      // Build ticket
+      const dStart = state.startStamp || {date:"—", time:"—"};
+      const dEnd = state.endStamp || {date:"—", time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now() - state.runStartMs) : 0;
+
+      const acc = (state.misses === 0) ? "100%" : `${accuracy()}%`;
+      const mastery = (state.misses === 0);
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = mastery ? "var(--text)" : "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 01 (Historical Thinking Skills — CS 1–2)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      // Replace game UI with a finish message
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    /***********************
+     * Buttons
+     ***********************/
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState();
+      location.reload();
+    });
+
+    els.btnBackHub.addEventListener("click", ()=>{
+      // Your hub lives one level up: ../index.html (adjust if needed)
+      location.href = "../index.html";
+    });
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent = "Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+
+    els.btnPlayAgain.addEventListener("click", ()=>{
+      // New clean run (keeps name but resets everything)
+      const keepName = state?.name || "";
+      clearState();
+      state = defaultState();
+      saveState(state);
+      // Re-open modal with prefilled name for speed
+      location.reload();
+      // (modal will appear again; they can paste name quickly)
+    });
+
+    /***********************
+     * Start modal
+     ***********************/
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor = "rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor = "", 800);
+        return;
+      }
+      startRun(name);
+    }
+
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter") startClicked();
+    });
+
+    /***********************
+     * Boot
+     ***********************/
+    (function boot(){
+      // If a saved state exists, resume; otherwise require name to start.
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        // Prime pills
+        els.pillProg.textContent = "Q: 0/30";
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+
+      // Resume existing run (if they refresh mid-game)
+      closeStartModal();
+      initUi();
+      if(state.finished){
+        showTicket();
+      }else{
+        render();
+        startClock();
+      }
+    })();
+  </script>
+</body>
+</html>
