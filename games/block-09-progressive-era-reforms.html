@@ -1,0 +1,604 @@
+<!-- /games/block-09-progressive-era-reforms.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 09 — Progressive Era Reforms</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);box-shadow:var(--shadow);padding:16px;}
+    .topline{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{margin:6px 0 0;font-size:22px;letter-spacing:.2px;font-weight:900;}
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35;max-width:980px}
+    .stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding-top:4px;}
+    .pill2{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;white-space:nowrap;}
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .qbox{border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(0,0,0,.12);}
+    .qmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .tag{font-size:12px;font-weight:900;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);background:rgba(255,255,255,.02);}
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+
+    .mini{
+      margin-top:10px;padding:10px 12px;border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);border-radius:12px;color:var(--text);line-height:1.35;font-size:14px;
+    }
+    .mini .qtag{
+      display:block;margin-top:6px;color:var(--muted);
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+
+    .choices{display:grid;gap:10px;margin-top:12px;}
+    .choice{border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;user-select:none;background:rgba(255,255,255,.02);
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;}
+    .choice:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.04);}
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55;cursor:not-allowed}
+    .choice .lbl{font-family:var(--mono);font-weight:900;margin-right:10px;color:var(--muted);}
+
+    .msg{margin-top:12px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);display:none;line-height:1.35;}
+    .msg.good{display:block;background:rgba(43,213,118,.10);color:var(--text);border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10);color:var(--text);border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+
+    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px;}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900;letter-spacing:.02em;
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.045);}
+    .btn:active{transform:translateY(0)}
+    .btn.warn{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.08);}
+    .btn.good{border-color:rgba(43,213,118,.45);background:rgba(43,213,118,.08);}
+    .hidden{display:none !important}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50;}
+    .modalcard{
+      width:min(860px,92vw);border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg,rgba(17,26,47,.96),rgba(10,14,26,.96));
+      box-shadow:var(--shadow);padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .inp{flex:1 1 240px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-weight:800;outline:none;}
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px;font-size:13px;color:var(--muted)}
+    .ticket{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:12px;margin-top:12px;}
+    .ticket pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);color:var(--text);font-size:13px;line-height:1.35;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 09 — Progressive Era Reforms</div>
+        <p class="subline">
+          Focus: Progressive attempts to address the “ills” of industrial capitalism, urbanization, and political corruption—
+          antitrust, consumer protection, conservation, labor reforms, and major constitutional amendments.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+        <div class="qbox">
+          <div class="qmeta">
+            <span class="tag">Progressive Reforms</span>
+            <span class="tag">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="miniBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">Reminder: Mastery requires <b>0 misses</b>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>Ticket includes date + start/end times + runtime. Mastery requires <b>100% accuracy</b> (0 misses).</p>
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">Back-button protection is enabled to prevent cached/frozen runs.</div>
+    </div>
+  </div>
+
+  <script>
+    /* bfcache/back-button fixes */
+    window.addEventListener('pageshow', (e)=>{ if(e.persisted) location.reload(); });
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=> history.pushState({guard:true}, "", location.href));
+    }catch(_){}
+
+    const KEY = "legend_hist_block09_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+      stem: document.getElementById("stem"),
+      miniBox: document.getElementById("miniBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const clamp = (n,min,max)=>Math.max(min, Math.min(max,n));
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    }
+    function nowStamp(d=new Date()){
+      return {
+        date: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+        time: `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+      };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+    function loadState(){
+      try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; }catch(_){ return null; }
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function clearState(){ localStorage.removeItem(KEY); }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /* Teacher-created, OST-style: Progressive reforms */
+    const BANK = [
+      { stem:"Progressives were most concerned about which problems during the late 1800s and early 1900s?",
+        correct:"Problems caused by industrialization, urbanization, and political corruption.",
+        wrong:["Ending westward settlement completely","Replacing the Constitution with a monarchy","Eliminating immigration by abolishing cities"],
+        hint:"Think ‘industrial ills’ + city problems + corrupt politics." },
+
+      { stem:"Which reform goal is most closely associated with antitrust laws?",
+        correct:"Limiting the power of monopolies and promoting competition.",
+        wrong:["Expanding child labor in factories","Ending consumer product labeling","Removing all government oversight of business"],
+        hint:"Antitrust targets monopolies/trusts and unfair competition." },
+
+      { stem:"A ‘trust’ in the Progressive Era most commonly referred to:",
+        correct:"A large business combination controlling a market and reducing competition.",
+        wrong:["A small family-owned store","A government agency regulating food safety","A labor union for teachers"],
+        hint:"Trusts were often criticized as monopolies." },
+
+      { stem:"Why did Progressives support regulation of food and drugs?",
+        correct:"To protect consumers from unsafe products and misleading labels.",
+        wrong:["To eliminate consumer rights","To end industrial production","To reduce public health and sanitation efforts"],
+        hint:"Consumer protection was a key Progressive goal." },
+
+      { stem:"Which action best represents ‘muckraking’?",
+        correct:"Journalists exposing corruption and social problems to push for reform.",
+        wrong:["Business leaders raising tariffs to increase profits","Farmers organizing railroads","Courts ending all voting rights"],
+        hint:"Muckrakers investigated and publicized abuses." },
+
+      { stem:"Which reform most directly addressed political corruption in city governments?",
+        correct:"Civil service reforms reducing patronage and rewarding merit.",
+        wrong:["Increasing patronage jobs as rewards","Ending all elections","Replacing courts with private companies"],
+        hint:"Civil service reforms reduced the ‘spoils system.’" },
+
+      { stem:"The ‘initiative’ and ‘referendum’ were intended primarily to:",
+        correct:"Increase direct democracy by giving voters more power in lawmaking.",
+        wrong:["Reduce the number of voters in elections","Give corporations the right to write laws privately","Eliminate state governments"],
+        hint:"These reforms expanded citizen participation." },
+
+      { stem:"Which Progressive reform helped reduce the influence of party bosses in choosing candidates?",
+        correct:"Direct primaries.",
+        wrong:["Poll taxes","Literacy tests","White-only primaries"],
+        hint:"Direct primaries shifted power to voters." },
+
+      { stem:"Which reform is most closely associated with conservation?",
+        correct:"Protecting natural resources through parks and regulated land use.",
+        wrong:["Eliminating all national forests","Ending water sanitation projects","Abolishing public transportation in cities"],
+        hint:"Conservation = protecting natural resources." },
+
+      { stem:"Which president is commonly associated with conservation and expanding national parks/forests?",
+        correct:"Theodore Roosevelt.",
+        wrong:["James Buchanan","Andrew Johnson","Calvin Coolidge"],
+        hint:"TR = conservation + ‘Square Deal’ era reforms." },
+
+      { stem:"What is the main purpose of the 16th Amendment?",
+        correct:"To allow a federal income tax.",
+        wrong:["To prohibit alcohol nationwide","To establish women’s suffrage","To create the Federal Reserve"],
+        hint:"16th = income tax." },
+
+      { stem:"What is the main purpose of the 17th Amendment?",
+        correct:"Direct election of U.S. Senators by the people.",
+        wrong:["Term limits for Senators","Abolition of the Senate","Direct election of the President"],
+        hint:"17th = popular election of Senators." },
+
+      { stem:"The 18th Amendment is most directly associated with:",
+        correct:"Prohibition of alcohol (later repealed).",
+        wrong:["Women’s suffrage","Income tax","Child labor bans in the Constitution"],
+        hint:"18th = Prohibition." },
+
+      { stem:"The 19th Amendment is most directly associated with:",
+        correct:"Women gaining the right to vote nationwide.",
+        wrong:["Ending segregation in schools","Direct election of senators","Creating the Federal Reserve"],
+        hint:"19th = women’s suffrage." },
+
+      { stem:"Which cause-and-effect relationship is most accurate?",
+        correct:"Industrial abuses and unsafe products increased public demand for government regulation.",
+        wrong:["Regulation ended industrialization entirely","Corruption decreased because patronage increased","Urban growth eliminated the need for reform"],
+        hint:"Public pressure rose when problems became visible." },
+
+      { stem:"Which reform most directly improved workplace safety and working conditions?",
+        correct:"Factory inspection laws and safety regulations.",
+        wrong:["Eliminating building codes","Ending sanitation services","Raising child labor participation"],
+        hint:"Progressives often pushed workplace safety standards." },
+
+      { stem:"Which group most directly benefited from child labor reforms?",
+        correct:"Children working long hours in unsafe conditions.",
+        wrong:["Political bosses","Monopoly owners","Foreign governments"],
+        hint:"Child labor laws protected young workers." },
+
+      { stem:"How did Progressives often view the role of government?",
+        correct:"Government should be used to correct social and economic problems and protect the public.",
+        wrong:["Government should never intervene in any economic activity","Government should eliminate elections","Government should replace all private property"],
+        hint:"Progressives generally supported a more active government role." },
+
+      { stem:"Which statement best describes the Federal Reserve Act (1913) in a Progressive-era context?",
+        correct:"It reformed banking by creating a central system to stabilize currency and credit.",
+        wrong:["It abolished banks completely","It ended the use of money","It created the income tax"],
+        hint:"Fed = banking and monetary stability reform." },
+
+      { stem:"Which scenario best represents a Progressive consumer-protection goal?",
+        correct:"Requiring accurate labeling and safer manufacturing standards for products.",
+        wrong:["Allowing companies to hide ingredients","Ending all inspections","Removing any penalties for fraud"],
+        hint:"Consumer protection increased transparency and safety." },
+
+      { stem:"Which reform is most directly connected to breaking up monopolies?",
+        correct:"Using antitrust laws to prosecute trusts that limited competition.",
+        wrong:["Using poll taxes to fund schools","Using literacy tests for voting","Using segregation laws to separate services"],
+        hint:"Antitrust enforcement targets market control." },
+
+      { stem:"Which statement best explains why Progressives supported conservation?",
+        correct:"They believed resources should be managed to prevent waste and preserve land for future generations.",
+        wrong:["They wanted unlimited private control of all forests","They opposed any parks or public land","They wanted to eliminate farming"],
+        hint:"Conservation = sustainability and stewardship." },
+
+      { stem:"How did reforms like direct primaries and the 17th Amendment change politics?",
+        correct:"They increased popular influence and reduced control of party machines and state legislatures over elections.",
+        wrong:["They gave party bosses more control","They eliminated voting for all offices","They ended political parties entirely"],
+        hint:"These reforms expanded voter power." },
+
+      { stem:"Which is an example of Progressive-era urban reform?",
+        correct:"Improving sanitation, housing codes, and public health services in cities.",
+        wrong:["Increasing tenement overcrowding","Ending clean water projects","Eliminating public health inspections"],
+        hint:"Urban reform targeted living conditions and health." },
+
+      { stem:"Which statement best explains the link between muckrakers and reform?",
+        correct:"Exposing problems built public support for new laws and regulation.",
+        wrong:["Muckrakers ended all journalism permanently","Exposing problems reduced demand for change","Reforms happened without any public awareness"],
+        hint:"Publicized abuses created pressure to act." },
+
+      { stem:"Which conclusion best fits Progressive reforms overall?",
+        correct:"Progressives increased government involvement to address industrial, political, and urban problems.",
+        wrong:["Progressives reduced all government power and ended regulation","Progressives focused only on foreign policy","Progressives eliminated the need for elections"],
+        hint:"Core theme: more active reform-minded government." },
+
+      { stem:"Which change most directly reduced corruption in government jobs?",
+        correct:"Merit-based hiring and civil service reforms.",
+        wrong:["Expanding the spoils system","Ending qualifications for jobs","Allowing party leaders to hire anyone without rules"],
+        hint:"Merit systems reduce patronage." },
+
+      { stem:"Which cause-and-effect is most accurate regarding reforms and business?",
+        correct:"Regulation increased as Americans demanded fair competition and safer products.",
+        wrong:["Business abuses disappeared without any laws","Regulation caused all factories to close instantly","Competition ended because antitrust was repealed"],
+        hint:"Demand for fairness/safety pushed regulation." },
+
+      { stem:"Which statement best summarizes why amendments like the 16th, 17th, and 19th were significant?",
+        correct:"They expanded federal capacity and democratic participation through taxation and broader voting influence.",
+        wrong:["They reduced citizen participation and ended elections","They abolished Congress","They eliminated state governments"],
+        hint:"Think: more democratic influence + modern federal capacity." }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+        const targetPos = targetsShuffled[idx];
+
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i]==null) choices[i] = distractors[di++];
+        }
+        return { stem:q.stem, hint:q.hint, mini:q.mini||"", tag:q.tag||"", choices, answerIndex:targetPos };
+      });
+    }
+
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {version:1,name:"",started:false,startIso:null,startStamp:null,runStartMs:null,misses:0,i:0,locked:false,missedOnQ:{},runQuestions:null,finished:false,endStamp:null,endIso:null};
+    }
+
+    function openStartModal(){ els.startModal.style.display="flex"; els.nameInput.focus(); }
+    function closeStartModal(){ els.startModal.style.display="none"; }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi(); render(); startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(performance.now()-state.runStartMs)}`;
+      }, 250);
+    }
+    function stopClock(){ if(tickTimer){clearInterval(tickTimer);tickTimer=null;} }
+
+    function total(){ return state?.runQuestions?.length || 0; }
+    function accuracy(){
+      const answered = clamp(state.i,0,total());
+      const denom = answered + state.misses;
+      if(denom<=0) return 100;
+      return Math.round((answered/denom)*100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1,total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderMini(q){
+      if(q.mini){
+        els.miniBox.classList.remove("hidden");
+        els.miniBox.innerHTML = `<div class="mini">${q.mini}<span class="qtag">${q.tag||"Source excerpt"}</span></div>`;
+      }else{
+        els.miniBox.classList.add("hidden");
+        els.miniBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+      if(state.finished){ showTicket(); return; }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderMini(q);
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+          if(state.i >= total()){ finishRun(); return; }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad", `❌ Not yet. <b>Hint:</b> ${q.hint}<span class="small">Your miss is recorded. Choose again to continue.</span>`);
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—",time:"—"};
+      const dEnd = state.endStamp || {date:"—",time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now()-state.runStartMs) : 0;
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 09 (Progressive Era Reforms)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.miniBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState(); location.reload();
+    });
+    els.btnBackHub.addEventListener("click", ()=> location.href="../index.html");
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent="Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+    els.btnPlayAgain.addEventListener("click", ()=>{ clearState(); location.reload(); });
+
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor="rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor="", 800);
+        return;
+      }
+      startRun(name);
+    }
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") startClicked(); });
+
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+      closeStartModal();
+      initUi();
+      if(state.finished) showTicket();
+      else { render(); startClock(); }
+    })();
+  </script>
+</body>
+</html>
