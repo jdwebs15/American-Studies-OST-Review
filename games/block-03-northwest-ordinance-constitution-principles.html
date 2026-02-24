@@ -1,0 +1,839 @@
+<!-- /games/block-03-northwest-ordinance-constitution-principles.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 03 — Northwest Ordinance + Constitution Principles</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.03);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .topline{
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{margin:6px 0 0;font-size:22px;letter-spacing:.2px;font-weight:900;}
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35; max-width:880px}
+    .stats{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; padding-top:4px;}
+    .pill2{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .qbox{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:rgba(0,0,0,.12);
+    }
+    .qmeta{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .tag{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 10px;
+      color:var(--muted);
+      background:rgba(255,255,255,.02);
+    }
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+    .mini{
+      margin-top:10px;
+      padding:10px 12px;
+      border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);
+      border-radius:12px;
+      color:var(--text);
+      line-height:1.35;
+      font-size:14px;
+    }
+    .mini .qtag{
+      display:block;margin-top:6px;color:var(--muted);
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+    .choices{display:grid;gap:10px;margin-top:12px;}
+    .choice{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      user-select:none;
+      background:rgba(255,255,255,.02);
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .choice:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.04);}
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55; cursor:not-allowed}
+    .choice .lbl{font-family:var(--mono);font-weight:900;margin-right:10px;color:var(--muted);}
+    .msg{
+      margin-top:12px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);
+      display:none;line-height:1.35;
+    }
+    .msg.good{display:block;background:rgba(43,213,118,.10); color:var(--text); border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10); color:var(--text); border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px;}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900;letter-spacing:.02em;
+      transition:transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.045);}
+    .btn:active{transform:translateY(0)}
+    .btn.warn{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.08);}
+    .btn.good{border-color:rgba(43,213,118,.45);background:rgba(43,213,118,.08);}
+    .hidden{display:none !important}
+
+    .modal{
+      position:fixed; inset:0;background:rgba(0,0,0,.62);
+      display:flex; align-items:center; justify-content:center;
+      padding:18px; z-index:50;
+    }
+    .modalcard{
+      width:min(720px, 92vw);
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(17,26,47,.96), rgba(10,14,26,.96));
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap}
+    .inp{
+      flex:1 1 240px;border:1px solid var(--line);
+      background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-weight:800;outline:none;
+    }
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px; font-size:13px; color:var(--muted)}
+    .ticket{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.02);
+      padding:12px;
+      margin-top:12px;
+    }
+    .ticket pre{
+      margin:0;white-space:pre-wrap;word-break:break-word;
+      font-family:var(--mono);color:var(--text);font-size:13px;line-height:1.35;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 03 — Northwest Ordinance + Constitution Principles</div>
+        <p class="subline">
+          Focus: Northwest Ordinance (natural rights, education, civil liberties, slavery prohibition, statehood rules)
+          + connect to Constitution principles (popular sovereignty, limited government, federalism, separation of powers, checks &amp; balances).
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+        <div class="qbox" id="gameBox">
+          <div class="qmeta">
+            <span class="tag" id="tagStrand">CS 5 + Constitution Principles</span>
+            <span class="tag" id="tagMode">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="miniBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">Reminder: Mastery requires <b>0 misses</b>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>
+        Ticket includes date + start/end times + runtime. Mastery requires <b>100% accuracy</b> (0 misses).
+      </p>
+
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">Back-button protection is enabled to prevent cached/frozen runs.</div>
+    </div>
+  </div>
+
+  <script>
+    /* bfcache/back-button fixes */
+    window.addEventListener('pageshow', (e)=>{
+      if (e.persisted) location.reload();
+    });
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=> history.pushState({guard:true}, "", location.href));
+    }catch(_){}
+
+    const KEY = "legend_hist_block03_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+
+      stem: document.getElementById("stem"),
+      miniBox: document.getElementById("miniBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const clamp = (n,min,max)=>Math.max(min, Math.min(max,n));
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    }
+    function nowStamp(d=new Date()){
+      return {
+        date: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+        time: `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+      };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+    function loadState(){
+      try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; }catch(_){ return null; }
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function clearState(){ localStorage.removeItem(KEY); }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /* Teacher-created, standards-aligned items (public-domain ordinance excerpts kept short) */
+    const BANK = [
+      /* Northwest Ordinance core ideas */
+      {
+        stem:"Which goal of the Northwest Ordinance most directly supports the long-term success of a republic?",
+        correct:"Encouraging public education to prepare informed citizens.",
+        wrong:[
+          "Replacing elections with hereditary leadership.",
+          "Limiting political participation to a single class.",
+          "Eliminating local government to centralize all power."
+        ],
+        hint:"The ordinance emphasizes education as necessary for good government.",
+        mini:"“Religion, morality, and knowledge…schools and the means of education shall forever be encouraged.”",
+        tag:"Northwest Ordinance (public domain excerpt)"
+      },
+      {
+        stem:"Which provision of the Northwest Ordinance set a major precedent for expanding civil liberties in new territories?",
+        correct:"Protecting rights like trial by jury and freedom of religion in the territory.",
+        wrong:[
+          "Allowing governors to punish critics without trials.",
+          "Banning petitions and assemblies in the territory.",
+          "Ending courts so leaders could rule faster."
+        ],
+        hint:"It includes civil-liberty protections that later echo Bill of Rights values."
+      },
+      {
+        stem:"How did the Northwest Ordinance shape the process of U.S. expansion?",
+        correct:"It created rules for territories to become states with republican governments.",
+        wrong:[
+          "It required territories to remain colonies permanently.",
+          "It banned all settlement west of the Appalachians.",
+          "It made the federal government a monarchy."
+        ],
+        hint:"It sets an organized pathway from territory to statehood."
+      },
+      {
+        stem:"Which idea best describes why the Northwest Ordinance is connected to natural rights?",
+        correct:"It recognized protections for basic liberties and required fair legal procedures.",
+        wrong:[
+          "It argued that rights come only from kings.",
+          "It denied the value of law and courts.",
+          "It rejected the idea of individual liberty."
+        ],
+        hint:"Natural-rights thinking shows up in protections for liberty and fair treatment under law."
+      },
+      {
+        stem:"Which statement best reflects a key restriction in the Northwest Ordinance?",
+        correct:"Slavery was prohibited in the Northwest Territory.",
+        wrong:[
+          "Slavery was required in all new territories.",
+          "Slavery was left entirely to local governors with no rules.",
+          "Slavery was legal everywhere and could not be limited."
+        ],
+        hint:"The ordinance included an anti-slavery provision for that territory."
+      },
+      {
+        stem:"How did the Northwest Ordinance limit government power in the territory?",
+        correct:"By requiring legal protections and establishing rules leaders had to follow.",
+        wrong:[
+          "By allowing leaders to rule without laws.",
+          "By eliminating any form of courts.",
+          "By banning elections for territorial representatives."
+        ],
+        hint:"Limits on power come from rules + rights protections."
+      },
+      {
+        stem:"Which action by settlers best shows citizen responsibility under the Northwest Ordinance system?",
+        correct:"Building local institutions (schools, courts) and preparing for self-government as a state.",
+        wrong:[
+          "Rejecting all laws as illegitimate.",
+          "Avoiding civic participation completely.",
+          "Refusing to create any local government."
+        ],
+        hint:"The ordinance expects communities to develop republican self-government."
+      },
+
+      /* Constitution principles connection (federal republic backbone) */
+      {
+        stem:"Which Constitution principle is best illustrated by citizens voting to choose leaders?",
+        correct:"Popular sovereignty.",
+        wrong:["Judicial review.","Unitary government.","Absolute monarchy."],
+        hint:"Popular sovereignty = the people are the source of authority."
+      },
+      {
+        stem:"A law limits what government may do and protects individual rights. Which principle is most directly involved?",
+        correct:"Limited government.",
+        wrong:["Direct democracy.","Confederation.","Military rule."],
+        hint:"Limited government = government power is restricted by law/constitution."
+      },
+      {
+        stem:"Which principle is best shown when power is divided between national and state governments?",
+        correct:"Federalism.",
+        wrong:["Dictatorship.","Oligarchy.","Parliamentary supremacy."],
+        hint:"Federalism = shared power between levels."
+      },
+      {
+        stem:"Congress makes laws, the President enforces them, and courts interpret them. Which principle is this?",
+        correct:"Separation of powers.",
+        wrong:["Federalism.","Judicial activism.","Popular sovereignty."],
+        hint:"Different branches, different core jobs."
+      },
+      {
+        stem:"The President vetoes a bill, but Congress overrides the veto. Which principle is demonstrated?",
+        correct:"Checks and balances.",
+        wrong:["Limited monarchy.","Unwritten constitution.","Plural executive."],
+        hint:"Branches can restrain each other."
+      },
+      {
+        stem:"Which pair best matches the principle and its purpose?",
+        correct:"Checks and balances — prevents any one branch from becoming too powerful.",
+        wrong:[
+          "Federalism — eliminates state governments.",
+          "Separation of powers — gives all power to one branch.",
+          "Popular sovereignty — ends elections after leaders are chosen."
+        ],
+        hint:"Match the principle to what it prevents/achieves."
+      },
+
+      /* Application items tying Ordinance → Constitution principles */
+      {
+        stem:"Why is the Northwest Ordinance often considered a precedent for later constitutional government?",
+        correct:"It required rule of law, protected liberties, and outlined steps toward republican statehood.",
+        wrong:[
+          "It replaced written laws with traditions only.",
+          "It required leaders to inherit power.",
+          "It eliminated representative institutions."
+        ],
+        hint:"It previews organized expansion + rights + republican structures."
+      },
+      {
+        stem:"Which scenario best connects the Northwest Ordinance to limited government?",
+        correct:"Territorial leaders must follow written rules that protect civil liberties rather than acting arbitrarily.",
+        wrong:[
+          "Territorial leaders may punish critics without trials.",
+          "Territorial leaders can ignore courts entirely.",
+          "Territorial leaders rule permanently without elections."
+        ],
+        hint:"Limited government = power constrained by law and rights protections."
+      },
+      {
+        stem:"Which scenario best shows federalism in the territory-to-statehood process?",
+        correct:"A territory follows federal rules to become a state, then shares power with the national government.",
+        wrong:[
+          "A territory becomes independent and rejects all national authority.",
+          "A state abolishes the national government.",
+          "The national government abolishes all state governments."
+        ],
+        hint:"Federalism involves both levels existing and sharing power."
+      },
+      {
+        stem:"A territory sets up courts to apply laws and protect rights. Which constitutional principle is most reinforced by this practice?",
+        correct:"Limited government under the rule of law.",
+        wrong:["Absolute power.","Anarchy.","Hereditary rule."],
+        hint:"Courts help apply rules that limit government action."
+      },
+      {
+        stem:"Which cause-and-effect is most accurate?",
+        correct:"Encouraging education helped support self-government by preparing citizens for civic participation.",
+        wrong:[
+          "Encouraging education eliminated the need for elections.",
+          "Encouraging education required a king to lead.",
+          "Encouraging education reduced citizens’ rights."
+        ],
+        hint:"Education supports informed civic participation in a republic."
+      },
+      {
+        stem:"Which statement best explains why civil liberties protections in the Northwest Territory matter for a federal republic?",
+        correct:"They help ensure government power is limited and individual rights are protected as communities grow.",
+        wrong:[
+          "They allow government to silence minority views.",
+          "They guarantee all citizens will share identical outcomes.",
+          "They eliminate the need for laws and courts."
+        ],
+        hint:"Rights protections + limits on power are core to constitutional government."
+      },
+
+      /* More ordinance-centered practice (OST style) */
+      {
+        stem:"Which item is an example of “institution building” encouraged by the Northwest Ordinance?",
+        correct:"Creating schools and local governments as communities develop.",
+        wrong:[
+          "Abolishing all local institutions to rely only on force.",
+          "Replacing courts with military officers.",
+          "Ending written rules to speed decisions."
+        ],
+        hint:"Institutions like schools/courts/local gov support stability and self-rule."
+      },
+      {
+        stem:"Which reason best explains why the Northwest Ordinance included rules for statehood?",
+        correct:"To guide orderly expansion and ensure new states formed republican governments.",
+        wrong:[
+          "To keep territories from ever becoming states.",
+          "To require a single national religion.",
+          "To remove any citizen participation."
+        ],
+        hint:"Orderly expansion + republican statehood was the goal."
+      },
+      {
+        stem:"Which claim best connects the Northwest Ordinance to later debates about slavery?",
+        correct:"It showed Congress could limit slavery in federal territories, shaping future sectional conflict.",
+        wrong:[
+          "It required slavery everywhere in the United States.",
+          "It ended all slavery immediately in every state.",
+          "It banned all discussion of slavery."
+        ],
+        hint:"It set a territorial precedent, not a nationwide immediate end."
+      },
+
+      /* Balance out to 30 items */
+      {
+        stem:"Which principle is best illustrated when a court declares a law unconstitutional?",
+        correct:"Judicial review.",
+        wrong:["Popular sovereignty.","Federalism.","Separation of powers."],
+        hint:"Judicial review = courts can interpret constitutionality."
+      },
+      {
+        stem:"Why does a federal republic use both federalism and separation of powers?",
+        correct:"To divide power across levels and branches, reducing the chance of tyranny.",
+        wrong:[
+          "To concentrate power in one leader.",
+          "To eliminate citizen participation.",
+          "To guarantee unanimous agreement on all laws."
+        ],
+        hint:"Both are power-dividing structures."
+      },
+      {
+        stem:"Which example best shows checks and balances at work?",
+        correct:"Congress passes a law, the President vetoes it, and the Supreme Court can later review its constitutionality.",
+        wrong:[
+          "One branch makes, enforces, and interprets all laws.",
+          "Leaders inherit power without elections.",
+          "Courts are controlled entirely by one political party forever."
+        ],
+        hint:"Multiple branches can limit each other."
+      },
+      {
+        stem:"A historian claims the Northwest Ordinance supported a “rule of law” culture. Which evidence best supports that?",
+        correct:"Written rules for rights, governance, and the statehood process applied to everyone in the territory.",
+        wrong:[
+          "Leaders could change rules daily with no limits.",
+          "Courts were replaced by personal revenge.",
+          "Citizens had no legal protections at all."
+        ],
+        hint:"Rule of law = stable, written rules and fair procedures."
+      },
+      {
+        stem:"Which statement best describes the relationship between the Northwest Ordinance and the Constitution?",
+        correct:"The ordinance helped shape how the U.S. governed territories and expanded rights-based republican government consistent with constitutional principles.",
+        wrong:[
+          "The ordinance replaced the Constitution permanently.",
+          "The ordinance created a monarchy to govern territories.",
+          "The ordinance ended representative government."
+        ],
+        hint:"Think precedent + compatible principles (rights + republican statehood)."
+      },
+      {
+        stem:"Which scenario best applies citizen responsibility in a constitutional system to a local community today?",
+        correct:"Citizens attend meetings, vote, and support public education to strengthen self-government.",
+        wrong:[
+          "Citizens avoid participation so leaders can act faster.",
+          "Citizens demand one group permanently control elections.",
+          "Citizens support laws that deny equal civil liberties."
+        ],
+        hint:"Participation and institution-building support republican self-government."
+      }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+
+        const targetPos = targetsShuffled[idx];
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i] == null) choices[i] = distractors[di++];
+        }
+        return {
+          stem: q.stem,
+          hint: q.hint,
+          mini: q.mini || "",
+          tag: q.tag || "",
+          choices,
+          answerIndex: targetPos
+        };
+      });
+    }
+
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {
+        version: 1,
+        name: "",
+        started: false,
+        startIso: null,
+        startStamp: null,
+        runStartMs: null,
+        misses: 0,
+        i: 0,
+        locked: false,
+        missedOnQ: {},
+        runQuestions: null,
+        finished: false,
+        endStamp: null,
+        endIso: null
+      };
+    }
+
+    function openStartModal(){ els.startModal.style.display = "flex"; els.nameInput.focus(); }
+    function closeStartModal(){ els.startModal.style.display = "none"; }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi();
+      render();
+      startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        const elapsed = performance.now() - state.runStartMs;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(elapsed)}`;
+      }, 250);
+    }
+    function stopClock(){ if(tickTimer){ clearInterval(tickTimer); tickTimer = null; } }
+
+    function total(){ return state?.runQuestions?.length || 0; }
+
+    function accuracy(){
+      const totalAnswered = clamp(state.i, 0, total());
+      const denom = totalAnswered + state.misses;
+      if(denom <= 0) return 100;
+      return Math.round((totalAnswered / denom) * 100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1, total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderMini(q){
+      if(q.mini){
+        els.miniBox.classList.remove("hidden");
+        els.miniBox.innerHTML = `
+          <div class="mini">
+            ${q.mini}
+            <span class="qtag">${q.tag || "Source excerpt"}</span>
+          </div>
+        `;
+      }else{
+        els.miniBox.classList.add("hidden");
+        els.miniBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+      if(state.finished){ showTicket(); return; }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderMini(q);
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+          if(state.i >= total()){ finishRun(); return; }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad",
+        `❌ Not yet. <b>Hint:</b> ${q.hint}
+         <span class="small">Your miss is recorded. Choose again to continue.</span>`
+      );
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—", time:"—"};
+      const dEnd = state.endStamp || {date:"—", time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now() - state.runStartMs) : 0;
+
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 03 (Northwest Ordinance + Constitution Principles)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.miniBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState(); location.reload();
+    });
+
+    els.btnBackHub.addEventListener("click", ()=>{ location.href = "../index.html"; });
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent = "Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+
+    els.btnPlayAgain.addEventListener("click", ()=>{ clearState(); location.reload(); });
+
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor = "rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor = "", 800);
+        return;
+      }
+      startRun(name);
+    }
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") startClicked(); });
+
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+      closeStartModal();
+      initUi();
+      if(state.finished){ showTicket(); }
+      else { render(); startClock(); }
+    })();
+  </script>
+</body>
+</html>
