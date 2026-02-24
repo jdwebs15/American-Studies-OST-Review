@@ -1,0 +1,624 @@
+<!-- /games/block-06-labor-urbanization-immigration.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 06 — Labor, Urbanization &amp; Immigration</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);box-shadow:var(--shadow);padding:16px;}
+    .topline{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{margin:6px 0 0;font-size:22px;letter-spacing:.2px;font-weight:900;}
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35;max-width:980px}
+    .stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding-top:4px;}
+    .pill2{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;white-space:nowrap;}
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .qbox{border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(0,0,0,.12);}
+    .qmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .tag{font-size:12px;font-weight:900;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);background:rgba(255,255,255,.02);}
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+
+    .mini{
+      margin-top:10px;padding:10px 12px;border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);border-radius:12px;color:var(--text);line-height:1.35;font-size:14px;
+    }
+    .mini .qtag{
+      display:block;margin-top:6px;color:var(--muted);
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+
+    .choices{display:grid;gap:10px;margin-top:12px;}
+    .choice{border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;user-select:none;background:rgba(255,255,255,.02);
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;}
+    .choice:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.04);}
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55;cursor:not-allowed}
+    .choice .lbl{font-family:var(--mono);font-weight:900;margin-right:10px;color:var(--muted);}
+
+    .msg{margin-top:12px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);display:none;line-height:1.35;}
+    .msg.good{display:block;background:rgba(43,213,118,.10);color:var(--text);border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10);color:var(--text);border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+
+    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px;}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900;letter-spacing:.02em;
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.045);}
+    .btn:active{transform:translateY(0)}
+    .btn.warn{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.08);}
+    .btn.good{border-color:rgba(43,213,118,.45);background:rgba(43,213,118,.08);}
+    .hidden{display:none !important}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50;}
+    .modalcard{
+      width:min(780px,92vw);border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg,rgba(17,26,47,.96),rgba(10,14,26,.96));
+      box-shadow:var(--shadow);padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .inp{flex:1 1 240px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-weight:800;outline:none;}
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px;font-size:13px;color:var(--muted)}
+    .ticket{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:12px;margin-top:12px;}
+    .ticket pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);color:var(--text);font-size:13px;line-height:1.35;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 06 — Labor, Urbanization &amp; Immigration</div>
+        <p class="subline">
+          Focus: labor conditions and unions + rapid urban growth + immigration waves and responses (tenements, public health,
+          political machines, nativism, and reform).
+        </p>
+      </div>
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+        <div class="qbox">
+          <div class="qmeta">
+            <span class="tag">Labor + Cities + Immigration</span>
+            <span class="tag">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="miniBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">Reminder: Mastery requires <b>0 misses</b>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>Ticket includes date + start/end times + runtime. Mastery requires <b>100% accuracy</b> (0 misses).</p>
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">Back-button protection is enabled to prevent cached/frozen runs.</div>
+    </div>
+  </div>
+
+  <script>
+    /* bfcache/back-button fixes */
+    window.addEventListener('pageshow', (e)=>{ if(e.persisted) location.reload(); });
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=> history.pushState({guard:true}, "", location.href));
+    }catch(_){}
+
+    const KEY = "legend_hist_block06_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+      stem: document.getElementById("stem"),
+      miniBox: document.getElementById("miniBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const clamp = (n,min,max)=>Math.max(min, Math.min(max,n));
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    }
+    function nowStamp(d=new Date()){
+      return {
+        date: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+        time: `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+      };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+    function loadState(){
+      try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; }catch(_){ return null; }
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function clearState(){ localStorage.removeItem(KEY); }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /* Teacher-created, OST-style: labor unions + urban conditions + immigration + nativism + reform */
+    const BANK = [
+      /* Labor + unions */
+      { stem:"Why did many workers form labor unions in the late 1800s?",
+        correct:"To bargain for better wages, hours, and safer working conditions.",
+        wrong:["To eliminate all elections","To end industrial jobs","To guarantee owners higher profits"],
+        hint:"Unions organized workers to negotiate improvements." },
+
+      { stem:"Which tactic is most commonly associated with labor unions seeking change?",
+        correct:"Strikes and collective bargaining.",
+        wrong:["Ending public education","Abolishing courts","Forbidding all voting"],
+        hint:"Workers used strikes and negotiation to pressure employers." },
+
+      { stem:"Which outcome best explains why employers often opposed unions?",
+        correct:"Unions could increase labor costs and reduce managers’ control over working conditions.",
+        wrong:["Unions guaranteed unlimited profits","Unions banned competition between companies","Unions eliminated the need for workers"],
+        hint:"Employers feared higher costs and less control." },
+
+      { stem:"Which statement best describes collective bargaining?",
+        correct:"Workers negotiate as a group with employers over pay and conditions.",
+        wrong:["Workers compete individually for wages with no negotiation","Employers negotiate only with the government","Workers vote to end all factories"],
+        hint:"Bargaining as a group = more leverage." },
+
+      { stem:"Which factor often made it harder for unions to succeed during this era?",
+        correct:"Employers could hire replacement workers during strikes.",
+        wrong:["Workers were guaranteed paid leave","All workplaces had strong safety laws","Government always supported unions"],
+        hint:"Replacement labor reduced strike leverage." },
+
+      /* Urbanization: why cities grew */
+      { stem:"Which factor most directly contributed to rapid urbanization in the late 1800s?",
+        correct:"Industrial jobs attracted workers to cities for employment.",
+        wrong:["Factories moved to rural farms","Cities banned new residents","Transportation networks collapsed"],
+        hint:"Jobs are a major pull factor for city growth." },
+
+      { stem:"Which is a common problem cities faced due to rapid growth?",
+        correct:"Overcrowding and strained sanitation systems.",
+        wrong:["Too much open housing for all residents","A surplus of clean water and waste systems from the start","No need for public transportation"],
+        hint:"Infrastructure often lagged behind population growth." },
+
+      /* Tenements + public health */
+      { stem:"Tenement housing is best described as:",
+        correct:"Densely packed apartment buildings often built quickly with poor ventilation and sanitation.",
+        wrong:["Single-family suburban homes with large yards","Government-built luxury housing for all workers","Farmhouses located far from cities"],
+        hint:"Tenements were crowded and often unhealthy." },
+
+      { stem:"Why did diseases like tuberculosis spread more easily in many urban tenements?",
+        correct:"Crowding and poor ventilation increased transmission of airborne illness.",
+        wrong:["Tenements had advanced hospital systems","People lived far apart","Cities had clean air and unlimited space"],
+        hint:"TB spreads more where people are crowded together indoors." },
+
+      { stem:"Which condition most directly increased the risk of waterborne disease like cholera in many cities?",
+        correct:"Contaminated water supplies due to inadequate sewage and sanitation.",
+        wrong:["Too many parks and clean water","A shortage of immigrants","Overuse of electric lighting"],
+        hint:"Cholera spreads through unsafe water and poor sanitation." },
+
+      /* Immigration: push/pull + new patterns */
+      { stem:"Which is a common ‘pull’ factor that attracted immigrants to the United States during industrialization?",
+        correct:"Job opportunities in factories and cities.",
+        wrong:["A lack of available work","A ban on urban employment","The end of transportation networks"],
+        hint:"Industrial growth created demand for labor." },
+
+      { stem:"Which is a common ‘push’ factor that encouraged people to leave their home countries?",
+        correct:"Poverty, limited opportunity, or persecution in the home country.",
+        wrong:["Too many high-paying jobs at home","Guaranteed political stability everywhere","Too much farmland and wealth for everyone"],
+        hint:"Push factors are conditions that drive people out." },
+
+      { stem:"Which statement best describes how immigration affected many U.S. cities?",
+        correct:"Immigrants often formed ethnic neighborhoods that preserved language and culture while providing support networks.",
+        wrong:["Immigrants were required to live only on farms","Immigration ended cultural diversity in cities","Immigrants eliminated the need for factories"],
+        hint:"Ethnic enclaves helped newcomers find work and community." },
+
+      /* Political machines */
+      { stem:"Political machines in many cities gained support by:",
+        correct:"Offering services and help (jobs, food, housing connections) in exchange for votes.",
+        wrong:["Refusing all aid to poor residents","Eliminating all elections","Banning immigrants from cities entirely"],
+        hint:"Machines traded favors for political loyalty." },
+
+      { stem:"Which criticism was commonly made about political machines?",
+        correct:"They often encouraged corruption and used patronage to reward supporters.",
+        wrong:["They always eliminated corruption completely","They banned all government spending","They ended city services permanently"],
+        hint:"Patronage + corruption are key critiques." },
+
+      /* Nativism + responses */
+      { stem:"Nativism is best defined as:",
+        correct:"Favoring native-born citizens and opposing immigration.",
+        wrong:["Supporting unlimited immigration with no debate","Believing all cultures must remain separate forever","Promoting international isolation from trade"],
+        hint:"Nativism targets immigrants and immigration." },
+
+      { stem:"Which action best represents a nativist response to immigration?",
+        correct:"Supporting laws that restrict immigration from certain regions.",
+        wrong:["Creating more jobs for immigrants only","Ending public schools","Eliminating sanitation projects"],
+        hint:"Restriction policies are a classic nativist response." },
+
+      /* Reform link: Progressive-ish urban improvements */
+      { stem:"Which reform most directly addressed urban public health problems?",
+        correct:"Improving sanitation, clean water, and waste removal systems.",
+        wrong:["Reducing clean water supplies","Banning building inspections","Eliminating public transportation"],
+        hint:"Public health reforms target water, waste, and housing conditions." },
+
+      { stem:"Which change most directly reduced the danger of overcrowded housing over time?",
+        correct:"Building codes and housing regulations that required safer living conditions.",
+        wrong:["Removing all housing rules","Banning fire escapes","Increasing occupancy limits per room"],
+        hint:"Regulation/building codes improved conditions." },
+
+      /* Connecting labor + immigration + cities */
+      { stem:"Which statement best explains how immigration connected to industrial labor needs?",
+        correct:"Factories needed large workforces, and many immigrants filled wage labor jobs in growing cities.",
+        wrong:["Immigrants eliminated the need for factory work","Factories mainly hired only wealthy investors","Industrialization reduced the need for workers entirely"],
+        hint:"Demand for labor and migration often moved together." },
+
+      { stem:"Which is a likely effect when cities grow faster than infrastructure can handle?",
+        correct:"Transportation, housing, and sanitation problems increase.",
+        wrong:["All residents automatically gain high wages","Crowding disappears","Public health problems become impossible"],
+        hint:"Growth strains services." },
+
+      /* Great Migration (optional but fits this block’s flow) */
+      { stem:"Which factor contributed to the Great Migration of African Americans to northern cities?",
+        correct:"Seeking industrial jobs and escaping Jim Crow segregation and violence in the South.",
+        wrong:["A ban on northern factory work","Guaranteed equality in the South after Reconstruction","The collapse of all northern industries"],
+        hint:"Push: Jim Crow/violence; Pull: jobs/opportunity." },
+
+      { stem:"A common result of the Great Migration in northern cities was:",
+        correct:"Growth of Black communities and increased cultural and political influence, alongside discrimination and tension.",
+        wrong:["An end to all discrimination immediately","A return to rural farming nationwide","The elimination of city neighborhoods"],
+        hint:"Community growth + opportunity + continued discrimination." },
+
+      /* Labor conflict + government/courts */
+      { stem:"Which scenario best represents a labor conflict during industrialization?",
+        correct:"Workers strike for shorter hours and safer conditions while employers try to keep production running.",
+        wrong:["Workers vote to abolish cities","Employers eliminate all wages","Courts ban all laws"],
+        hint:"Strikes and workplace demands were common." },
+
+      { stem:"Which cause-and-effect is most accurate?",
+        correct:"Unsafe conditions and low wages contributed to union growth and labor conflict.",
+        wrong:["High wages and safe conditions caused unions to disappear","Urban sanitation improvements caused strikes","Immigration restrictions caused tenements to expand"],
+        hint:"Workplace problems → organizing." },
+
+      /* Tenement → reform connection */
+      { stem:"Which evidence would best support a claim that reformers targeted tenement conditions?",
+        correct:"Investigations and laws aimed at improving ventilation, fire safety, and sanitation in housing.",
+        wrong:["Policies to increase crowding","Eliminating housing inspections","Removing fire safety requirements"],
+        hint:"Reform typically = safer housing rules." },
+
+      /* Immigration assimilation / Americanization */
+      { stem:"Which statement best explains why many immigrants balanced assimilation and cultural preservation?",
+        correct:"They learned English and U.S. customs for work/civic life while keeping traditions through ethnic communities.",
+        wrong:["They refused to participate in any public life","They were legally required to abandon all culture immediately","They could not live in cities at all"],
+        hint:"Both adaptation and community support happened." },
+
+      /* Urban political influence */
+      { stem:"How did growing cities change politics in many states?",
+        correct:"Urban populations increased political influence and made city issues central to policy debates.",
+        wrong:["Cities lost representation entirely","Rural areas ended elections","State governments became monarchies"],
+        hint:"Population shifts affect representation and policy priorities." },
+
+      /* Balanced conclusion */
+      { stem:"Which conclusion best fits the broader pattern of labor, urbanization, and immigration?",
+        correct:"Industrial growth drew people to cities, creating opportunities but also crowding, conflict, and calls for reform.",
+        wrong:["City growth eliminated social problems","Immigration ended labor demand","Unions formed only because cities were shrinking"],
+        hint:"Opportunity + strain + reform pressure is the pattern." },
+
+      /* 30th item */
+      { stem:"Which action would most directly improve the daily life of tenement residents in the short term?",
+        correct:"Providing clean water, trash removal, and health inspections to reduce disease.",
+        wrong:["Reducing access to water","Increasing room occupancy limits","Ending city services"],
+        hint:"Public health basics reduce disease risk quickly." }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+        const targetPos = targetsShuffled[idx];
+
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i]==null) choices[i] = distractors[di++];
+        }
+        return { stem:q.stem, hint:q.hint, mini:q.mini||"", tag:q.tag||"", choices, answerIndex:targetPos };
+      });
+    }
+
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {version:1,name:"",started:false,startIso:null,startStamp:null,runStartMs:null,misses:0,i:0,locked:false,missedOnQ:{},runQuestions:null,finished:false,endStamp:null,endIso:null};
+    }
+
+    function openStartModal(){ els.startModal.style.display="flex"; els.nameInput.focus(); }
+    function closeStartModal(){ els.startModal.style.display="none"; }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi(); render(); startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(performance.now()-state.runStartMs)}`;
+      }, 250);
+    }
+    function stopClock(){ if(tickTimer){clearInterval(tickTimer);tickTimer=null;} }
+
+    function total(){ return state?.runQuestions?.length || 0; }
+    function accuracy(){
+      const answered = clamp(state.i,0,total());
+      const denom = answered + state.misses;
+      if(denom<=0) return 100;
+      return Math.round((answered/denom)*100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1,total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderMini(q){
+      if(q.mini){
+        els.miniBox.classList.remove("hidden");
+        els.miniBox.innerHTML = `<div class="mini">${q.mini}<span class="qtag">${q.tag||"Source excerpt"}</span></div>`;
+      }else{
+        els.miniBox.classList.add("hidden");
+        els.miniBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+      if(state.finished){ showTicket(); return; }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderMini(q);
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+          if(state.i >= total()){ finishRun(); return; }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad", `❌ Not yet. <b>Hint:</b> ${q.hint}<span class="small">Your miss is recorded. Choose again to continue.</span>`);
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—",time:"—"};
+      const dEnd = state.endStamp || {date:"—",time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now()-state.runStartMs) : 0;
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 06 (Labor, Urbanization & Immigration)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.miniBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState(); location.reload();
+    });
+    els.btnBackHub.addEventListener("click", ()=> location.href="../index.html");
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent="Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+    els.btnPlayAgain.addEventListener("click", ()=>{ clearState(); location.reload(); });
+
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor="rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor="", 800);
+        return;
+      }
+      startRun(name);
+    }
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") startClicked(); });
+
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+      closeStartModal();
+      initUi();
+      if(state.finished) showTicket();
+      else { render(); startClock(); }
+    })();
+  </script>
+</body>
+</html>
