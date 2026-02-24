@@ -1,0 +1,604 @@
+<!-- /games/block-05-industrialization-rise-of-corporations.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 05 — Industrialization &amp; Rise of Corporations</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);box-shadow:var(--shadow);padding:16px;}
+    .topline{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{margin:6px 0 0;font-size:22px;letter-spacing:.2px;font-weight:900;}
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35;max-width:940px}
+    .stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding-top:4px;}
+    .pill2{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;white-space:nowrap;}
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .qbox{border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(0,0,0,.12);}
+    .qmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .tag{font-size:12px;font-weight:900;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);background:rgba(255,255,255,.02);}
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+
+    .mini{
+      margin-top:10px;padding:10px 12px;border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);border-radius:12px;color:var(--text);line-height:1.35;font-size:14px;
+    }
+    .mini .qtag{
+      display:block;margin-top:6px;color:var(--muted);
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+
+    .choices{display:grid;gap:10px;margin-top:12px;}
+    .choice{border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;user-select:none;background:rgba(255,255,255,.02);
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;}
+    .choice:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.04);}
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55;cursor:not-allowed}
+    .choice .lbl{font-family:var(--mono);font-weight:900;margin-right:10px;color:var(--muted);}
+
+    .msg{margin-top:12px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);display:none;line-height:1.35;}
+    .msg.good{display:block;background:rgba(43,213,118,.10);color:var(--text);border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10);color:var(--text);border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+
+    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px;}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900;letter-spacing:.02em;
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.045);}
+    .btn:active{transform:translateY(0)}
+    .btn.warn{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.08);}
+    .btn.good{border-color:rgba(43,213,118,.45);background:rgba(43,213,118,.08);}
+    .hidden{display:none !important}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50;}
+    .modalcard{
+      width:min(760px,92vw);border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg,rgba(17,26,47,.96),rgba(10,14,26,.96));
+      box-shadow:var(--shadow);padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .inp{flex:1 1 240px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-weight:800;outline:none;}
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px;font-size:13px;color:var(--muted)}
+    .ticket{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:12px;margin-top:12px;}
+    .ticket pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);color:var(--text);font-size:13px;line-height:1.35;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 05 — Industrialization &amp; Rise of Corporations</div>
+        <p class="subline">
+          Focus: mechanization + mass production + railroads/markets + big business organization (corporations, trusts, monopolies),
+          and impacts on workers, consumers, and government responses.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+        <div class="qbox">
+          <div class="qmeta">
+            <span class="tag">Industrial Economy</span>
+            <span class="tag">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="miniBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">Reminder: Mastery requires <b>0 misses</b>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>Ticket includes date + start/end times + runtime. Mastery requires <b>100% accuracy</b> (0 misses).</p>
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">Back-button protection is enabled to prevent cached/frozen runs.</div>
+    </div>
+  </div>
+
+  <script>
+    /* bfcache/back-button fixes */
+    window.addEventListener('pageshow', (e)=>{ if(e.persisted) location.reload(); });
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=> history.pushState({guard:true}, "", location.href));
+    }catch(_){}
+
+    const KEY = "legend_hist_block05_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+      stem: document.getElementById("stem"),
+      miniBox: document.getElementById("miniBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const clamp = (n,min,max)=>Math.max(min, Math.min(max,n));
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    }
+    function nowStamp(d=new Date()){
+      return {
+        date: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+        time: `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+      };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+    function loadState(){
+      try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; }catch(_){ return null; }
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function clearState(){ localStorage.removeItem(KEY); }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /* Teacher-created, OST-style, aligned to industrialization + corporations */
+    const BANK = [
+      { stem:"Which factor most directly allowed factories to produce goods faster and cheaper in the late 1800s?",
+        correct:"Mechanization and new manufacturing technology increased productivity.",
+        wrong:["Returning to handcraft-only production","Reducing transportation networks","Ending specialization of labor"],
+        hint:"Machines + improved processes increased output per worker." },
+
+      { stem:"How did railroads most directly contribute to the growth of large corporations?",
+        correct:"They connected regional markets, allowing businesses to distribute goods nationally.",
+        wrong:["They eliminated the need for money","They ended immigration to cities","They replaced all factories with farms"],
+        hint:"National distribution + larger markets encouraged big business expansion." },
+
+      { stem:"Which term best describes a company controlling most of a market and limiting competition?",
+        correct:"Monopoly.",
+        wrong:["Subsistence","Tariff","Cottage industry"],
+        hint:"Monopoly = one dominant seller in a market." },
+
+      { stem:"A ‘trust’ was most often used by industrial leaders to:",
+        correct:"Control competing companies and reduce competition in an industry.",
+        wrong:["Increase worker voting rights","End all government regulation","Guarantee equal wages across all jobs"],
+        hint:"Trusts often consolidated control over competitors." },
+
+      { stem:"Which change best explains why corporations became more common during industrialization?",
+        correct:"Corporations could raise large amounts of capital by selling stock.",
+        wrong:["Corporations required no managers","Corporations banned investors","Corporations eliminated risk for all owners completely"],
+        hint:"Stock ownership helped raise money for expansion." },
+
+      { stem:"Which is a common effect of mass production on consumers?",
+        correct:"More goods became available at lower prices.",
+        wrong:["Fewer goods were produced overall","Products could not be shipped long distances","Consumers lost access to manufactured goods"],
+        hint:"Mass production increases supply and often lowers unit cost." },
+
+      { stem:"Which work condition problem was often associated with rapid industrialization?",
+        correct:"Long hours and unsafe factory conditions.",
+        wrong:["Guaranteed pensions for all workers","Shorter workdays and strong safety laws from the start","Universal paid vacations"],
+        hint:"Early factories often lacked strong safety protections." },
+
+      { stem:"Why did many factories use division of labor?",
+        correct:"To increase efficiency by having workers repeat specialized tasks.",
+        wrong:["To reduce the number of products made","To eliminate the need for machinery","To make every product unique and handcrafted"],
+        hint:"Specialization speeds production." },
+
+      { stem:"Which statement best explains vertical integration?",
+        correct:"A company controls multiple stages of production from raw materials to distribution.",
+        wrong:["A company sells only one product nationwide","A company merges only with competitors","A company avoids owning any suppliers"],
+        hint:"Vertical = supply chain control." },
+
+      { stem:"Which statement best explains horizontal integration?",
+        correct:"A company buys out or merges with competitors to increase market share.",
+        wrong:["A company controls raw materials and shipping","A company reduces its size intentionally","A company turns factories into farms"],
+        hint:"Horizontal = competitors at same stage." },
+
+      { stem:"Which innovation most directly improved communication for business during industrialization?",
+        correct:"The telephone and telegraph sped up information exchange.",
+        wrong:["The spinning wheel","The longbow","The plow"],
+        hint:"Faster communication improved coordination and markets." },
+
+      { stem:"How did industrialization contribute to urban growth?",
+        correct:"Factories created jobs that attracted workers to cities.",
+        wrong:["Factories forced all workers to move to farms","Cities banned industrial jobs","Industrialization reduced demand for workers"],
+        hint:"Jobs + opportunity drew people into urban areas." },
+
+      { stem:"Which government response is most associated with concerns about monopolies and trusts?",
+        correct:"Antitrust laws aimed to limit unfair restraints on trade.",
+        wrong:["Ending all elections","Creating a national monarchy","Banning public schools"],
+        hint:"Antitrust = regulate competition / break up monopolistic practices." },
+
+      { stem:"Which example best shows how corporations changed the economy?",
+        correct:"Large firms could dominate national markets and influence prices and wages.",
+        wrong:["Small local artisans controlled most production","Farmers stopped selling crops","Money was no longer used in the economy"],
+        hint:"Big firms increased scale and market power." },
+
+      { stem:"Which factor most directly encouraged investment in big industry during this era?",
+        correct:"Access to capital through banks and stock markets.",
+        wrong:["A ban on loans","No consumer demand for goods","Elimination of transportation networks"],
+        hint:"Capital + investment allowed expansion and new technologies." },
+
+      { stem:"Which is an intended benefit of limited liability in a corporation?",
+        correct:"Owners risk only the money they invested, not their personal property for company debts.",
+        wrong:["Owners can never lose money","Corporations cannot be sued","Workers must pay company debts"],
+        hint:"Limited liability limits personal financial exposure." },
+
+      { stem:"Which scenario best reflects a negative effect of monopolies on consumers?",
+        correct:"A dominant company raises prices because competition is limited.",
+        wrong:["Many companies compete and lower prices","Consumers have more choices than ever","Small businesses expand easily"],
+        hint:"Less competition can mean higher prices and fewer choices." },
+
+      { stem:"Which cause-and-effect relationship is most accurate?",
+        correct:"New technology increased productivity, which helped businesses expand and lower production costs.",
+        wrong:["New technology decreased productivity, shrinking markets","Railroads reduced national markets","Factories ended the need for transportation"],
+        hint:"Productivity increases support growth and lower costs." },
+
+      { stem:"Which statement best explains why industrialization increased the demand for wage labor?",
+        correct:"Factories required large numbers of workers to operate machines and meet production goals.",
+        wrong:["Factories eliminated all need for workers","Factories relied only on skilled artisans","Factories replaced workers entirely in every case"],
+        hint:"Even with machines, factories needed many workers." },
+
+      { stem:"Which example best shows how industrialization reshaped daily life?",
+        correct:"New consumer goods and technologies changed how people worked and lived.",
+        wrong:["People stopped using manufactured goods entirely","Transportation became slower and less reliable","Cities became smaller due to job losses"],
+        hint:"Think: electricity, appliances, communication, transit." },
+
+      { stem:"Which factor most directly helped create a national consumer culture?",
+        correct:"Mass production plus national distribution networks increased access to similar goods.",
+        wrong:["Local-only trade routes","A ban on advertising","Eliminating railroads"],
+        hint:"Scale + distribution creates shared products/brands." },
+
+      { stem:"A company controls mines, rail shipping, steel mills, and distribution. This is best described as:",
+        correct:"Vertical integration.",
+        wrong:["Horizontal integration","Subsistence farming","Mercantilism"],
+        hint:"Multiple stages of production = vertical." },
+
+      { stem:"A company buys several rival steel firms to control most steel production. This is best described as:",
+        correct:"Horizontal integration.",
+        wrong:["Vertical integration","Isolationism","Collective bargaining"],
+        hint:"Buying competitors = horizontal." },
+
+      { stem:"Which is a common reason workers opposed some industrial labor practices?",
+        correct:"Wages and conditions often did not match the risks and long hours.",
+        wrong:["Workers had too many legal protections","Workers were forced to own stock","Workers were guaranteed short workdays"],
+        hint:"Early industrial labor was often harsh and underregulated." },
+
+      { stem:"Which statement best explains how industrialization affected farming?",
+        correct:"New machines increased productivity but could reduce the need for farm labor and change markets.",
+        wrong:["Farming ended completely","Farmers stopped using tools","Farm output became unrelated to markets"],
+        hint:"Mechanization changes labor needs and production." },
+
+      { stem:"Which outcome best explains why some Americans supported laissez-faire policies toward business?",
+        correct:"They believed limited government interference would encourage growth and innovation.",
+        wrong:["They believed government should own all businesses immediately","They believed competition should be outlawed","They believed corporations should be illegal"],
+        hint:"Laissez-faire = minimal regulation." },
+
+      { stem:"Which statement best captures a long-term consequence of industrialization on the U.S. economy?",
+        correct:"The U.S. became a major industrial power with large-scale corporate production.",
+        wrong:["The U.S. returned to a purely agrarian economy","National markets disappeared","Factories were replaced by cottage industries"],
+        hint:"Industrial capacity and corporate scale expanded greatly." },
+
+      { stem:"Which conclusion best fits the overall pattern of industrialization and big business growth?",
+        correct:"Technology and national markets supported corporate expansion, which brought both economic growth and social challenges.",
+        wrong:["Industrialization eliminated social conflict","Big business had no impact on workers or consumers","Technology reduced national markets"],
+        hint:"Balanced view: growth + problems like labor conditions/monopoly concerns." },
+
+      { stem:"Which evidence would best support a claim that government began responding to industrial problems?",
+        correct:"Laws and agencies that regulated business practices and addressed public concerns.",
+        wrong:["Ending courts and elections","Replacing states with colonies","Banning education"],
+        hint:"Look for regulation/antitrust/consumer protections." }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+        const targetPos = targetsShuffled[idx];
+
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i]==null) choices[i] = distractors[di++];
+        }
+        return { stem:q.stem, hint:q.hint, mini:q.mini||"", tag:q.tag||"", choices, answerIndex:targetPos };
+      });
+    }
+
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {version:1,name:"",started:false,startIso:null,startStamp:null,runStartMs:null,misses:0,i:0,locked:false,missedOnQ:{},runQuestions:null,finished:false,endStamp:null,endIso:null};
+    }
+
+    function openStartModal(){ els.startModal.style.display="flex"; els.nameInput.focus(); }
+    function closeStartModal(){ els.startModal.style.display="none"; }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi(); render(); startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(performance.now()-state.runStartMs)}`;
+      }, 250);
+    }
+    function stopClock(){ if(tickTimer){clearInterval(tickTimer);tickTimer=null;} }
+
+    function total(){ return state?.runQuestions?.length || 0; }
+    function accuracy(){
+      const answered = clamp(state.i,0,total());
+      const denom = answered + state.misses;
+      if(denom<=0) return 100;
+      return Math.round((answered/denom)*100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1,total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderMini(q){
+      if(q.mini){
+        els.miniBox.classList.remove("hidden");
+        els.miniBox.innerHTML = `<div class="mini">${q.mini}<span class="qtag">${q.tag||"Source excerpt"}</span></div>`;
+      }else{
+        els.miniBox.classList.add("hidden");
+        els.miniBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+      if(state.finished){ showTicket(); return; }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderMini(q);
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+          if(state.i >= total()){ finishRun(); return; }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad", `❌ Not yet. <b>Hint:</b> ${q.hint}<span class="small">Your miss is recorded. Choose again to continue.</span>`);
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—",time:"—"};
+      const dEnd = state.endStamp || {date:"—",time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now()-state.runStartMs) : 0;
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 05 (Industrialization & Rise of Corporations)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.miniBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState(); location.reload();
+    });
+    els.btnBackHub.addEventListener("click", ()=> location.href="../index.html");
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent="Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+    els.btnPlayAgain.addEventListener("click", ()=>{ clearState(); location.reload(); });
+
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor="rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor="", 800);
+        return;
+      }
+      startRun(name);
+    }
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") startClicked(); });
+
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+      closeStartModal();
+      initUi();
+      if(state.finished) showTicket();
+      else { render(); startClock(); }
+    })();
+  </script>
+</body>
+</html>
