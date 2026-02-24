@@ -1,0 +1,604 @@
+<!-- /games/block-07-westward-expansion-american-indians.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Block 07 — Westward Expansion &amp; American Indians</title>
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <style>
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.03);box-shadow:var(--shadow);padding:16px;}
+    .topline{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+    .k{letter-spacing:.14em;font-weight:900;font-size:12px;color:var(--muted)}
+    .h{margin:6px 0 0;font-size:22px;letter-spacing:.2px;font-weight:900;}
+    .subline{margin:6px 0 0;color:var(--muted);line-height:1.35;max-width:980px}
+    .stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;padding-top:4px;}
+    .pill2{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:13px;white-space:nowrap;}
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .qbox{border:1px solid var(--line);border-radius:16px;padding:14px;background:rgba(0,0,0,.12);}
+    .qmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .tag{font-size:12px;font-weight:900;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);background:rgba(255,255,255,.02);}
+    .qstem{margin:0;color:var(--text);line-height:1.35;font-size:16px}
+
+    .mini{
+      margin-top:10px;padding:10px 12px;border-left:3px solid rgba(122,162,255,.55);
+      background:rgba(255,255,255,.02);border-radius:12px;color:var(--text);line-height:1.35;font-size:14px;
+    }
+    .mini .qtag{
+      display:block;margin-top:6px;color:var(--muted);
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    }
+
+    .choices{display:grid;gap:10px;margin-top:12px;}
+    .choice{border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer;user-select:none;background:rgba(255,255,255,.02);
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;}
+    .choice:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.04);}
+    .choice:active{transform:translateY(0)}
+    .choice.disabled{opacity:.55;cursor:not-allowed}
+    .choice .lbl{font-family:var(--mono);font-weight:900;margin-right:10px;color:var(--muted);}
+
+    .msg{margin-top:12px;border-radius:14px;padding:10px 12px;border:1px solid var(--line);display:none;line-height:1.35;}
+    .msg.good{display:block;background:rgba(43,213,118,.10);color:var(--text);border-color:rgba(43,213,118,.35)}
+    .msg.bad{display:block;background:rgba(255,92,122,.10);color:var(--text);border-color:rgba(255,92,122,.35)}
+    .msg .small{display:block;color:var(--muted);margin-top:6px;font-size:13px}
+
+    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px;}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900;letter-spacing:.02em;
+      transition:transform .08s ease,border-color .12s ease,background .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(122,162,255,.55);background:rgba(255,255,255,.045);}
+    .btn:active{transform:translateY(0)}
+    .btn.warn{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.08);}
+    .btn.good{border-color:rgba(43,213,118,.45);background:rgba(43,213,118,.08);}
+    .hidden{display:none !important}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px;z-index:50;}
+    .modalcard{
+      width:min(820px,92vw);border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg,rgba(17,26,47,.96),rgba(10,14,26,.96));
+      box-shadow:var(--shadow);padding:18px;
+    }
+    .modalcard h2{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .modalcard p{margin:0;color:var(--muted);line-height:1.35}
+    .field{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .inp{flex:1 1 240px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);
+      border-radius:14px;padding:11px 12px;font-weight:800;outline:none;}
+    .inp:focus{border-color:rgba(122,162,255,.55)}
+    .help{margin-top:10px;font-size:13px;color:var(--muted)}
+    .ticket{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);padding:12px;margin-top:12px;}
+    .ticket pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);color:var(--text);font-size:13px;line-height:1.35;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topline">
+      <div>
+        <div class="k">LEGEND — AMERICAN HISTORY OST REVIEW</div>
+        <div class="h">Block 07 — Westward Expansion &amp; American Indians</div>
+        <p class="subline">
+          Focus: continued westward settlement intensified conflict with American Indians and reinforced the reservation system—
+          including treaties, the Plains Wars, Dawes Act, boarding schools, and resistance.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="pill2" id="pillName">Name: —</div>
+        <div class="pill2" id="pillClock">Elapsed: 00:00</div>
+        <div class="pill2" id="pillProg">Q: 0/0</div>
+        <div class="pill2" id="pillMiss">Misses: 0</div>
+        <div class="pill2" id="pillAcc">Accuracy: 100%</div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="grid2">
+        <div class="qbox">
+          <div class="qmeta">
+            <span class="tag">Westward Settlement + Policy</span>
+            <span class="tag">Mastery: 0 misses</span>
+          </div>
+
+          <p class="qstem" id="stem">Loading…</p>
+          <div id="miniBox" class="hidden"></div>
+
+          <div class="choices" id="choices"></div>
+          <div class="msg" id="msg"></div>
+
+          <div class="bar">
+            <div class="btnrow">
+              <button class="btn warn" id="btnRestart">Hard Restart</button>
+            </div>
+            <div class="btnrow">
+              <button class="btn" id="btnBackHub">Back to Hub</button>
+            </div>
+          </div>
+
+          <div class="ticket hidden" id="ticketBox">
+            <div class="qmeta" style="margin-bottom:8px">
+              <span class="tag">Submission Ticket</span>
+              <span class="tag" id="ticketStatus">—</span>
+            </div>
+            <pre id="ticketText"></pre>
+            <div class="btnrow" style="margin-top:10px">
+              <button class="btn good" id="btnCopy">Copy Ticket</button>
+              <button class="btn" id="btnPlayAgain">Play Again (new run)</button>
+            </div>
+            <div class="help">Reminder: Mastery requires <b>0 misses</b>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Start Modal -->
+  <div class="modal" id="startModal" aria-modal="true" role="dialog">
+    <div class="modalcard">
+      <h2>Enter your name to start</h2>
+      <p>Ticket includes date + start/end times + runtime. Mastery requires <b>100% accuracy</b> (0 misses).</p>
+      <div class="field">
+        <input class="inp" id="nameInput" type="text" maxlength="40" placeholder="Student name (required)"/>
+        <button class="btn good" id="btnStart">Start</button>
+      </div>
+      <div class="help">Back-button protection is enabled to prevent cached/frozen runs.</div>
+    </div>
+  </div>
+
+  <script>
+    /* bfcache/back-button fixes */
+    window.addEventListener('pageshow', (e)=>{ if(e.persisted) location.reload(); });
+    try{
+      history.pushState({guard:true}, "", location.href);
+      window.addEventListener("popstate", ()=> history.pushState({guard:true}, "", location.href));
+    }catch(_){}
+
+    const KEY = "legend_hist_block07_v1";
+
+    const els = {
+      startModal: document.getElementById("startModal"),
+      nameInput: document.getElementById("nameInput"),
+      btnStart: document.getElementById("btnStart"),
+      pillName: document.getElementById("pillName"),
+      pillClock: document.getElementById("pillClock"),
+      pillProg: document.getElementById("pillProg"),
+      pillMiss: document.getElementById("pillMiss"),
+      pillAcc: document.getElementById("pillAcc"),
+      stem: document.getElementById("stem"),
+      miniBox: document.getElementById("miniBox"),
+      choices: document.getElementById("choices"),
+      msg: document.getElementById("msg"),
+      btnRestart: document.getElementById("btnRestart"),
+      btnBackHub: document.getElementById("btnBackHub"),
+      ticketBox: document.getElementById("ticketBox"),
+      ticketText: document.getElementById("ticketText"),
+      ticketStatus: document.getElementById("ticketStatus"),
+      btnCopy: document.getElementById("btnCopy"),
+      btnPlayAgain: document.getElementById("btnPlayAgain"),
+    };
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const clamp = (n,min,max)=>Math.max(min, Math.min(max,n));
+
+    function fmtTime(ms){
+      const s = Math.max(0, Math.floor(ms/1000));
+      return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    }
+    function nowStamp(d=new Date()){
+      return {
+        date: `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`,
+        time: `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+      };
+    }
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+    function loadState(){
+      try{ const raw = localStorage.getItem(KEY); return raw ? JSON.parse(raw) : null; }catch(_){ return null; }
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function clearState(){ localStorage.removeItem(KEY); }
+
+    function setMsg(kind, html){
+      els.msg.className = "msg " + (kind || "");
+      els.msg.innerHTML = html || "";
+      els.msg.style.display = html ? "block" : "none";
+    }
+    function lockChoices(lock=true){
+      [...els.choices.querySelectorAll(".choice")].forEach(c=>{
+        c.classList.toggle("disabled", lock);
+        c.setAttribute("aria-disabled", lock ? "true" : "false");
+      });
+    }
+
+    /* Teacher-created, OST-style: westward expansion → conflict → reservation system */
+    const BANK = [
+      { stem:"Which factor most directly increased conflict between American Indians and settlers in the West in the late 1800s?",
+        correct:"Continued westward settlement reduced Native lands and resources.",
+        wrong:["A decrease in migration west","An end to railroad building","A lack of interest in western land"],
+        hint:"More settlers and development increased competition for land and resources." },
+
+      { stem:"The reservation system was intended primarily to:",
+        correct:"Concentrate American Indians on designated lands controlled by federal policy.",
+        wrong:["Give tribes complete independence from federal authority","Encourage tribes to expand territory freely","End federal involvement in the West"],
+        hint:"Reservations limited where many Native peoples could live." },
+
+      { stem:"Why did the U.S. government negotiate treaties with American Indian nations?",
+        correct:"To obtain land and establish terms for relocation or peace.",
+        wrong:["To make tribes voting districts for Congress","To abolish state governments","To grant all land to tribes permanently without conditions"],
+        hint:"Treaties often involved land cessions and promises of protection or payments." },
+
+      { stem:"Which development most directly accelerated westward movement and the shipment of goods and people?",
+        correct:"The expansion of railroads across the continent.",
+        wrong:["The collapse of transportation networks","A ban on long-distance travel","The end of industrial growth"],
+        hint:"Railroads connected distant regions and markets." },
+
+      { stem:"Which statement best explains how railroads affected American Indians?",
+        correct:"They increased settlement and disrupted buffalo herds and Native lifeways on the Plains.",
+        wrong:["They reduced settlement by limiting travel","They restored Native control over territory","They eliminated conflict by removing settlers"],
+        hint:"Railroads increased access and disrupted traditional economies." },
+
+      { stem:"Why was the decline of the buffalo devastating for many Plains Indian nations?",
+        correct:"Buffalo were central to food, clothing, shelter, and economic life.",
+        wrong:["Buffalo were only used for recreation","Buffalo had no cultural or economic importance","Buffalo were mainly a cash crop for cities"],
+        hint:"Buffalo were fundamental to survival and culture on the Plains." },
+
+      { stem:"Which description best matches the Dawes Act (1887)?",
+        correct:"It divided tribal lands into individual plots to promote assimilation and private ownership.",
+        wrong:["It created large new reservations for tribal independence","It returned all land taken to tribes immediately","It ended U.S. citizenship for Native peoples"],
+        hint:"Dawes = allotment + assimilation." },
+
+      { stem:"A key effect of the Dawes Act was:",
+        correct:"Many tribes lost land as “surplus” was sold to non-Native settlers.",
+        wrong:["Tribes gained control of all western railroads","Native landholdings increased dramatically","Reservations were eliminated and replaced with full sovereignty"],
+        hint:"Allotment often resulted in significant land loss." },
+
+      { stem:"Which goal was most associated with federal boarding schools for American Indian children?",
+        correct:"Assimilation by replacing Native languages and traditions with Euro-American culture.",
+        wrong:["Teaching tribal governance with full cultural preservation","Preparing students to return to nomadic buffalo hunting","Ending English-language education in schools"],
+        hint:"Boarding schools often aimed to suppress Native identity." },
+
+      { stem:"Which statement best explains why many American Indians resisted federal assimilation policies?",
+        correct:"They sought to preserve sovereignty, culture, religion, and community traditions.",
+        wrong:["They wanted to increase federal control over tribes","They supported losing land through allotment","They opposed all education in any form"],
+        hint:"Resistance often centered on protecting identity and autonomy." },
+
+      { stem:"Which is an example of armed conflict tied to westward settlement pressures?",
+        correct:"The Plains Wars between U.S. forces and various Native nations.",
+        wrong:["The War of 1812","The Spanish-American War","The Civil War draft riots"],
+        hint:"Plains conflicts intensified as settlement expanded." },
+
+      { stem:"Which cause-and-effect relationship is most accurate?",
+        correct:"More settlers and mining/ranching interests increased demand for land, leading to treaty violations and conflict.",
+        wrong:["More settlers reduced conflict by leaving land untouched","Treaty violations decreased as settlement increased","Industrialization ended westward movement"],
+        hint:"Economic interests often drove land pressure and conflict." },
+
+      { stem:"Which statement best describes how treaties were often treated over time?",
+        correct:"They were frequently broken or revised as the U.S. sought more land.",
+        wrong:["They were never changed under any circumstances","They always expanded Native land rights","They ended all federal policy involvement"],
+        hint:"Power imbalance often led to treaty changes/violations." },
+
+      { stem:"The term ‘Americanization’ in this context most closely refers to:",
+        correct:"Pressure on Native peoples to adopt U.S. language, customs, and institutions.",
+        wrong:["Native peoples forcing settlers to adopt tribal government","Ending all cultural exchange","Government encouraging bilingual tribal schools only"],
+        hint:"Americanization = adopting dominant U.S. culture." },
+
+      { stem:"Which event is commonly associated with the tragic violence at the end of the Plains Wars era?",
+        correct:"The Wounded Knee Massacre (1890).",
+        wrong:["The Boston Massacre","The Battle of Antietam","The Battle of Gettysburg"],
+        hint:"Wounded Knee is often cited as marking the end of major armed resistance on the Plains." },
+
+      { stem:"Which statement best explains why conflict intensified after the Civil War?",
+        correct:"Industrial growth and federal support increased settlement, railroads, and resource extraction in the West.",
+        wrong:["The federal government stopped encouraging settlement","Railroads were dismantled after 1865","Population decreased sharply in western territories"],
+        hint:"Postwar expansion increased land/resource competition." },
+
+      { stem:"Which policy most directly encouraged farmers to move west and claim land?",
+        correct:"Homestead policies offering land to settlers who met requirements.",
+        wrong:["Policies requiring settlers to return to the East","Laws banning farming west of the Mississippi","Treaties granting all land to Spain"],
+        hint:"Homestead policies incentivized western settlement." },
+
+      { stem:"Which scenario best reflects reservation-era economic change for many tribes?",
+        correct:"Restrictions on traditional hunting forced dependence on rations and limited farming.",
+        wrong:["Unlimited access to hunting grounds expanded buffalo herds","Tribes gained control of national markets","Tribes opened railroads to increase sovereignty"],
+        hint:"Reservations often limited mobility and traditional economies." },
+
+      { stem:"Which statement best describes tribal sovereignty?",
+        correct:"The right of tribes to govern themselves as distinct political communities.",
+        wrong:["The idea that tribes must have no government","The end of tribal laws and leadership","A requirement that tribes become states"],
+        hint:"Sovereignty includes self-government and political identity." },
+
+      { stem:"How did the reservation system generally change Native political and social life?",
+        correct:"It limited movement and often placed decisions under federal agents and policies.",
+        wrong:["It fully restored independence and land control","It eliminated all federal authority over tribes","It guaranteed equal representation in Congress"],
+        hint:"Federal oversight often increased under reservation policy." },
+
+      { stem:"Which factor most directly explains why mining booms increased conflict in some areas?",
+        correct:"Miners and companies pushed into Native lands in search of valuable resources.",
+        wrong:["Mining reduced the number of settlers","Mining ended railroad expansion","Mining created new buffalo herds"],
+        hint:"Resource extraction increased land pressure." },
+
+      { stem:"Which statement best explains cultural resistance by American Indians?",
+        correct:"Maintaining language, religion, and ceremonies despite assimilation pressure.",
+        wrong:["Supporting allotment to sell land quickly","Demanding removal of tribal leadership","Ending all community traditions voluntarily"],
+        hint:"Resistance included preserving traditions and identity." },
+
+      { stem:"Which outcome best describes a long-term impact of westward expansion on American Indians?",
+        correct:"Loss of land and increased federal control over many aspects of life.",
+        wrong:["Expanded territory and independence across the West","Complete elimination of U.S. settlement","An end to federal policy involvement"],
+        hint:"Most long-term impacts involved land loss and constraint." },
+
+      { stem:"Which statement best explains why some conflicts followed treaty agreements?",
+        correct:"Promised supplies, protection, or boundaries were not consistently honored, increasing mistrust.",
+        wrong:["Treaties always solved land disputes permanently","Treaties eliminated settlement pressure","Treaties prevented any future negotiation"],
+        hint:"Unmet promises and continued settlement drove conflict." },
+
+      { stem:"Which of the following best describes assimilation as a federal policy goal?",
+        correct:"Encouraging Native peoples to adopt Euro-American culture and abandon tribal traditions.",
+        wrong:["Encouraging tribes to expand sovereignty without U.S. influence","Promoting total cultural isolation","Returning all land to tribes immediately"],
+        hint:"Assimilation pressures aimed to reshape identity and lifestyle." },
+
+      { stem:"A policy that breaks communal land into private plots is most likely to:",
+        correct:"Undermine traditional tribal landholding and increase the chance of land loss.",
+        wrong:["Guarantee expanded tribal land ownership","Prevent any land from being sold","Create more shared tribal land"],
+        hint:"Allotment often led to fragmentation and sales." },
+
+      { stem:"Which cause-and-effect is most accurate about boarding schools?",
+        correct:"They attempted to change identity through language and cultural suppression, creating lasting trauma and community disruption.",
+        wrong:["They strengthened tribal languages and traditions","They ended discrimination immediately","They restored buffalo herds on the Plains"],
+        hint:"Boarding schools often caused cultural loss and harm." },
+
+      { stem:"Which claim best explains why the U.S. government supported western settlement?",
+        correct:"Economic growth and access to land/resources were viewed as key national goals.",
+        wrong:["The U.S. wanted to reduce economic development","The government aimed to stop all migration","The nation had no interest in western resources"],
+        hint:"Expansion was tied to economic and political goals." },
+
+      { stem:"Which conclusion best fits the overall pattern of the era?",
+        correct:"Expansion policies and settlement pressures increased conflict and reinforced reservations, while many Native communities resisted and adapted.",
+        wrong:["Westward settlement ended conflict by preserving Native lands","Reservation policy created full tribal independence everywhere","Assimilation policies had no impact on culture or land"],
+        hint:"Look for a balanced cause → policy → impact pattern." }
+    ];
+
+    const QUESTIONS_RAW = BANK.slice(0, 30);
+
+    function buildRunQuestions(raw){
+      const targets = [];
+      for(let i=0;i<raw.length;i++) targets.push(i % 4);
+      const targetsShuffled = shuffle(targets);
+
+      return raw.map((q, idx)=>{
+        const correctText = q.correct;
+        const distractors = shuffle(q.wrong).slice(0,3);
+        const targetPos = targetsShuffled[idx];
+
+        const choices = new Array(4);
+        choices[targetPos] = correctText;
+
+        let di = 0;
+        for(let i=0;i<4;i++){
+          if(choices[i]==null) choices[i] = distractors[di++];
+        }
+        return { stem:q.stem, hint:q.hint, mini:q.mini||"", tag:q.tag||"", choices, answerIndex:targetPos };
+      });
+    }
+
+    let state = loadState() || null;
+    let tickTimer = null;
+
+    function defaultState(){
+      return {version:1,name:"",started:false,startIso:null,startStamp:null,runStartMs:null,misses:0,i:0,locked:false,missedOnQ:{},runQuestions:null,finished:false,endStamp:null,endIso:null};
+    }
+
+    function openStartModal(){ els.startModal.style.display="flex"; els.nameInput.focus(); }
+    function closeStartModal(){ els.startModal.style.display="none"; }
+
+    function startRun(name){
+      state = defaultState();
+      state.name = name.trim();
+      state.started = true;
+      const d = new Date();
+      state.startIso = d.toISOString();
+      state.startStamp = nowStamp(d);
+      state.runStartMs = performance.now();
+      state.runQuestions = buildRunQuestions(QUESTIONS_RAW);
+      saveState(state);
+      closeStartModal();
+      initUi(); render(); startClock();
+    }
+
+    function startClock(){
+      stopClock();
+      tickTimer = setInterval(()=>{
+        if(!state || !state.started || state.finished) return;
+        els.pillClock.textContent = `Elapsed: ${fmtTime(performance.now()-state.runStartMs)}`;
+      }, 250);
+    }
+    function stopClock(){ if(tickTimer){clearInterval(tickTimer);tickTimer=null;} }
+
+    function total(){ return state?.runQuestions?.length || 0; }
+    function accuracy(){
+      const answered = clamp(state.i,0,total());
+      const denom = answered + state.misses;
+      if(denom<=0) return 100;
+      return Math.round((answered/denom)*100);
+    }
+
+    function initUi(){
+      els.pillName.textContent = `Name: ${state.name || "—"}`;
+      els.pillProg.textContent = `Q: ${Math.min(state.i+1,total())}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${accuracy()}%`;
+    }
+
+    function renderMini(q){
+      if(q.mini){
+        els.miniBox.classList.remove("hidden");
+        els.miniBox.innerHTML = `<div class="mini">${q.mini}<span class="qtag">${q.tag||"Source excerpt"}</span></div>`;
+      }else{
+        els.miniBox.classList.add("hidden");
+        els.miniBox.innerHTML = "";
+      }
+    }
+
+    function render(){
+      initUi();
+      if(state.finished){ showTicket(); return; }
+
+      const q = state.runQuestions[state.i];
+      els.stem.textContent = q.stem;
+      renderMini(q);
+      setMsg("", "");
+
+      const letters = ["A","B","C","D"];
+      els.choices.innerHTML = "";
+      q.choices.forEach((txt, idx)=>{
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.innerHTML = `<span class="lbl">${letters[idx]}.</span> <span>${txt}</span>`;
+        div.addEventListener("click", ()=> choose(idx));
+        els.choices.appendChild(div);
+      });
+      lockChoices(false);
+      els.ticketBox.classList.add("hidden");
+    }
+
+    function choose(idx){
+      if(state.locked || state.finished) return;
+      const q = state.runQuestions[state.i];
+      const isCorrect = (idx === q.answerIndex);
+
+      if(isCorrect){
+        state.locked = true;
+        saveState(state);
+        lockChoices(true);
+        setMsg("good", `✅ Correct.<span class="small">Moving on…</span>`);
+        setTimeout(()=>{
+          state.i++;
+          state.locked = false;
+          if(state.i >= total()){ finishRun(); return; }
+          saveState(state);
+          render();
+        }, 650);
+        return;
+      }
+
+      const qKey = String(state.i);
+      if(!state.missedOnQ[qKey]){
+        state.missedOnQ[qKey] = true;
+        state.misses++;
+      }
+      saveState(state);
+
+      setMsg("bad", `❌ Not yet. <b>Hint:</b> ${q.hint}<span class="small">Your miss is recorded. Choose again to continue.</span>`);
+      initUi();
+    }
+
+    function finishRun(){
+      state.finished = true;
+      const d = new Date();
+      state.endIso = d.toISOString();
+      state.endStamp = nowStamp(d);
+      saveState(state);
+      stopClock();
+      showTicket();
+    }
+
+    function showTicket(){
+      const dStart = state.startStamp || {date:"—",time:"—"};
+      const dEnd = state.endStamp || {date:"—",time:"—"};
+      const elapsedMs = state.runStartMs != null ? (performance.now()-state.runStartMs) : 0;
+      const mastery = (state.misses === 0);
+      const acc = mastery ? "100%" : `${accuracy()}%`;
+
+      els.ticketStatus.textContent = mastery ? "MASTERED ✅" : "NOT MASTERED ❌";
+      els.ticketStatus.style.borderColor = mastery ? "rgba(43,213,118,.55)" : "rgba(255,92,122,.55)";
+      els.ticketStatus.style.background = mastery ? "rgba(43,213,118,.18)" : "rgba(255,92,122,.18)";
+      els.ticketStatus.style.color = "var(--text)";
+
+      const ticket =
+`LEGEND — OST REVIEW TICKET
+Block: 07 (Westward Expansion & American Indians)
+Name: ${state.name}
+
+Date: ${dStart.date}
+Start: ${dStart.time}
+End:   ${dEnd.time}
+Runtime: ${fmtTime(elapsedMs)}
+
+Questions: ${total()}
+Misses: ${state.misses}
+Accuracy: ${acc}
+Mastery: ${mastery ? "YES" : "NO (0 misses required)"}
+`;
+      els.ticketText.textContent = ticket;
+      els.ticketBox.classList.remove("hidden");
+
+      els.stem.textContent = mastery
+        ? "🎉 Mastery achieved (0 misses). Copy your ticket and submit."
+        : "Almost. You finished, but mastery requires 0 misses. Click Play Again for a clean run.";
+
+      els.miniBox.classList.add("hidden");
+      els.choices.innerHTML = "";
+      setMsg("", "");
+      initUi();
+      els.pillClock.textContent = `Elapsed: ${fmtTime(elapsedMs)}`;
+      els.pillProg.textContent = `Q: ${total()}/${total()}`;
+      els.pillMiss.textContent = `Misses: ${state.misses}`;
+      els.pillAcc.textContent = `Accuracy: ${mastery ? "100" : accuracy()}%`;
+    }
+
+    els.btnRestart.addEventListener("click", ()=>{
+      if(!confirm("Hard Restart? This clears the current run and requires name entry again.")) return;
+      clearState(); location.reload();
+    });
+    els.btnBackHub.addEventListener("click", ()=> location.href="../index.html");
+
+    els.btnCopy.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(els.ticketText.textContent);
+        els.btnCopy.textContent = "Copied ✅";
+        setTimeout(()=> els.btnCopy.textContent="Copy Ticket", 1200);
+      }catch(_){
+        alert("Copy blocked by browser. Select the text and copy manually.");
+      }
+    });
+    els.btnPlayAgain.addEventListener("click", ()=>{ clearState(); location.reload(); });
+
+    function startClicked(){
+      const name = els.nameInput.value.trim();
+      if(!name){
+        els.nameInput.focus();
+        els.nameInput.style.borderColor="rgba(255,92,122,.55)";
+        setTimeout(()=> els.nameInput.style.borderColor="", 800);
+        return;
+      }
+      startRun(name);
+    }
+    els.btnStart.addEventListener("click", startClicked);
+    els.nameInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") startClicked(); });
+
+    (function boot(){
+      if(!state || !state.started){
+        state = defaultState();
+        saveState(state);
+        openStartModal();
+        els.pillProg.textContent = `Q: 0/${QUESTIONS_RAW.length}`;
+        els.pillMiss.textContent = "Misses: 0";
+        els.pillAcc.textContent = "Accuracy: 100%";
+        return;
+      }
+      closeStartModal();
+      initUi();
+      if(state.finished) showTicket();
+      else { render(); startClock(); }
+    })();
+  </script>
+</body>
+</html>
