@@ -8,421 +8,754 @@
 
 <style>
 :root{
---bg:#0b1220;
---panel:#111a2f;
---text:#e7eefc;
---muted:#a8b4cf;
---line:rgba(255,255,255,.12);
---good:#2bd576;
---bad:#ff5c7a;
---accent:#7aa2ff;
---radius:18px;
+  --bg:#0b1220;
+  --panel:#111a2f;
+  --panel2:#0f1730;
+  --text:#e7eefc;
+  --muted:#a8b4cf;
+  --line:rgba(255,255,255,.12);
+  --good:#2bd576;
+  --bad:#ff5c7a;
+  --warn:#ffd166;
+  --accent:#7aa2ff;
+  --shadow:0 18px 55px rgba(0,0,0,.40);
+  --radius:18px;
 }
 
+*{box-sizing:border-box}
+
 body{
-margin:0;
-background:var(--bg);
-color:var(--text);
-font-family:system-ui;
+  margin:0;
+  background:linear-gradient(180deg,#0b1220,#070b14);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
 }
 
 .wrap{
-width:min(1000px,92vw);
-margin:30px auto;
+  width:min(1000px,92vw);
+  margin:26px auto 40px;
 }
 
 .card{
-background:var(--panel);
-padding:24px;
-border-radius:var(--radius);
-box-shadow:0 18px 55px rgba(0,0,0,.4);
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
 }
 
-h1{
-margin-top:0;
+h1,h2,h3,p{margin-top:0}
+
+.sub{
+  color:var(--muted);
+  margin-bottom:14px;
 }
 
-.answers button{
-display:block;
-width:100%;
-margin:8px 0;
-padding:12px;
-border-radius:10px;
-border:none;
-background:#1a2442;
-color:white;
-cursor:pointer;
-font-size:15px;
-}
-
-.answers button:hover{
-background:#273268;
-}
-
-.good{background:var(--good)!important;}
-.bad{background:var(--bad)!important;}
-
-.meta{
-display:flex;
-gap:18px;
-margin-bottom:12px;
-font-size:14px;
-color:var(--muted);
+.start-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
 }
 
 input{
-padding:10px;
-border-radius:8px;
-border:none;
-margin-right:8px;
+  background:#0e1730;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:15px;
+  min-width:280px;
 }
 
-button.start{
-padding:10px 16px;
-border:none;
-border-radius:10px;
-background:var(--accent);
-color:white;
-cursor:pointer;
+button{
+  border:none;
+  border-radius:12px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:14px;
+}
+
+.btn{
+  background:var(--accent);
+  color:#fff;
+}
+
+.btn-secondary{
+  background:#1a2442;
+  color:#fff;
+  border:1px solid var(--line);
+}
+
+.topbar{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.stat{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+}
+
+.stat .label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.stat .value{
+  font-size:15px;
+  font-weight:800;
+}
+
+.progress-wrap{
+  margin:6px 0 18px;
+}
+
+.progress-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.progress{
+  width:100%;
+  height:14px;
+  background:#0c1430;
+  border:1px solid var(--line);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),#9cb8ff);
+  transition:width .25s ease;
+}
+
+.q-meta{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.stem{
+  font-size:24px;
+  line-height:1.25;
+  margin-bottom:16px;
+}
+
+.answers{
+  display:grid;
+  gap:10px;
+}
+
+.answer{
+  width:100%;
+  text-align:left;
+  background:#172347;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px 16px;
+  border-radius:14px;
+  font-weight:600;
+  line-height:1.35;
+}
+
+.answer:hover{
+  background:#22315f;
+}
+
+.answer.correct{
+  background:rgba(43,213,118,.18);
+  border-color:rgba(43,213,118,.55);
+}
+
+.answer.incorrect{
+  background:rgba(255,92,122,.16);
+  border-color:rgba(255,92,122,.55);
+}
+
+.answer.locked{
+  cursor:default;
+}
+
+.feedback{
+  min-height:24px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
 }
 
 .ticket{
-background:#0e1735;
-padding:18px;
-border-radius:14px;
-margin-top:20px;
+  background:#0e1735;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  line-height:1.7;
+}
+
+.pass{
+  color:var(--good);
+  font-weight:800;
+}
+
+.fail{
+  color:var(--warn);
+  font-weight:800;
+}
+
+.hidden{display:none}
+
+@media (max-width:850px){
+  .topbar{
+    grid-template-columns:1fr 1fr;
+  }
 }
 </style>
 </head>
-
 <body>
 <div class="wrap">
 
-<div class="card" id="startCard">
-<h1>Constitutional Foundations Big Block Review</h1>
+  <!-- START -->
+  <section class="card" id="startCard">
+    <h1>Constitutional Foundations Review</h1>
+    <p class="sub">CS4–CS7 • Mastery Review • Name required • Auto-submit on click</p>
 
-<p>Content Review: CS4-CS7</p>
+    <div class="start-row">
+      <input id="studentName" type="text" placeholder="Enter your name" autocomplete="off">
+      <button class="btn" id="startBtn">Start Game</button>
+    </div>
 
-<input id="studentName" placeholder="Enter your name"/>
-<button class="start" onclick="startGame()">Start</button>
+    <div class="feedback" id="startMsg"></div>
+  </section>
 
-</div>
+  <!-- GAME -->
+  <section class="card hidden" id="gameCard">
+    <div class="topbar">
+      <div class="stat">
+        <div class="label">Student</div>
+        <div class="value" id="playerDisplay">—</div>
+      </div>
+      <div class="stat">
+        <div class="label">Progress</div>
+        <div class="value" id="progressText">1 / 20</div>
+      </div>
+      <div class="stat">
+        <div class="label">Accuracy</div>
+        <div class="value" id="accuracyDisplay">100%</div>
+      </div>
+      <div class="stat">
+        <div class="label">Timer</div>
+        <div class="value" id="timerDisplay">0:00</div>
+      </div>
+      <div class="stat">
+        <div class="label">Started</div>
+        <div class="value" id="startedDisplay">—</div>
+      </div>
+    </div>
 
-<div class="card" id="gameCard" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-head">
+        <span>Review Progress</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
 
-<div class="meta">
-<div id="player"></div>
-<div>Accuracy: <span id="acc">100%</span></div>
-<div>Time: <span id="timer">0:00</span></div>
-</div>
+    <div class="q-meta" id="qMeta">Question 1</div>
+    <div class="stem" id="questionStem">Loading…</div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
 
-<h2 id="question"></h2>
+    <div class="controls">
+      <button class="btn-secondary" id="restartBtn" type="button">Restart Game</button>
+      <button class="btn-secondary" id="hubBtn" type="button">Back to Hub</button>
+    </div>
+  </section>
 
-<div class="answers" id="answers"></div>
+  <!-- FINISH -->
+  <section class="card hidden" id="finishCard">
+    <h2>Mastery Ticket</h2>
+    <div class="ticket" id="ticket"></div>
 
-<p id="hint" style="color:var(--muted)"></p>
-
-<button onclick="restart()">Restart Game</button>
-
-</div>
-
-<div class="card" id="finishCard" style="display:none">
-
-<h2>Mastery Complete</h2>
-
-<div class="ticket" id="ticket"></div>
-
-<button onclick="restart()">Play Again</button>
-
-</div>
+    <div class="controls">
+      <button class="btn" id="playAgainBtn" type="button">Play Again</button>
+      <button class="btn-secondary" id="finishHubBtn" type="button">Back to Hub</button>
+    </div>
+  </section>
 
 </div>
 
 <script>
-
-const QUESTIONS = [
-
-{
-q:"Which idea from Enlightenment philosophy most influenced the Declaration of Independence?",
-a:[
-"Natural rights exist and government must protect them",
-"Kings rule by divine authority",
-"Economic control should remain with monarchs",
-"Government should eliminate elections"
-],
-correct:0,
-hint:"Think John Locke and rights existing before government."
-},
-
-{
-q:"Which situation best illustrates consent of the governed?",
-a:[
-"Citizens vote to elect representatives",
-"Presidents rule indefinitely",
-"Courts appoint all officials",
-"Military leaders choose laws"
-],
-correct:0,
-hint:"Government authority comes from the people."
-},
-
-{
-q:"Why did the Declaration list grievances against the British king?",
-a:[
-"To prove the king violated colonial rights",
-"To explain trade policies",
-"To request economic aid",
-"To support British authority"
-],
-correct:0,
-hint:"The colonists were showing why government lost legitimacy."
-},
-
-{
-q:"Which principle divides power between state and national governments?",
-a:[
-"Federalism",
-"Popular sovereignty",
-"Judicial review",
-"Checks and balances"
-],
-correct:0,
-hint:"Two levels of government share power."
-},
-
-{
-q:"Congress passes a law, the president vetoes it, and Congress overrides the veto. What principle is demonstrated?",
-a:[
-"Checks and balances",
-"Federalism",
-"Popular sovereignty",
-"Limited government"
-],
-correct:0,
-hint:"Branches restrain one another."
-},
-
-{
-q:"Why did Anti-Federalists oppose the Constitution initially?",
-a:[
-"They feared a strong national government could threaten liberty",
-"They wanted stronger monarchies",
-"They opposed elections",
-"They supported military rule"
-],
-correct:0,
-hint:"Their main concern involved protecting individual rights."
-},
-
-{
-q:"Which document defended the Constitution during ratification debates?",
-a:[
-"Federalist Papers",
-"Articles of Confederation",
-"Mayflower Compact",
-"Virginia Plan"
-],
-correct:0,
-hint:"Hamilton, Madison, and Jay wrote these essays."
-},
-
-{
-q:"Why was the Bill of Rights added to the Constitution?",
-a:[
-"To protect individual liberties from government abuse",
-"To expand presidential power",
-"To increase taxes",
-"To limit elections"
-],
-correct:0,
-hint:"Anti-Federalists demanded these protections."
-},
-
-{
-q:"Which goal of the Northwest Ordinance supported republican government?",
-a:[
-"Encouraging education",
-"Limiting courts",
-"Banning settlement",
-"Creating monarchy"
-],
-correct:0,
-hint:"Schools help citizens participate in democracy."
-},
-
-{
-q:"How did the Northwest Ordinance influence U.S. expansion?",
-a:[
-"It created a process for territories to become states",
-"It banned westward settlement",
-"It eliminated territorial governments",
-"It replaced the Constitution"
-],
-correct:0,
-hint:"Territories could eventually join the Union."
-},
-
-{
-q:"Which Enlightenment thinker most influenced separation of powers?",
-a:[
-"Montesquieu",
-"Locke",
-"Hobbes",
-"Voltaire"
-],
-correct:0,
-hint:"He warned about concentration of power."
-},
-
-{
-q:"Which action best reflects the Declaration’s principle that people may change government?",
-a:[
-"Citizens peacefully reform laws through elections",
-"Citizens avoid political participation",
-"Leaders cancel elections",
-"Courts eliminate rights"
-],
-correct:0,
-hint:"Government legitimacy depends on the people."
-}
-
+/* =========================
+   QUESTION SET
+   New items covering CS4–CS7
+   ========================= */
+const MASTER_QUESTIONS = [
+  {
+    stem: "Which statement best reflects the Declaration of Independence’s idea that rights exist before government?",
+    correct: "People possess basic rights naturally, and government is created to protect them.",
+    wrong: [
+      "Rights are created only after Congress passes laws.",
+      "Rights belong only to those who own property.",
+      "Rights come from government and can be removed at any time without limits."
+    ],
+    hint: "Think natural rights: government protects them; it does not create them."
+  },
+  {
+    stem: "A government cancels elections and ignores peaceful petitions from citizens. Which Declaration principle is being violated most directly?",
+    correct: "Consent of the governed",
+    wrong: [
+      "Federalism",
+      "Judicial review",
+      "Reserved powers"
+    ],
+    hint: "The people must have a voice in government legitimacy."
+  },
+  {
+    stem: "Why did the Declaration include a list of grievances against King George III?",
+    correct: "To provide evidence that the British government had violated colonists’ rights",
+    wrong: [
+      "To prove that all taxation is unconstitutional",
+      "To explain the structure of the new Congress",
+      "To justify replacing elections with appointed leaders"
+    ],
+    hint: "The grievances were evidence supporting separation from Britain."
+  },
+  {
+    stem: "Which modern example best reflects the Declaration’s idea that government should protect liberty?",
+    correct: "Courts requiring fair legal procedures before a person can be punished",
+    wrong: [
+      "Leaders punishing critics without hearings",
+      "Officials denying one group equal treatment under the law",
+      "Government ending peaceful protest"
+    ],
+    hint: "Look for protection against arbitrary government action."
+  },
+  {
+    stem: "Which feature of the Northwest Ordinance most directly helped prepare territories for self-government?",
+    correct: "Encouragement of schools and civic institutions",
+    wrong: [
+      "Permanent military rule over the territory",
+      "A ban on local representation",
+      "A requirement that territories remain colonies"
+    ],
+    hint: "A republic depends on informed citizens and functioning institutions."
+  },
+  {
+    stem: "Which statement best describes the Northwest Ordinance’s statehood process?",
+    correct: "It created an orderly path for territories to become equal states in the Union.",
+    wrong: [
+      "It required territories to remain under federal control permanently.",
+      "It allowed territories to become foreign nations.",
+      "It replaced the Constitution’s structure of federalism."
+    ],
+    hint: "The ordinance organized expansion rather than leaving it chaotic."
+  },
+  {
+    stem: "Why is the Northwest Ordinance considered important to civil liberties history?",
+    correct: "It protected certain basic rights in territories, including legal protections and religious freedom.",
+    wrong: [
+      "It eliminated courts from territorial government.",
+      "It allowed governors to ignore written laws.",
+      "It ended all citizen participation in the territory."
+    ],
+    hint: "Think protections, not arbitrary rule."
+  },
+  {
+    stem: "Which principle of government is most clearly shown when powers are divided between the national government and state governments?",
+    correct: "Federalism",
+    wrong: [
+      "Popular sovereignty",
+      "Checks and balances",
+      "Judicial review"
+    ],
+    hint: "This is division of power across levels of government."
+  },
+  {
+    stem: "Congress passes a bill, the president vetoes it, and Congress later overrides the veto. Which constitutional principle is best illustrated?",
+    correct: "Checks and balances",
+    wrong: [
+      "Popular sovereignty",
+      "Federalism",
+      "Elastic clause"
+    ],
+    hint: "One branch is limiting another."
+  },
+  {
+    stem: "Which scenario best demonstrates popular sovereignty?",
+    correct: "Citizens choosing public officials through elections",
+    wrong: [
+      "Judges rewriting the Constitution on their own",
+      "The military taking over lawmaking",
+      "State governments ignoring national law completely"
+    ],
+    hint: "Government authority comes from the people."
+  },
+  {
+    stem: "Why did the framers divide government power among legislative, executive, and judicial branches?",
+    correct: "To reduce the chance that too much power would be concentrated in one place",
+    wrong: [
+      "To eliminate the need for elections",
+      "To make state governments unnecessary",
+      "To ensure that one branch could control all policy"
+    ],
+    hint: "This design is a guard against tyranny."
+  },
+  {
+    stem: "Which Enlightenment thinker is most closely associated with the idea of separation of powers?",
+    correct: "Montesquieu",
+    wrong: [
+      "Hobbes",
+      "Rousseau",
+      "Adam Smith"
+    ],
+    hint: "He argued liberty is safer when power is divided."
+  },
+  {
+    stem: "Which statement best reflects the Anti-Federalist view of the Constitution during ratification?",
+    correct: "A bill of rights was needed to better protect individual liberties.",
+    wrong: [
+      "The national government should be stronger than any state government in all areas.",
+      "The president should have unlimited emergency authority.",
+      "The Articles of Confederation had created too strong a central government."
+    ],
+    hint: "Their biggest fear was abuse by the new national government."
+  },
+  {
+    stem: "Why did many Federalists support ratification of the Constitution?",
+    correct: "They believed the Articles of Confederation had created a government too weak to solve national problems.",
+    wrong: [
+      "They wanted each state to act like an independent country.",
+      "They opposed any national power to tax.",
+      "They wanted no executive branch at all."
+    ],
+    hint: "Federalists wanted a more effective national government."
+  },
+  {
+    stem: "What was the most important result of Anti-Federalist pressure during ratification?",
+    correct: "The adoption of the Bill of Rights",
+    wrong: [
+      "The rejection of the Constitution",
+      "The elimination of the presidency",
+      "The removal of Congress’s taxing power"
+    ],
+    hint: "Their concerns led to added protections."
+  },
+  {
+    stem: "Which clause most clearly supports the idea that valid national laws take priority over conflicting state laws?",
+    correct: "Supremacy Clause",
+    wrong: [
+      "Establishment Clause",
+      "Due Process Clause",
+      "Full Faith and Credit Clause"
+    ],
+    hint: "Think highest law of the land."
+  },
+  {
+    stem: "Which argument would a Federalist most likely make about the Necessary and Proper Clause?",
+    correct: "The national government needs enough flexibility to carry out its constitutional responsibilities.",
+    wrong: [
+      "The clause proves the Constitution should be rejected entirely.",
+      "The clause makes state governments illegal.",
+      "The clause removes all limits on federal power."
+    ],
+    hint: "Federalists defended implied powers as practical."
+  },
+  {
+    stem: "A student says, “The Constitution is designed so government cannot just do whatever it wants.” Which principle best matches that idea?",
+    correct: "Limited government",
+    wrong: [
+      "Mercantilism",
+      "Direct democracy",
+      "Confederation"
+    ],
+    hint: "Government must operate within constitutional limits."
+  },
+  {
+    stem: "Which example best shows a lasting influence of Declaration principles on later U.S. history?",
+    correct: "Reform movements using equality and natural-rights language to demand expanded civil rights",
+    wrong: [
+      "Leaders ending elections to promote stability",
+      "Citizens accepting that only one class deserves liberty",
+      "The military deciding public policy without civilian approval"
+    ],
+    hint: "The Declaration’s ideals were used later to argue for inclusion."
+  },
+  {
+    stem: "Which statement best explains why education was encouraged under the Northwest Ordinance?",
+    correct: "An informed citizenry is important to successful republican self-government.",
+    wrong: [
+      "Education was meant to replace voting.",
+      "Education was intended only for military command.",
+      "Education was discouraged in the territory."
+    ],
+    hint: "Knowledge supports civic participation."
+  }
 ];
 
-let current=0;
-let correct=0;
-let attempts=0;
-let startTime;
-let timerInterval;
+/* =========================
+   GAME STATE
+   ========================= */
+let questions = [];
+let currentIndex = 0;
+let attempts = 0;
+let correctCount = 0;
+let locked = false;
+let timerInterval = null;
+let startedAt = null;
+let finishedAt = null;
 
-function startGame(){
-
-const name=document.getElementById("studentName").value;
-
-if(!name) return alert("Enter your name");
-
-document.getElementById("player").innerText="Student: "+name;
-
-document.getElementById("startCard").style.display="none";
-document.getElementById("gameCard").style.display="block";
-
-startTime=Date.now();
-
-timerInterval=setInterval(updateTimer,1000);
-
-loadQuestion();
-
+/* =========================
+   HELPERS
+   ========================= */
+function shuffle(array){
+  const arr = [...array];
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
-function loadQuestion(){
-
-if(current>=QUESTIONS.length){
-finish();
-return;
+function formatElapsed(ms){
+  const total = Math.floor(ms / 1000);
+  const m = Math.floor(total / 60);
+  const s = String(total % 60).padStart(2,'0');
+  return `${m}:${s}`;
 }
 
-const q=QUESTIONS[current];
-
-document.getElementById("question").innerText=(current+1)+". "+q.q;
-
-document.getElementById("hint").innerText="";
-
-const answersDiv=document.getElementById("answers");
-
-answersDiv.innerHTML="";
-
-q.a.forEach((choice,i)=>{
-
-const btn=document.createElement("button");
-
-btn.innerText=choice;
-
-btn.onclick=()=>selectAnswer(btn,i);
-
-answersDiv.appendChild(btn);
-
-});
-
-}
-
-function selectAnswer(btn,i){
-
-const q=QUESTIONS[current];
-
-attempts++;
-
-if(i===q.correct){
-
-btn.classList.add("good");
-
-correct++;
-
-setTimeout(()=>{
-current++;
-updateAccuracy();
-loadQuestion();
-},500);
-
-}else{
-
-btn.classList.add("bad");
-
-document.getElementById("hint").innerText="Hint: "+q.hint;
-
-updateAccuracy();
-
-}
-
-}
-
-function updateAccuracy(){
-
-const acc=Math.round((correct/attempts)*100);
-
-document.getElementById("acc").innerText=acc+"%";
-
+function formatStamp(date){
+  return date.toLocaleString();
 }
 
 function updateTimer(){
-
-const diff=Math.floor((Date.now()-startTime)/1000);
-
-const m=Math.floor(diff/60);
-const s=(diff%60).toString().padStart(2,"0");
-
-document.getElementById("timer").innerText=m+":"+s;
-
+  if(!startedAt) return;
+  document.getElementById('timerDisplay').textContent = formatElapsed(Date.now() - startedAt.getTime());
 }
 
-function finish(){
-
-clearInterval(timerInterval);
-
-document.getElementById("gameCard").style.display="none";
-
-document.getElementById("finishCard").style.display="block";
-
-const name=document.getElementById("studentName").value;
-
-const acc=document.getElementById("acc").innerText;
-
-const time=document.getElementById("timer").innerText;
-
-const date=new Date().toLocaleString();
-
-document.getElementById("ticket").innerHTML=
-
-"<b>Student:</b> "+name+"<br>"+
-"<b>Accuracy:</b> "+acc+"<br>"+
-"<b>Time:</b> "+time+"<br>"+
-"<b>Date:</b> "+date;
-
+function updateAccuracy(){
+  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
+  document.getElementById('accuracyDisplay').textContent = `${accuracy}%`;
 }
 
-function restart(){
-location.reload();
+function updateProgress(){
+  const total = questions.length;
+  const currentNumber = Math.min(currentIndex + 1, total);
+  const completed = currentIndex;
+  const pct = Math.round((completed / total) * 100);
+
+  document.getElementById('progressText').textContent = `${currentNumber} / ${total}`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressBar').style.width = `${pct}%`;
+  document.getElementById('qMeta').textContent = `Question ${currentNumber} of ${total}`;
 }
 
+function buildRun(){
+  // shuffle question order
+  const base = shuffle(MASTER_QUESTIONS);
+
+  // shuffle answers inside each question
+  return base.map(q => {
+    const options = shuffle([
+      { text:q.correct, isCorrect:true },
+      ...q.wrong.map(w => ({ text:w, isCorrect:false }))
+    ]);
+    return { ...q, options };
+  });
+}
+
+function goToHub(){
+  window.location.href = "../index.html";
+}
+
+/* =========================
+   RENDER
+   ========================= */
+function renderQuestion(){
+  if(currentIndex >= questions.length){
+    finishGame();
+    return;
+  }
+
+  locked = false;
+  updateProgress();
+  updateAccuracy();
+
+  const q = questions[currentIndex];
+  document.getElementById('questionStem').textContent = q.stem;
+  document.getElementById('feedback').textContent = '';
+
+  const answers = document.getElementById('answers');
+  answers.innerHTML = '';
+
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'answer';
+    btn.type = 'button';
+    btn.textContent = opt.text;
+    btn.addEventListener('click', () => handleAnswer(btn, opt.isCorrect, q.hint));
+    answers.appendChild(btn);
+  });
+}
+
+function handleAnswer(button, isCorrect, hint){
+  if(locked) return;
+  locked = true;
+  attempts++;
+
+  const allButtons = [...document.querySelectorAll('.answer')];
+  allButtons.forEach(b => b.classList.add('locked'));
+
+  if(isCorrect){
+    correctCount++;
+    button.classList.add('correct');
+    updateAccuracy();
+    document.getElementById('feedback').textContent = 'Correct. Moving on...';
+    setTimeout(() => {
+      currentIndex++;
+      renderQuestion();
+    }, 550);
+    return;
+  }
+
+  button.classList.add('incorrect');
+  updateAccuracy();
+  document.getElementById('feedback').textContent = `Hint: ${hint}`;
+
+  // unlock after short pause so student can try again and accuracy keeps the miss
+  setTimeout(() => {
+    locked = false;
+    allButtons.forEach(b => b.classList.remove('locked'));
+    button.classList.remove('incorrect');
+  }, 700);
+}
+
+/* =========================
+   FLOW
+   ========================= */
+function startGame(){
+  const nameInput = document.getElementById('studentName');
+  const name = nameInput.value.trim();
+
+  if(!name){
+    document.getElementById('startMsg').textContent = 'Please enter your name to begin.';
+    nameInput.focus();
+    return;
+  }
+
+  document.getElementById('startMsg').textContent = '';
+  document.getElementById('playerDisplay').textContent = name;
+
+  questions = buildRun();
+  currentIndex = 0;
+  attempts = 0;
+  correctCount = 0;
+  finishedAt = null;
+  startedAt = new Date();
+
+  document.getElementById('startedDisplay').textContent = formatStamp(startedAt);
+  document.getElementById('timerDisplay').textContent = '0:00';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('progressPct').textContent = '0%';
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+
+  document.getElementById('startCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.add('hidden');
+  document.getElementById('gameCard').classList.remove('hidden');
+
+  renderQuestion();
+}
+
+function finishGame(){
+  finishedAt = new Date();
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  const name = document.getElementById('playerDisplay').textContent;
+  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
+  const elapsed = formatElapsed(finishedAt.getTime() - startedAt.getTime());
+  const passed = accuracy === 100 ? 'YES' : 'NO';
+
+  document.getElementById('gameCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.remove('hidden');
+
+  document.getElementById('ticket').innerHTML = `
+    <div><strong>Student:</strong> ${name}</div>
+    <div><strong>Passed 0-Miss Mastery:</strong> <span class="${passed === 'YES' ? 'pass' : 'fail'}">${passed}</span></div>
+    <div><strong>Accuracy:</strong> ${accuracy}%</div>
+    <div><strong>Questions:</strong> ${questions.length}</div>
+    <div><strong>Total Attempts:</strong> ${attempts}</div>
+    <div><strong>Correct Answers:</strong> ${correctCount}</div>
+    <div><strong>Started:</strong> ${formatStamp(startedAt)}</div>
+    <div><strong>Finished:</strong> ${formatStamp(finishedAt)}</div>
+    <div><strong>Time:</strong> ${elapsed}</div>
+  `;
+}
+
+function restartGame(){
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  document.getElementById('gameCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.add('hidden');
+  document.getElementById('startCard').classList.remove('hidden');
+
+  document.getElementById('studentName').value = '';
+  document.getElementById('startMsg').textContent = '';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('answers').innerHTML = '';
+  document.getElementById('questionStem').textContent = 'Loading…';
+  document.getElementById('timerDisplay').textContent = '0:00';
+  document.getElementById('accuracyDisplay').textContent = '100%';
+  document.getElementById('progressText').textContent = `1 / ${MASTER_QUESTIONS.length}`;
+  document.getElementById('progressPct').textContent = '0%';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('startedDisplay').textContent = '—';
+
+  questions = [];
+  currentIndex = 0;
+  attempts = 0;
+  correctCount = 0;
+  locked = false;
+  startedAt = null;
+  finishedAt = null;
+}
+
+/* =========================
+   EVENTS
+   ========================= */
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('restartBtn').addEventListener('click', restartGame);
+document.getElementById('playAgainBtn').addEventListener('click', restartGame);
+document.getElementById('hubBtn').addEventListener('click', goToHub);
+document.getElementById('finishHubBtn').addEventListener('click', goToHub);
+
+document.getElementById('studentName').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') startGame();
+});
 </script>
-
 </body>
 </html>
