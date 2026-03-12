@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Constitutional Foundations Review — CS4-CS7</title>
+<link rel="stylesheet" href="../styles.css"/>
+
+<style>
+:root{
+--bg:#0b1220;
+--panel:#111a2f;
+--text:#e7eefc;
+--muted:#a8b4cf;
+--line:rgba(255,255,255,.12);
+--good:#2bd576;
+--bad:#ff5c7a;
+--accent:#7aa2ff;
+--radius:18px;
+}
+
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:system-ui;
+}
+
+.wrap{
+width:min(1000px,92vw);
+margin:30px auto;
+}
+
+.card{
+background:var(--panel);
+padding:24px;
+border-radius:var(--radius);
+box-shadow:0 18px 55px rgba(0,0,0,.4);
+}
+
+h1{
+margin-top:0;
+}
+
+.answers button{
+display:block;
+width:100%;
+margin:8px 0;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#1a2442;
+color:white;
+cursor:pointer;
+font-size:15px;
+}
+
+.answers button:hover{
+background:#273268;
+}
+
+.good{background:var(--good)!important;}
+.bad{background:var(--bad)!important;}
+
+.meta{
+display:flex;
+gap:18px;
+margin-bottom:12px;
+font-size:14px;
+color:var(--muted);
+}
+
+input{
+padding:10px;
+border-radius:8px;
+border:none;
+margin-right:8px;
+}
+
+button.start{
+padding:10px 16px;
+border:none;
+border-radius:10px;
+background:var(--accent);
+color:white;
+cursor:pointer;
+}
+
+.ticket{
+background:#0e1735;
+padding:18px;
+border-radius:14px;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div class="card" id="startCard">
+<h1>Constitutional Foundations Big Block Review</h1>
+
+<p>Content Review: CS4-CS7</p>
+
+<input id="studentName" placeholder="Enter your name"/>
+<button class="start" onclick="startGame()">Start</button>
+
+</div>
+
+<div class="card" id="gameCard" style="display:none">
+
+<div class="meta">
+<div id="player"></div>
+<div>Accuracy: <span id="acc">100%</span></div>
+<div>Time: <span id="timer">0:00</span></div>
+</div>
+
+<h2 id="question"></h2>
+
+<div class="answers" id="answers"></div>
+
+<p id="hint" style="color:var(--muted)"></p>
+
+<button onclick="restart()">Restart Game</button>
+
+</div>
+
+<div class="card" id="finishCard" style="display:none">
+
+<h2>Mastery Complete</h2>
+
+<div class="ticket" id="ticket"></div>
+
+<button onclick="restart()">Play Again</button>
+
+</div>
+
+</div>
+
+<script>
+
+const QUESTIONS = [
+
+{
+q:"Which idea from Enlightenment philosophy most influenced the Declaration of Independence?",
+a:[
+"Natural rights exist and government must protect them",
+"Kings rule by divine authority",
+"Economic control should remain with monarchs",
+"Government should eliminate elections"
+],
+correct:0,
+hint:"Think John Locke and rights existing before government."
+},
+
+{
+q:"Which situation best illustrates consent of the governed?",
+a:[
+"Citizens vote to elect representatives",
+"Presidents rule indefinitely",
+"Courts appoint all officials",
+"Military leaders choose laws"
+],
+correct:0,
+hint:"Government authority comes from the people."
+},
+
+{
+q:"Why did the Declaration list grievances against the British king?",
+a:[
+"To prove the king violated colonial rights",
+"To explain trade policies",
+"To request economic aid",
+"To support British authority"
+],
+correct:0,
+hint:"The colonists were showing why government lost legitimacy."
+},
+
+{
+q:"Which principle divides power between state and national governments?",
+a:[
+"Federalism",
+"Popular sovereignty",
+"Judicial review",
+"Checks and balances"
+],
+correct:0,
+hint:"Two levels of government share power."
+},
+
+{
+q:"Congress passes a law, the president vetoes it, and Congress overrides the veto. What principle is demonstrated?",
+a:[
+"Checks and balances",
+"Federalism",
+"Popular sovereignty",
+"Limited government"
+],
+correct:0,
+hint:"Branches restrain one another."
+},
+
+{
+q:"Why did Anti-Federalists oppose the Constitution initially?",
+a:[
+"They feared a strong national government could threaten liberty",
+"They wanted stronger monarchies",
+"They opposed elections",
+"They supported military rule"
+],
+correct:0,
+hint:"Their main concern involved protecting individual rights."
+},
+
+{
+q:"Which document defended the Constitution during ratification debates?",
+a:[
+"Federalist Papers",
+"Articles of Confederation",
+"Mayflower Compact",
+"Virginia Plan"
+],
+correct:0,
+hint:"Hamilton, Madison, and Jay wrote these essays."
+},
+
+{
+q:"Why was the Bill of Rights added to the Constitution?",
+a:[
+"To protect individual liberties from government abuse",
+"To expand presidential power",
+"To increase taxes",
+"To limit elections"
+],
+correct:0,
+hint:"Anti-Federalists demanded these protections."
+},
+
+{
+q:"Which goal of the Northwest Ordinance supported republican government?",
+a:[
+"Encouraging education",
+"Limiting courts",
+"Banning settlement",
+"Creating monarchy"
+],
+correct:0,
+hint:"Schools help citizens participate in democracy."
+},
+
+{
+q:"How did the Northwest Ordinance influence U.S. expansion?",
+a:[
+"It created a process for territories to become states",
+"It banned westward settlement",
+"It eliminated territorial governments",
+"It replaced the Constitution"
+],
+correct:0,
+hint:"Territories could eventually join the Union."
+},
+
+{
+q:"Which Enlightenment thinker most influenced separation of powers?",
+a:[
+"Montesquieu",
+"Locke",
+"Hobbes",
+"Voltaire"
+],
+correct:0,
+hint:"He warned about concentration of power."
+},
+
+{
+q:"Which action best reflects the Declaration’s principle that people may change government?",
+a:[
+"Citizens peacefully reform laws through elections",
+"Citizens avoid political participation",
+"Leaders cancel elections",
+"Courts eliminate rights"
+],
+correct:0,
+hint:"Government legitimacy depends on the people."
+}
+
+];
+
+let current=0;
+let correct=0;
+let attempts=0;
+let startTime;
+let timerInterval;
+
+function startGame(){
+
+const name=document.getElementById("studentName").value;
+
+if(!name) return alert("Enter your name");
+
+document.getElementById("player").innerText="Student: "+name;
+
+document.getElementById("startCard").style.display="none";
+document.getElementById("gameCard").style.display="block";
+
+startTime=Date.now();
+
+timerInterval=setInterval(updateTimer,1000);
+
+loadQuestion();
+
+}
+
+function loadQuestion(){
+
+if(current>=QUESTIONS.length){
+finish();
+return;
+}
+
+const q=QUESTIONS[current];
+
+document.getElementById("question").innerText=(current+1)+". "+q.q;
+
+document.getElementById("hint").innerText="";
+
+const answersDiv=document.getElementById("answers");
+
+answersDiv.innerHTML="";
+
+q.a.forEach((choice,i)=>{
+
+const btn=document.createElement("button");
+
+btn.innerText=choice;
+
+btn.onclick=()=>selectAnswer(btn,i);
+
+answersDiv.appendChild(btn);
+
+});
+
+}
+
+function selectAnswer(btn,i){
+
+const q=QUESTIONS[current];
+
+attempts++;
+
+if(i===q.correct){
+
+btn.classList.add("good");
+
+correct++;
+
+setTimeout(()=>{
+current++;
+updateAccuracy();
+loadQuestion();
+},500);
+
+}else{
+
+btn.classList.add("bad");
+
+document.getElementById("hint").innerText="Hint: "+q.hint;
+
+updateAccuracy();
+
+}
+
+}
+
+function updateAccuracy(){
+
+const acc=Math.round((correct/attempts)*100);
+
+document.getElementById("acc").innerText=acc+"%";
+
+}
+
+function updateTimer(){
+
+const diff=Math.floor((Date.now()-startTime)/1000);
+
+const m=Math.floor(diff/60);
+const s=(diff%60).toString().padStart(2,"0");
+
+document.getElementById("timer").innerText=m+":"+s;
+
+}
+
+function finish(){
+
+clearInterval(timerInterval);
+
+document.getElementById("gameCard").style.display="none";
+
+document.getElementById("finishCard").style.display="block";
+
+const name=document.getElementById("studentName").value;
+
+const acc=document.getElementById("acc").innerText;
+
+const time=document.getElementById("timer").innerText;
+
+const date=new Date().toLocaleString();
+
+document.getElementById("ticket").innerHTML=
+
+"<b>Student:</b> "+name+"<br>"+
+"<b>Accuracy:</b> "+acc+"<br>"+
+"<b>Time:</b> "+time+"<br>"+
+"<b>Date:</b> "+date;
+
+}
+
+function restart(){
+location.reload();
+}
+
+</script>
+
+</body>
+</html>
