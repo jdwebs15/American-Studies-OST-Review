@@ -234,20 +234,18 @@ button{
 <body>
 <div class="wrap">
 
-  <!-- START -->
   <section class="card" id="startCard">
     <h1>Constitutional Foundations Review</h1>
-    <p class="sub">CS4–CS7 • Mastery Review • Name required • Auto-submit on click</p>
+    <p class="sub">CS4–CS7 • 40 Questions • Mastery Review • Name required • Auto-submit on click</p>
 
     <div class="start-row">
       <input id="studentName" type="text" placeholder="Enter your name" autocomplete="off">
-      <button class="btn" id="startBtn">Start Game</button>
+      <button class="btn" id="startBtn" type="button">Start Game</button>
     </div>
 
     <div class="feedback" id="startMsg"></div>
   </section>
 
-  <!-- GAME -->
   <section class="card hidden" id="gameCard">
     <div class="topbar">
       <div class="stat">
@@ -256,7 +254,7 @@ button{
       </div>
       <div class="stat">
         <div class="label">Progress</div>
-        <div class="value" id="progressText">1 / 20</div>
+        <div class="value" id="progressText">1 / 40</div>
       </div>
       <div class="stat">
         <div class="label">Accuracy</div>
@@ -282,7 +280,7 @@ button{
       </div>
     </div>
 
-    <div class="q-meta" id="qMeta">Question 1</div>
+    <div class="q-meta" id="qMeta">Question 1 of 40</div>
     <div class="stem" id="questionStem">Loading…</div>
     <div class="answers" id="answers"></div>
     <div class="feedback" id="feedback"></div>
@@ -293,7 +291,6 @@ button{
     </div>
   </section>
 
-  <!-- FINISH -->
   <section class="card hidden" id="finishCard">
     <h2>Mastery Ticket</h2>
     <div class="ticket" id="ticket"></div>
@@ -307,445 +304,409 @@ button{
 </div>
 
 <script>
-/* =========================
-   QUESTION SET
-   New items covering CS4–CS7
-   ========================= */
 const MASTER_QUESTIONS = [
-
-{
-stem:"Which idea from Enlightenment philosophy most influenced the Declaration of Independence?",
-correct:"People possess natural rights that governments must protect.",
-wrong:[
-"Kings rule through divine authority alone.",
-"Citizens must obey government without question.",
-"Economic success determines political power."
-],
-hint:"Think John Locke."
-},
-
-{
-stem:"Which phrase from the Declaration best reflects equality of rights?",
-correct:"All people possess the same basic natural rights.",
-wrong:[
-"Government grants rights to citizens.",
-"Rights belong only to property owners.",
-"Rights depend on military power."
-],
-hint:"Equality refers to natural rights."
-},
-
-{
-stem:"Which example best illustrates consent of the governed?",
-correct:"Citizens voting in elections to choose leaders",
-wrong:[
-"Leaders inheriting power from family",
-"Military officials appointing legislators",
-"Courts choosing executive leaders"
-],
-hint:"Authority comes from the people."
-},
-
-{
-stem:"Why did the colonists list grievances against King George III?",
-correct:"To show the king had violated their rights",
-wrong:[
-"To explain colonial trade policies",
-"To create the Constitution",
-"To organize the first Congress"
-],
-hint:"The grievances justified independence."
-},
-
-{
-stem:"Which action best reflects the Declaration’s idea that people may alter government?",
-correct:"Citizens replacing leaders through elections",
-wrong:[
-"Leaders canceling elections",
-"Government restricting public protest",
-"Courts eliminating jury trials"
-],
-hint:"People can change government when rights are violated."
-},
-
-{
-stem:"Which example demonstrates natural rights in practice?",
-correct:"Courts protecting freedom of speech",
-wrong:[
-"Government restricting peaceful assembly",
-"Leaders ignoring elections",
-"Officials ruling without laws"
-],
-hint:"Natural rights include liberty and due process."
-},
-
-{
-stem:"Which statement best describes the purpose of the Northwest Ordinance?",
-correct:"To establish a system for governing territories and admitting new states",
-wrong:[
-"To end territorial settlement",
-"To replace the Constitution",
-"To eliminate federal authority"
-],
-hint:"It organized westward expansion."
-},
-
-{
-stem:"Which provision of the Northwest Ordinance supported democratic government?",
-correct:"Encouraging public education",
-wrong:[
-"Ending elections",
-"Eliminating courts",
-"Banning representative government"
-],
-hint:"Education strengthens citizenship."
-},
-
-{
-stem:"Why was education promoted in the Northwest Territory?",
-correct:"An informed citizenry supports republican government.",
-wrong:[
-"Education replaces elections.",
-"Education strengthens monarchies.",
-"Education prevents settlement."
-],
-hint:"Republics depend on informed voters."
-},
-
-{
-stem:"Which outcome resulted from the Northwest Ordinance’s territorial system?",
-correct:"New states entered the Union on equal footing.",
-wrong:[
-"Territories remained colonies permanently.",
-"States were denied representation.",
-"Territories became foreign countries."
-],
-hint:"The ordinance created equal states."
-},
-
-{
-stem:"Which principle divides power between national and state governments?",
-correct:"Federalism",
-wrong:[
-"Judicial review",
-"Checks and balances",
-"Popular sovereignty"
-],
-hint:"Two levels of government share authority."
-},
-
-{
-stem:"Congress passes a law and the president vetoes it. What principle is demonstrated?",
-correct:"Checks and balances",
-wrong:[
-"Federalism",
-"Popular sovereignty",
-"Reserved powers"
-],
-hint:"Branches limit each other."
-},
-
-{
-stem:"Why did the framers separate powers among branches of government?",
-correct:"To prevent concentration of power",
-wrong:[
-"To eliminate elections",
-"To strengthen monarchy",
-"To remove state governments"
-],
-hint:"This design prevents tyranny."
-},
-
-{
-stem:"Which Enlightenment thinker influenced the idea of separation of powers?",
-correct:"Montesquieu",
-wrong:[
-"Hobbes",
-"Locke",
-"Smith"
-],
-hint:"He warned against concentrated authority."
-},
-
-{
-stem:"Which example best demonstrates popular sovereignty?",
-correct:"Citizens electing members of Congress",
-wrong:[
-"Judges appointing legislators",
-"Military leaders making laws",
-"Presidents ruling for life"
-],
-hint:"Power originates with the people."
-},
-
-{
-stem:"Why did Anti-Federalists oppose the Constitution initially?",
-correct:"They feared the national government could threaten liberty.",
-wrong:[
-"They wanted a monarchy.",
-"They opposed elections.",
-"They supported unlimited federal power."
-],
-hint:"They wanted stronger protections for rights."
-},
-
-{
-stem:"Which document defended the Constitution during ratification debates?",
-correct:"The Federalist Papers",
-wrong:[
-"The Articles of Confederation",
-"The Mayflower Compact",
-"The Virginia Plan"
-],
-hint:"Written by Hamilton, Madison, and Jay."
-},
-
-{
-stem:"Why was the Bill of Rights added to the Constitution?",
-correct:"To protect individual liberties from government abuse",
-wrong:[
-"To strengthen executive power",
-"To eliminate state governments",
-"To create federal courts"
-],
-hint:"Anti-Federalists demanded protections."
-},
-
-{
-stem:"Which clause establishes that national law takes priority over state law?",
-correct:"Supremacy Clause",
-wrong:[
-"Due Process Clause",
-"Commerce Clause",
-"Equal Protection Clause"
-],
-hint:"Think 'highest law of the land'."
-},
-
-{
-stem:"Which argument would a Federalist most likely support?",
-correct:"A stronger national government is necessary to solve national problems.",
-wrong:[
-"States should act as independent countries.",
-"National taxation should be banned.",
-"Congress should have no authority."
-],
-hint:"Federalists supported a stronger union."
-},
-
-{
-stem:"Which principle limits the power of government?",
-correct:"Limited government",
-wrong:[
-"Absolute monarchy",
-"Military rule",
-"Direct democracy"
-],
-hint:"Government must follow the Constitution."
-},
-
-{
-stem:"Which concept ensures that each branch restrains the others?",
-correct:"Checks and balances",
-wrong:[
-"Federalism",
-"Judicial review",
-"Popular sovereignty"
-],
-hint:"Branches limit each other."
-},
-
-{
-stem:"Which statement best explains federalism?",
-correct:"Power is shared between national and state governments.",
-wrong:[
-"The national government controls all policy.",
-"States control foreign policy.",
-"Courts control elections."
-],
-hint:"Two levels of authority."
-},
-
-{
-stem:"Which example reflects the Declaration’s influence on later civil rights movements?",
-correct:"Activists using equality language to demand expanded rights",
-wrong:[
-"Leaders ending elections",
-"Government banning protests",
-"Courts limiting speech"
-],
-hint:"The Declaration’s ideals inspired reform."
-},
-
-{
-stem:"Which Northwest Ordinance provision addressed slavery?",
-correct:"Slavery was prohibited in the Northwest Territory.",
-wrong:[
-"Slavery expanded into all territories.",
-"Slavery was required in territories.",
-"Slavery was determined by governors."
-],
-hint:"The ordinance limited slavery."
-},
-
-{
-stem:"Which outcome best reflects the Northwest Ordinance’s legacy?",
-correct:"Orderly westward expansion under federal law",
-wrong:[
-"Permanent military rule",
-"End of territorial governments",
-"Replacement of the Constitution"
-],
-hint:"The ordinance created structure for expansion."
-},
-
-{
-stem:"Which action best demonstrates checks and balances?",
-correct:"Courts declaring a law unconstitutional",
-wrong:[
-"Congress ignoring the Constitution",
-"Presidents ruling indefinitely",
-"States eliminating elections"
-],
-hint:"Judicial review limits Congress."
-},
-
-{
-stem:"Which constitutional principle ensures power comes from the people?",
-correct:"Popular sovereignty",
-wrong:[
-"Federal supremacy",
-"Judicial authority",
-"Executive privilege"
-],
-hint:"Think voting and representation."
-},
-
-{
-stem:"Why were many Americans concerned about the Constitution during ratification?",
-correct:"They feared it lacked explicit protections for individual rights.",
-wrong:[
-"They wanted monarchy restored.",
-"They opposed elections.",
-"They rejected national defense."
-],
-hint:"This concern led to amendments."
-},
-
-{
-stem:"Which phrase summarizes the Declaration’s philosophy?",
-correct:"Government exists to secure natural rights.",
-wrong:[
-"Government creates liberty.",
-"Government replaces citizen authority.",
-"Government limits equality."
-],
-hint:"Government protects rights."
-},
-
-{
-stem:"Which Enlightenment thinker most influenced natural rights theory?",
-correct:"John Locke",
-wrong:[
-"Montesquieu",
-"Rousseau",
-"Smith"
-],
-hint:"Life, liberty, property."
-},
-
-{
-stem:"Which event best reflects consent of the governed today?",
-correct:"Citizens voting in national elections",
-wrong:[
-"Leaders inheriting office",
-"Military appointing presidents",
-"Courts eliminating elections"
-],
-hint:"Authority comes from voters."
-},
-
-{
-stem:"Which statement best reflects equality in the Declaration?",
-correct:"All people possess the same natural rights.",
-wrong:[
-"Rights belong only to wealthy citizens.",
-"Rights depend on military rank.",
-"Rights are assigned by government."
-],
-hint:"Equality of rights."
-},
-
-{
-stem:"Which concept allows Congress to make laws necessary to carry out its powers?",
-correct:"Necessary and Proper Clause",
-wrong:[
-"Supremacy Clause",
-"Commerce Clause",
-"Equal Protection Clause"
-],
-hint:"Implied powers."
-},
-
-{
-stem:"Which example best illustrates limited government?",
-correct:"Government actions constrained by the Constitution",
-wrong:[
-"Leaders ruling without laws",
-"Courts ignoring rights",
-"Presidents eliminating Congress"
-],
-hint:"Government power has limits."
-},
-
-{
-stem:"Which principle ensures laws apply equally to leaders and citizens?",
-correct:"Rule of law",
-wrong:[
-"Absolute monarchy",
-"Military authority",
-"Executive privilege"
-],
-hint:"No one is above the law."
-},
-
-{
-stem:"Which result did Federalists expect from ratifying the Constitution?",
-correct:"A stronger national government able to maintain stability",
-wrong:[
-"Weaker federal authority",
-"End of national taxation",
-"Elimination of courts"
-],
-hint:"They wanted a more effective government."
-},
-
-{
-stem:"Which idea links the Declaration and Constitution together?",
-correct:"Protection of individual rights",
-wrong:[
-"Expansion of monarchy",
-"Elimination of elections",
-"Military control of government"
-],
-hint:"Liberty is the connecting theme."
-},
-
-{
-stem:"Which example shows federalism in practice?",
-correct:"States managing education while the national government manages foreign policy",
-wrong:[
-"Congress controlling all policy areas",
-"States ignoring federal law",
-"Courts writing legislation"
-],
-hint:"Different levels handle different responsibilities."
-}
-
+  {
+    stem:"Which idea from Enlightenment philosophy most influenced the Declaration of Independence?",
+    correct:"People possess natural rights that governments must protect.",
+    wrong:[
+      "Kings rule through divine authority alone.",
+      "Citizens must obey government without question.",
+      "Economic success determines political power."
+    ],
+    hint:"Think John Locke."
+  },
+  {
+    stem:"Which phrase from the Declaration best reflects equality of rights?",
+    correct:"All people possess the same basic natural rights.",
+    wrong:[
+      "Government grants rights to citizens.",
+      "Rights belong only to property owners.",
+      "Rights depend on military power."
+    ],
+    hint:"Equality refers to natural rights."
+  },
+  {
+    stem:"Which example best illustrates consent of the governed?",
+    correct:"Citizens voting in elections to choose leaders",
+    wrong:[
+      "Leaders inheriting power from family",
+      "Military officials appointing legislators",
+      "Courts choosing executive leaders"
+    ],
+    hint:"Authority comes from the people."
+  },
+  {
+    stem:"Why did the colonists list grievances against King George III?",
+    correct:"To show the king had violated their rights",
+    wrong:[
+      "To explain colonial trade policies",
+      "To create the Constitution",
+      "To organize the first Congress"
+    ],
+    hint:"The grievances justified independence."
+  },
+  {
+    stem:"Which action best reflects the Declaration’s idea that people may alter government?",
+    correct:"Citizens replacing leaders through elections",
+    wrong:[
+      "Leaders canceling elections",
+      "Government restricting public protest",
+      "Courts eliminating jury trials"
+    ],
+    hint:"People can change government when rights are violated."
+  },
+  {
+    stem:"Which example demonstrates natural rights in practice?",
+    correct:"Courts protecting freedom of speech",
+    wrong:[
+      "Government restricting peaceful assembly",
+      "Leaders ignoring elections",
+      "Officials ruling without laws"
+    ],
+    hint:"Natural rights include liberty and due process."
+  },
+  {
+    stem:"Which statement best describes the purpose of the Northwest Ordinance?",
+    correct:"To establish a system for governing territories and admitting new states",
+    wrong:[
+      "To end territorial settlement",
+      "To replace the Constitution",
+      "To eliminate federal authority"
+    ],
+    hint:"It organized westward expansion."
+  },
+  {
+    stem:"Which provision of the Northwest Ordinance supported democratic government?",
+    correct:"Encouraging public education",
+    wrong:[
+      "Ending elections",
+      "Eliminating courts",
+      "Banning representative government"
+    ],
+    hint:"Education strengthens citizenship."
+  },
+  {
+    stem:"Why was education promoted in the Northwest Territory?",
+    correct:"An informed citizenry supports republican government.",
+    wrong:[
+      "Education replaces elections.",
+      "Education strengthens monarchies.",
+      "Education prevents settlement."
+    ],
+    hint:"Republics depend on informed voters."
+  },
+  {
+    stem:"Which outcome resulted from the Northwest Ordinance’s territorial system?",
+    correct:"New states entered the Union on equal footing.",
+    wrong:[
+      "Territories remained colonies permanently.",
+      "States were denied representation.",
+      "Territories became foreign countries."
+    ],
+    hint:"The ordinance created equal states."
+  },
+  {
+    stem:"Which principle divides power between national and state governments?",
+    correct:"Federalism",
+    wrong:[
+      "Judicial review",
+      "Checks and balances",
+      "Popular sovereignty"
+    ],
+    hint:"Two levels of government share authority."
+  },
+  {
+    stem:"Congress passes a law and the president vetoes it. What principle is demonstrated?",
+    correct:"Checks and balances",
+    wrong:[
+      "Federalism",
+      "Popular sovereignty",
+      "Reserved powers"
+    ],
+    hint:"Branches limit each other."
+  },
+  {
+    stem:"Why did the framers separate powers among branches of government?",
+    correct:"To prevent concentration of power",
+    wrong:[
+      "To eliminate elections",
+      "To strengthen monarchy",
+      "To remove state governments"
+    ],
+    hint:"This design prevents tyranny."
+  },
+  {
+    stem:"Which Enlightenment thinker influenced the idea of separation of powers?",
+    correct:"Montesquieu",
+    wrong:[
+      "Hobbes",
+      "Locke",
+      "Smith"
+    ],
+    hint:"He warned against concentrated authority."
+  },
+  {
+    stem:"Which example best demonstrates popular sovereignty?",
+    correct:"Citizens electing members of Congress",
+    wrong:[
+      "Judges appointing legislators",
+      "Military leaders making laws",
+      "Presidents ruling for life"
+    ],
+    hint:"Power originates with the people."
+  },
+  {
+    stem:"Why did Anti-Federalists oppose the Constitution initially?",
+    correct:"They feared the national government could threaten liberty.",
+    wrong:[
+      "They wanted a monarchy.",
+      "They opposed elections.",
+      "They supported unlimited federal power."
+    ],
+    hint:"They wanted stronger protections for rights."
+  },
+  {
+    stem:"Which document defended the Constitution during ratification debates?",
+    correct:"The Federalist Papers",
+    wrong:[
+      "The Articles of Confederation",
+      "The Mayflower Compact",
+      "The Virginia Plan"
+    ],
+    hint:"Written by Hamilton, Madison, and Jay."
+  },
+  {
+    stem:"Why was the Bill of Rights added to the Constitution?",
+    correct:"To protect individual liberties from government abuse",
+    wrong:[
+      "To strengthen executive power",
+      "To eliminate state governments",
+      "To create federal courts"
+    ],
+    hint:"Anti-Federalists demanded protections."
+  },
+  {
+    stem:"Which clause establishes that national law takes priority over state law?",
+    correct:"Supremacy Clause",
+    wrong:[
+      "Due Process Clause",
+      "Commerce Clause",
+      "Equal Protection Clause"
+    ],
+    hint:"Think 'highest law of the land'."
+  },
+  {
+    stem:"Which argument would a Federalist most likely support?",
+    correct:"A stronger national government is necessary to solve national problems.",
+    wrong:[
+      "States should act as independent countries.",
+      "National taxation should be banned.",
+      "Congress should have no authority."
+    ],
+    hint:"Federalists supported a stronger union."
+  },
+  {
+    stem:"Which principle limits the power of government?",
+    correct:"Limited government",
+    wrong:[
+      "Absolute monarchy",
+      "Military rule",
+      "Direct democracy"
+    ],
+    hint:"Government must follow the Constitution."
+  },
+  {
+    stem:"Which concept ensures that each branch restrains the others?",
+    correct:"Checks and balances",
+    wrong:[
+      "Federalism",
+      "Judicial review",
+      "Popular sovereignty"
+    ],
+    hint:"Branches limit each other."
+  },
+  {
+    stem:"Which statement best explains federalism?",
+    correct:"Power is shared between national and state governments.",
+    wrong:[
+      "The national government controls all policy.",
+      "States control foreign policy.",
+      "Courts control elections."
+    ],
+    hint:"Two levels of authority."
+  },
+  {
+    stem:"Which example reflects the Declaration’s influence on later civil rights movements?",
+    correct:"Activists using equality language to demand expanded rights",
+    wrong:[
+      "Leaders ending elections",
+      "Government banning protests",
+      "Courts limiting speech"
+    ],
+    hint:"The Declaration’s ideals inspired reform."
+  },
+  {
+    stem:"Which Northwest Ordinance provision addressed slavery?",
+    correct:"Slavery was prohibited in the Northwest Territory.",
+    wrong:[
+      "Slavery expanded into all territories.",
+      "Slavery was required in territories.",
+      "Slavery was determined by governors."
+    ],
+    hint:"The ordinance limited slavery."
+  },
+  {
+    stem:"Which outcome best reflects the Northwest Ordinance’s legacy?",
+    correct:"Orderly westward expansion under federal law",
+    wrong:[
+      "Permanent military rule",
+      "End of territorial governments",
+      "Replacement of the Constitution"
+    ],
+    hint:"The ordinance created structure for expansion."
+  },
+  {
+    stem:"Which action best demonstrates checks and balances?",
+    correct:"Courts declaring a law unconstitutional",
+    wrong:[
+      "Congress ignoring the Constitution",
+      "Presidents ruling indefinitely",
+      "States eliminating elections"
+    ],
+    hint:"Judicial review limits Congress."
+  },
+  {
+    stem:"Which constitutional principle ensures power comes from the people?",
+    correct:"Popular sovereignty",
+    wrong:[
+      "Federal supremacy",
+      "Judicial authority",
+      "Executive privilege"
+    ],
+    hint:"Think voting and representation."
+  },
+  {
+    stem:"Why were many Americans concerned about the Constitution during ratification?",
+    correct:"They feared it lacked explicit protections for individual rights.",
+    wrong:[
+      "They wanted monarchy restored.",
+      "They opposed elections.",
+      "They rejected national defense."
+    ],
+    hint:"This concern led to amendments."
+  },
+  {
+    stem:"Which phrase summarizes the Declaration’s philosophy?",
+    correct:"Government exists to secure natural rights.",
+    wrong:[
+      "Government creates liberty.",
+      "Government replaces citizen authority.",
+      "Government limits equality."
+    ],
+    hint:"Government protects rights."
+  },
+  {
+    stem:"Which Enlightenment thinker most influenced natural rights theory?",
+    correct:"John Locke",
+    wrong:[
+      "Montesquieu",
+      "Rousseau",
+      "Smith"
+    ],
+    hint:"Life, liberty, property."
+  },
+  {
+    stem:"Which event best reflects consent of the governed today?",
+    correct:"Citizens voting in national elections",
+    wrong:[
+      "Leaders inheriting office",
+      "Military appointing presidents",
+      "Courts eliminating elections"
+    ],
+    hint:"Authority comes from voters."
+  },
+  {
+    stem:"Which statement best reflects equality in the Declaration?",
+    correct:"All people possess the same natural rights.",
+    wrong:[
+      "Rights belong only to wealthy citizens.",
+      "Rights depend on military rank.",
+      "Rights are assigned by government."
+    ],
+    hint:"Equality of rights."
+  },
+  {
+    stem:"Which concept allows Congress to make laws necessary to carry out its powers?",
+    correct:"Necessary and Proper Clause",
+    wrong:[
+      "Supremacy Clause",
+      "Commerce Clause",
+      "Equal Protection Clause"
+    ],
+    hint:"Implied powers."
+  },
+  {
+    stem:"Which example best illustrates limited government?",
+    correct:"Government actions constrained by the Constitution",
+    wrong:[
+      "Leaders ruling without laws",
+      "Courts ignoring rights",
+      "Presidents eliminating Congress"
+    ],
+    hint:"Government power has limits."
+  },
+  {
+    stem:"Which principle ensures laws apply equally to leaders and citizens?",
+    correct:"Rule of law",
+    wrong:[
+      "Absolute monarchy",
+      "Military authority",
+      "Executive privilege"
+    ],
+    hint:"No one is above the law."
+  },
+  {
+    stem:"Which result did Federalists expect from ratifying the Constitution?",
+    correct:"A stronger national government able to maintain stability",
+    wrong:[
+      "Weaker federal authority",
+      "End of national taxation",
+      "Elimination of courts"
+    ],
+    hint:"They wanted a more effective government."
+  },
+  {
+    stem:"Which idea links the Declaration and Constitution together?",
+    correct:"Protection of individual rights",
+    wrong:[
+      "Expansion of monarchy",
+      "Elimination of elections",
+      "Military control of government"
+    ],
+    hint:"Liberty is the connecting theme."
+  },
+  {
+    stem:"Which example shows federalism in practice?",
+    correct:"States managing education while the national government manages foreign policy",
+    wrong:[
+      "Congress controlling all policy areas",
+      "States ignoring federal law",
+      "Courts writing legislation"
+    ],
+    hint:"Different levels handle different responsibilities."
+  },
+  {
+    stem:"Which situation best shows the principle of limited government in action?",
+    correct:"A court blocks a government action because it violates constitutional rights.",
+    wrong:[
+      "A leader ignores the Constitution during an emergency.",
+      "A president cancels elections to remain in office.",
+      "A legislature punishes criticism of government officials."
+    ],
+    hint:"Limited government means officials are bound by law."
+  }
 ];
-/* =========================
-   GAME STATE
-   ========================= */
+
 let questions = [];
 let currentIndex = 0;
 let attempts = 0;
@@ -755,9 +716,6 @@ let timerInterval = null;
 let startedAt = null;
 let finishedAt = null;
 
-/* =========================
-   HELPERS
-   ========================= */
 function shuffle(array){
   const arr = [...array];
   for(let i = arr.length - 1; i > 0; i--){
@@ -801,10 +759,7 @@ function updateProgress(){
 }
 
 function buildRun(){
-  // shuffle question order
   const base = shuffle(MASTER_QUESTIONS);
-
-  // shuffle answers inside each question
   return base.map(q => {
     const options = shuffle([
       { text:q.correct, isCorrect:true },
@@ -818,9 +773,6 @@ function goToHub(){
   window.location.href = "../index.html";
 }
 
-/* =========================
-   RENDER
-   ========================= */
 function renderQuestion(){
   if(currentIndex >= questions.length){
     finishGame();
@@ -872,7 +824,6 @@ function handleAnswer(button, isCorrect, hint){
   updateAccuracy();
   document.getElementById('feedback').textContent = `Hint: ${hint}`;
 
-  // unlock after short pause so student can try again and accuracy keeps the miss
   setTimeout(() => {
     locked = false;
     allButtons.forEach(b => b.classList.remove('locked'));
@@ -880,9 +831,6 @@ function handleAnswer(button, isCorrect, hint){
   }, 700);
 }
 
-/* =========================
-   FLOW
-   ========================= */
 function startGame(){
   const nameInput = document.getElementById('studentName');
   const name = nameInput.value.trim();
@@ -907,6 +855,8 @@ function startGame(){
   document.getElementById('timerDisplay').textContent = '0:00';
   document.getElementById('progressBar').style.width = '0%';
   document.getElementById('progressPct').textContent = '0%';
+  document.getElementById('progressText').textContent = `1 / ${questions.length}`;
+  document.getElementById('qMeta').textContent = `Question 1 of ${questions.length}`;
 
   clearInterval(timerInterval);
   timerInterval = setInterval(updateTimer, 1000);
@@ -963,6 +913,7 @@ function restartGame(){
   document.getElementById('progressPct').textContent = '0%';
   document.getElementById('progressBar').style.width = '0%';
   document.getElementById('startedDisplay').textContent = '—';
+  document.getElementById('qMeta').textContent = `Question 1 of ${MASTER_QUESTIONS.length}`;
 
   questions = [];
   currentIndex = 0;
@@ -973,9 +924,6 @@ function restartGame(){
   finishedAt = null;
 }
 
-/* =========================
-   EVENTS
-   ========================= */
 document.getElementById('startBtn').addEventListener('click', startGame);
 document.getElementById('restartBtn').addEventListener('click', restartGame);
 document.getElementById('playAgainBtn').addEventListener('click', restartGame);
