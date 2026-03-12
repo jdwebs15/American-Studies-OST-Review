@@ -236,7 +236,7 @@ button{
 
   <section class="card" id="startCard">
     <h1>Constitutional Foundations Review</h1>
-    <p class="sub">CS4–CS7 • 40 Questions • Mastery Review • Name required • Auto-submit on click</p>
+    <p class="sub">CS4–CS7 • 52 Questions • Mastery Review • Name required • Auto-submit on click</p>
 
     <div class="start-row">
       <input id="studentName" type="text" placeholder="Enter your name" autocomplete="off">
@@ -254,7 +254,7 @@ button{
       </div>
       <div class="stat">
         <div class="label">Progress</div>
-        <div class="value" id="progressText">1 / 40</div>
+        <div class="value" id="progressText">1 / 52</div>
       </div>
       <div class="stat">
         <div class="label">Accuracy</div>
@@ -280,7 +280,7 @@ button{
       </div>
     </div>
 
-    <div class="q-meta" id="qMeta">Question 1 of 40</div>
+    <div class="q-meta" id="qMeta">Question 1 of 52</div>
     <div class="stem" id="questionStem">Loading…</div>
     <div class="answers" id="answers"></div>
     <div class="feedback" id="feedback"></div>
@@ -704,6 +704,128 @@ const MASTER_QUESTIONS = [
       "A legislature punishes criticism of government officials."
     ],
     hint:"Limited government means officials are bound by law."
+  },
+
+  /* Added targeted items to fully sweep the test concepts */
+  {
+    stem:"According to the Declaration of Independence, what is the main purpose of government?",
+    correct:"To secure the natural rights of the people",
+    wrong:[
+      "To increase trade and industry",
+      "To enforce one national religion",
+      "To strengthen military authority over citizens"
+    ],
+    hint:"The Declaration says government is created to protect rights."
+  },
+  {
+    stem:"Which statement best reflects the Declaration’s argument about legitimate government?",
+    correct:"Government is legitimate only when it protects the rights of the people.",
+    wrong:[
+      "Government is legitimate whenever it is the strongest military power.",
+      "Government is legitimate if leaders inherit office.",
+      "Government is legitimate even when it ignores the rights of citizens."
+    ],
+    hint:"Legitimacy comes from protecting rights and the consent of the governed."
+  },
+  {
+    stem:"Which example best shows evidence of the Declaration’s influence on modern government?",
+    correct:"Constitutional amendments expanding voting rights to more citizens",
+    wrong:[
+      "Growth of factory systems during industrialization",
+      "Development of interstate highways",
+      "Increased overseas trade after World War II"
+    ],
+    hint:"Look for later expansion of rights and participation."
+  },
+  {
+    stem:"Which right was protected in the Northwest Territory under the Northwest Ordinance?",
+    correct:"Trial by jury",
+    wrong:[
+      "Government censorship of newspapers",
+      "Unlimited executive rule",
+      "Mandatory state religion"
+    ],
+    hint:"The ordinance included civil-liberty protections."
+  },
+  {
+    stem:"Which example best reflects the Northwest Ordinance’s protection of civil liberties?",
+    correct:"Freedom of religion in the territory",
+    wrong:[
+      "A ban on public participation in government",
+      "Military courts replacing civilian courts",
+      "Governors ruling without written laws"
+    ],
+    hint:"Think about specific freedoms protected in the territory."
+  },
+  {
+    stem:"Which development best demonstrates institution-building encouraged by the Northwest Ordinance?",
+    correct:"Establishing schools and courts in developing communities",
+    wrong:[
+      "Removing all local governments",
+      "Replacing republican government with monarchy",
+      "Ending the statehood process for territories"
+    ],
+    hint:"The ordinance encouraged organized community growth."
+  },
+  {
+    stem:"Which effect did the Northwest Ordinance have on the development of new states?",
+    correct:"Territories could become states with republican governments",
+    wrong:[
+      "Territories had to remain under permanent federal control",
+      "Territories became independent nations",
+      "Territories were governed only by military officials"
+    ],
+    hint:"It created a path from territory to statehood."
+  },
+  {
+    stem:"Which situation best demonstrates that government must follow laws established in the Constitution?",
+    correct:"Officials are prevented from exercising powers not granted to them by law.",
+    wrong:[
+      "Leaders can ignore the Constitution during times of crisis.",
+      "Presidents may rule without limits if elected.",
+      "Government agencies can create any power they choose."
+    ],
+    hint:"This is the heart of limited government."
+  },
+  {
+    stem:"Which group supported ratification of the Constitution?",
+    correct:"Federalists",
+    wrong:[
+      "Anti-Federalists",
+      "Loyalists",
+      "Abolitionists"
+    ],
+    hint:"This group believed the new Constitution should be approved."
+  },
+  {
+    stem:"Which argument did Anti-Federalists most strongly support during ratification?",
+    correct:"The Constitution needed a bill of rights to protect liberty.",
+    wrong:[
+      "The national government needed more unchecked power.",
+      "State governments should be abolished.",
+      "The president should have lifetime authority."
+    ],
+    hint:"Their biggest concern was protection of individual rights."
+  },
+  {
+    stem:"Why did Federalists favor a stronger national government under the Constitution?",
+    correct:"They believed the Articles of Confederation had created a government too weak to solve national problems.",
+    wrong:[
+      "They wanted each state to operate as a separate country.",
+      "They believed Congress should lose the power to tax.",
+      "They wanted to eliminate the executive branch."
+    ],
+    hint:"They thought the Articles were ineffective."
+  },
+  {
+    stem:"Which outcome best demonstrates compromise during the ratification debate?",
+    correct:"The Constitution was ratified with a promise to add the Bill of Rights.",
+    wrong:[
+      "The Constitution was rejected entirely.",
+      "State governments were eliminated from the system.",
+      "The presidency was removed from the Constitution."
+    ],
+    hint:"Think about how Federalist and Anti-Federalist concerns were balanced."
   }
 ];
 
