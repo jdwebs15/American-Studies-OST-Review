@@ -1,3 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Constitutional Foundations Review — CS4-CS7</title>
+<link rel="stylesheet" href="../styles.css"/>
+
+<style>
+:root{
+  --bg:#0b1220;
+  --panel:#111a2f;
+  --panel2:#0f1730;
+  --text:#e7eefc;
+  --muted:#a8b4cf;
+  --line:rgba(255,255,255,.12);
+  --good:#2bd576;
+  --bad:#ff5c7a;
+  --warn:#ffd166;
+  --accent:#7aa2ff;
+  --shadow:0 18px 55px rgba(0,0,0,.40);
+  --radius:18px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:linear-gradient(180deg,#0b1220,#070b14);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+.wrap{
+  width:min(1000px,92vw);
+  margin:26px auto 40px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:22px;
+}
+
+h1,h2,h3,p{margin-top:0}
+
+.sub{
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+.start-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+input{
+  background:#0e1730;
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:15px;
+  min-width:280px;
+}
+
+button{
+  border:none;
+  border-radius:12px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:14px;
+}
+
+.btn{
+  background:var(--accent);
+  color:#fff;
+}
+
+.btn-secondary{
+  background:#1a2442;
+  color:#fff;
+  border:1px solid var(--line);
+}
+
+.topbar{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.stat{
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+}
+
+.stat .label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.stat .value{
+  font-size:15px;
+  font-weight:800;
+}
+
+.progress-wrap{
+  margin:6px 0 18px;
+}
+
+.progress-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.progress{
+  width:100%;
+  height:14px;
+  background:#0c1430;
+  border:1px solid var(--line);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),#9cb8ff);
+  transition:width .25s ease;
+}
+
+.q-meta{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.stem{
+  font-size:24px;
+  line-height:1.25;
+  margin-bottom:16px;
+}
+
+.answers{
+  display:grid;
+  gap:10px;
+}
+
+.answer{
+  width:100%;
+  text-align:left;
+  background:#172347;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px 16px;
+  border-radius:14px;
+  font-weight:600;
+  line-height:1.35;
+}
+
+.answer:hover{
+  background:#22315f;
+}
+
+.answer.correct{
+  background:rgba(43,213,118,.18);
+  border-color:rgba(43,213,118,.55);
+}
+
+.answer.incorrect{
+  background:rgba(255,92,122,.16);
+  border-color:rgba(255,92,122,.55);
+}
+
+.answer.locked{
+  cursor:default;
+}
+
+.feedback{
+  min-height:24px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.ticket{
+  background:#0e1735;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  line-height:1.7;
+}
+
+.pass{
+  color:var(--good);
+  font-weight:800;
+}
+
+.fail{
+  color:var(--warn);
+  font-weight:800;
+}
+
+.hidden{display:none}
+
+@media (max-width:850px){
+  .topbar{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- START -->
+  <section class="card" id="startCard">
+    <h1>Constitutional Foundations Review</h1>
+    <p class="sub">CS4–CS7 • Mastery Review • Name required • Auto-submit on click</p>
+
+    <div class="start-row">
+      <input id="studentName" type="text" placeholder="Enter your name" autocomplete="off">
+      <button class="btn" id="startBtn">Start Game</button>
+    </div>
+
+    <div class="feedback" id="startMsg"></div>
+  </section>
+
+  <!-- GAME -->
+  <section class="card hidden" id="gameCard">
+    <div class="topbar">
+      <div class="stat">
+        <div class="label">Student</div>
+        <div class="value" id="playerDisplay">—</div>
+      </div>
+      <div class="stat">
+        <div class="label">Progress</div>
+        <div class="value" id="progressText">1 / 20</div>
+      </div>
+      <div class="stat">
+        <div class="label">Accuracy</div>
+        <div class="value" id="accuracyDisplay">100%</div>
+      </div>
+      <div class="stat">
+        <div class="label">Timer</div>
+        <div class="value" id="timerDisplay">0:00</div>
+      </div>
+      <div class="stat">
+        <div class="label">Started</div>
+        <div class="value" id="startedDisplay">—</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-head">
+        <span>Review Progress</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="q-meta" id="qMeta">Question 1</div>
+    <div class="stem" id="questionStem">Loading…</div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+
+    <div class="controls">
+      <button class="btn-secondary" id="restartBtn" type="button">Restart Game</button>
+      <button class="btn-secondary" id="hubBtn" type="button">Back to Hub</button>
+    </div>
+  </section>
+
+  <!-- FINISH -->
+  <section class="card hidden" id="finishCard">
+    <h2>Mastery Ticket</h2>
+    <div class="ticket" id="ticket"></div>
+
+    <div class="controls">
+      <button class="btn" id="playAgainBtn" type="button">Play Again</button>
+      <button class="btn-secondary" id="finishHubBtn" type="button">Back to Hub</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =========================
+   QUESTION SET
+   New items covering CS4–CS7
+   ========================= */
 const MASTER_QUESTIONS = [
 
 {
@@ -430,3 +743,248 @@ hint:"Different levels handle different responsibilities."
 }
 
 ];
+/* =========================
+   GAME STATE
+   ========================= */
+let questions = [];
+let currentIndex = 0;
+let attempts = 0;
+let correctCount = 0;
+let locked = false;
+let timerInterval = null;
+let startedAt = null;
+let finishedAt = null;
+
+/* =========================
+   HELPERS
+   ========================= */
+function shuffle(array){
+  const arr = [...array];
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function formatElapsed(ms){
+  const total = Math.floor(ms / 1000);
+  const m = Math.floor(total / 60);
+  const s = String(total % 60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+function formatStamp(date){
+  return date.toLocaleString();
+}
+
+function updateTimer(){
+  if(!startedAt) return;
+  document.getElementById('timerDisplay').textContent = formatElapsed(Date.now() - startedAt.getTime());
+}
+
+function updateAccuracy(){
+  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
+  document.getElementById('accuracyDisplay').textContent = `${accuracy}%`;
+}
+
+function updateProgress(){
+  const total = questions.length;
+  const currentNumber = Math.min(currentIndex + 1, total);
+  const completed = currentIndex;
+  const pct = Math.round((completed / total) * 100);
+
+  document.getElementById('progressText').textContent = `${currentNumber} / ${total}`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressBar').style.width = `${pct}%`;
+  document.getElementById('qMeta').textContent = `Question ${currentNumber} of ${total}`;
+}
+
+function buildRun(){
+  // shuffle question order
+  const base = shuffle(MASTER_QUESTIONS);
+
+  // shuffle answers inside each question
+  return base.map(q => {
+    const options = shuffle([
+      { text:q.correct, isCorrect:true },
+      ...q.wrong.map(w => ({ text:w, isCorrect:false }))
+    ]);
+    return { ...q, options };
+  });
+}
+
+function goToHub(){
+  window.location.href = "../index.html";
+}
+
+/* =========================
+   RENDER
+   ========================= */
+function renderQuestion(){
+  if(currentIndex >= questions.length){
+    finishGame();
+    return;
+  }
+
+  locked = false;
+  updateProgress();
+  updateAccuracy();
+
+  const q = questions[currentIndex];
+  document.getElementById('questionStem').textContent = q.stem;
+  document.getElementById('feedback').textContent = '';
+
+  const answers = document.getElementById('answers');
+  answers.innerHTML = '';
+
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'answer';
+    btn.type = 'button';
+    btn.textContent = opt.text;
+    btn.addEventListener('click', () => handleAnswer(btn, opt.isCorrect, q.hint));
+    answers.appendChild(btn);
+  });
+}
+
+function handleAnswer(button, isCorrect, hint){
+  if(locked) return;
+  locked = true;
+  attempts++;
+
+  const allButtons = [...document.querySelectorAll('.answer')];
+  allButtons.forEach(b => b.classList.add('locked'));
+
+  if(isCorrect){
+    correctCount++;
+    button.classList.add('correct');
+    updateAccuracy();
+    document.getElementById('feedback').textContent = 'Correct. Moving on...';
+    setTimeout(() => {
+      currentIndex++;
+      renderQuestion();
+    }, 550);
+    return;
+  }
+
+  button.classList.add('incorrect');
+  updateAccuracy();
+  document.getElementById('feedback').textContent = `Hint: ${hint}`;
+
+  // unlock after short pause so student can try again and accuracy keeps the miss
+  setTimeout(() => {
+    locked = false;
+    allButtons.forEach(b => b.classList.remove('locked'));
+    button.classList.remove('incorrect');
+  }, 700);
+}
+
+/* =========================
+   FLOW
+   ========================= */
+function startGame(){
+  const nameInput = document.getElementById('studentName');
+  const name = nameInput.value.trim();
+
+  if(!name){
+    document.getElementById('startMsg').textContent = 'Please enter your name to begin.';
+    nameInput.focus();
+    return;
+  }
+
+  document.getElementById('startMsg').textContent = '';
+  document.getElementById('playerDisplay').textContent = name;
+
+  questions = buildRun();
+  currentIndex = 0;
+  attempts = 0;
+  correctCount = 0;
+  finishedAt = null;
+  startedAt = new Date();
+
+  document.getElementById('startedDisplay').textContent = formatStamp(startedAt);
+  document.getElementById('timerDisplay').textContent = '0:00';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('progressPct').textContent = '0%';
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+
+  document.getElementById('startCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.add('hidden');
+  document.getElementById('gameCard').classList.remove('hidden');
+
+  renderQuestion();
+}
+
+function finishGame(){
+  finishedAt = new Date();
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  const name = document.getElementById('playerDisplay').textContent;
+  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
+  const elapsed = formatElapsed(finishedAt.getTime() - startedAt.getTime());
+  const passed = accuracy === 100 ? 'YES' : 'NO';
+
+  document.getElementById('gameCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.remove('hidden');
+
+  document.getElementById('ticket').innerHTML = `
+    <div><strong>Student:</strong> ${name}</div>
+    <div><strong>Passed 0-Miss Mastery:</strong> <span class="${passed === 'YES' ? 'pass' : 'fail'}">${passed}</span></div>
+    <div><strong>Accuracy:</strong> ${accuracy}%</div>
+    <div><strong>Questions:</strong> ${questions.length}</div>
+    <div><strong>Total Attempts:</strong> ${attempts}</div>
+    <div><strong>Correct Answers:</strong> ${correctCount}</div>
+    <div><strong>Started:</strong> ${formatStamp(startedAt)}</div>
+    <div><strong>Finished:</strong> ${formatStamp(finishedAt)}</div>
+    <div><strong>Time:</strong> ${elapsed}</div>
+  `;
+}
+
+function restartGame(){
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  document.getElementById('gameCard').classList.add('hidden');
+  document.getElementById('finishCard').classList.add('hidden');
+  document.getElementById('startCard').classList.remove('hidden');
+
+  document.getElementById('studentName').value = '';
+  document.getElementById('startMsg').textContent = '';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('answers').innerHTML = '';
+  document.getElementById('questionStem').textContent = 'Loading…';
+  document.getElementById('timerDisplay').textContent = '0:00';
+  document.getElementById('accuracyDisplay').textContent = '100%';
+  document.getElementById('progressText').textContent = `1 / ${MASTER_QUESTIONS.length}`;
+  document.getElementById('progressPct').textContent = '0%';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('startedDisplay').textContent = '—';
+
+  questions = [];
+  currentIndex = 0;
+  attempts = 0;
+  correctCount = 0;
+  locked = false;
+  startedAt = null;
+  finishedAt = null;
+}
+
+/* =========================
+   EVENTS
+   ========================= */
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('restartBtn').addEventListener('click', restartGame);
+document.getElementById('playAgainBtn').addEventListener('click', restartGame);
+document.getElementById('hubBtn').addEventListener('click', goToHub);
+document.getElementById('finishHubBtn').addEventListener('click', goToHub);
+
+document.getElementById('studentName').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') startGame();
+});
+</script>
+</body>
+</html>
