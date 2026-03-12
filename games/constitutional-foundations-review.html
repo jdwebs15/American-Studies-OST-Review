@@ -1,761 +1,686 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Constitutional Foundations Review — CS4-CS7</title>
-<link rel="stylesheet" href="../styles.css"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>AmStud Game 9 — Full-Year Spiral Exam (Mastery)</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111a2f;
+      --text:#e7eefc;
+      --muted:#a8b4cf;
+      --line:rgba(255,255,255,.12);
+      --shadow:0 18px 55px rgba(0,0,0,.40);
+      --radius:18px;
+      --good:#2bd576;
+      --bad:#ff5c7a;
+      --warn:#ffd166;
+      --accent:#7aa2ff;
+      --chip:rgba(122,162,255,.14);
+      --chipLine:rgba(122,162,255,.28);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:radial-gradient(1200px 700px at 20% -10%, rgba(122,162,255,.22), transparent 55%),
+                 radial-gradient(900px 600px at 90% 0%, rgba(43,213,118,.10), transparent 55%),
+                 linear-gradient(180deg,#0b1220,#070b14);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+    .wrap{width:min(1140px,92vw);margin:28px auto 40px;}
+    .top{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+    h1{font-size:22px;margin:0 0 6px}
+    .sub{color:var(--muted);font-size:13px;line-height:1.35}
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    .chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+    .chip{
+      border:1px solid var(--chipLine);
+      background:var(--chip);
+      padding:6px 10px;border-radius:999px;
+      font-size:12px;color:var(--text);white-space:nowrap
+    }
+    .chip strong{font-weight:800}
+    .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;align-items:stretch}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
 
-<style>
-:root{
-  --bg:#0b1220;
-  --panel:#111a2f;
-  --panel2:#0f1730;
-  --text:#e7eefc;
-  --muted:#a8b4cf;
-  --line:rgba(255,255,255,.12);
-  --good:#2bd576;
-  --bad:#ff5c7a;
-  --warn:#ffd166;
-  --accent:#7aa2ff;
-  --shadow:0 18px 55px rgba(0,0,0,.40);
-  --radius:18px;
-}
+    .stats{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+    .stat{
+      background:rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .stat .k{color:var(--muted);font-size:12px;margin-bottom:4px}
+    .stat .v{font-family:var(--mono);font-size:13px}
 
-*{box-sizing:border-box}
+    .bar{
+      height:10px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;border:1px solid var(--line);
+      margin-top:8px;
+    }
+    .bar>div{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),rgba(43,213,118,.9))}
 
-body{
-  margin:0;
-  background:linear-gradient(180deg,#0b1220,#070b14);
-  color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-}
+    .qhead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .qnum{font-family:var(--mono);font-size:13px;color:var(--muted)}
+    .skill{font-size:12px;border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.18)}
 
-.wrap{
-  width:min(1000px,92vw);
-  margin:26px auto 40px;
-}
+    .stim{
+      margin-top:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background:linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.10));
+      border-radius:16px;
+      padding:12px;
+    }
+    .stim .label{
+      display:inline-flex;gap:8px;align-items:center;
+      font-size:12px;color:var(--muted);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.18);
+      padding:4px 8px;border-radius:999px;
+      font-family:var(--mono);
+      margin-bottom:10px;
+    }
+    .excerpt{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.16);
+      background:rgba(0,0,0,.12);
+      color:var(--text);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .miniTable{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      margin-top:10px;
+      font-size:13px;
+    }
+    .miniTable th,.miniTable td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      border-right:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.14);
+      vertical-align:top;
+      text-align:left;
+    }
+    .miniTable th{color:var(--muted);font-weight:900;background:rgba(0,0,0,.20)}
+    .miniTable tr:last-child td{border-bottom:none}
+    .miniTable td:last-child,.miniTable th:last-child{border-right:none}
 
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:22px;
-}
+    .prompt{font-size:16px;line-height:1.35;margin:12px 0 8px}
+    .rule{
+      font-size:12px;color:var(--muted);
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:14px;padding:8px 10px;background:rgba(0,0,0,.14);
+      margin-bottom:10px;
+    }
 
-h1,h2,h3,p{margin-top:0}
+    .choices{display:grid;gap:10px;margin-top:10px}
+    .choice{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.16);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      transition:transform .05s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+      display:flex;gap:10px;align-items:flex-start;
+    }
+    .choice:hover{border-color:rgba(122,162,255,.6);transform:translateY(-1px)}
+    .choice .badge{
+      width:26px;height:26px;border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      display:grid;place-items:center;
+      font-family:var(--mono);font-size:12px;color:var(--muted);
+      background:rgba(0,0,0,.18);
+      flex:0 0 auto;
+    }
+    .choice.correctFlash{border-color:rgba(43,213,118,.70);background:rgba(43,213,118,.10)}
+    .choice.wrongFlash{border-color:rgba(255,92,122,.70);background:rgba(255,92,122,.10)}
 
-.sub{
-  color:var(--muted);
-  margin-bottom:14px;
-}
+    .msg{
+      margin-top:12px;border-radius:14px;border:1px solid var(--line);
+      padding:10px 12px;display:none;
+    }
+    .msg.bad{display:block;background:rgba(255,92,122,.10)}
+    .msg.good{display:block;background:rgba(43,213,118,.10)}
+    .msg .t{font-weight:900;margin-bottom:4px}
 
-.start-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-}
+    .controls{
+      margin-top:12px;
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .btn:hover{border-color:rgba(122,162,255,.6)}
+    .btn.primary{border-color:rgba(122,162,255,.65);background:rgba(122,162,255,.16)}
 
-input{
-  background:#0e1730;
-  color:var(--text);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-  font-size:15px;
-  min-width:280px;
-}
+    .ticket{
+      margin-top:14px;border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      border-radius:16px;
+      padding:12px;display:none;
+    }
+    pre{
+      margin:10px 0 0;
+      white-space:pre-wrap;
+      background:rgba(0,0,0,.25);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      line-height:1.35;
+    }
 
-button{
-  border:none;
-  border-radius:12px;
-  padding:11px 16px;
-  cursor:pointer;
-  font-weight:700;
-  font-size:14px;
-}
-
-.btn{
-  background:var(--accent);
-  color:#fff;
-}
-
-.btn-secondary{
-  background:#1a2442;
-  color:#fff;
-  border:1px solid var(--line);
-}
-
-.topbar{
-  display:grid;
-  grid-template-columns:repeat(5, minmax(0,1fr));
-  gap:10px;
-  margin-bottom:16px;
-}
-
-.stat{
-  background:var(--panel2);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:10px 12px;
-}
-
-.stat .label{
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:4px;
-}
-
-.stat .value{
-  font-size:15px;
-  font-weight:800;
-}
-
-.progress-wrap{
-  margin:6px 0 18px;
-}
-
-.progress-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:8px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.progress{
-  width:100%;
-  height:14px;
-  background:#0c1430;
-  border:1px solid var(--line);
-  border-radius:999px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,var(--accent),#9cb8ff);
-  transition:width .25s ease;
-}
-
-.q-meta{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.stem{
-  font-size:24px;
-  line-height:1.25;
-  margin-bottom:16px;
-}
-
-.answers{
-  display:grid;
-  gap:10px;
-}
-
-.answer{
-  width:100%;
-  text-align:left;
-  background:#172347;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.08);
-  padding:14px 16px;
-  border-radius:14px;
-  font-weight:600;
-  line-height:1.35;
-}
-
-.answer:hover{
-  background:#22315f;
-}
-
-.answer.correct{
-  background:rgba(43,213,118,.18);
-  border-color:rgba(43,213,118,.55);
-}
-
-.answer.incorrect{
-  background:rgba(255,92,122,.16);
-  border-color:rgba(255,92,122,.55);
-}
-
-.answer.locked{
-  cursor:default;
-}
-
-.feedback{
-  min-height:24px;
-  margin-top:14px;
-  color:var(--muted);
-  font-size:14px;
-}
-
-.controls{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-
-.ticket{
-  background:#0e1735;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px;
-  line-height:1.7;
-}
-
-.pass{
-  color:var(--good);
-  font-weight:800;
-}
-
-.fail{
-  color:var(--warn);
-  font-weight:800;
-}
-
-.hidden{display:none}
-
-@media (max-width:850px){
-  .topbar{
-    grid-template-columns:1fr 1fr;
-  }
-}
-</style>
+    /* Name gate */
+    .gate{position:fixed;inset:0;background:rgba(0,0,0,.58);display:flex;align-items:center;justify-content:center;padding:20px}
+    .gateCard{
+      width:min(600px,94vw);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .gateCard h2{margin:0 0 8px;font-size:18px}
+    .gateCard p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.35}
+    .inrow{display:flex;gap:10px;flex-wrap:wrap}
+    input{
+      flex:1;min-width:240px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      border-radius:14px;
+      padding:12px 12px;
+      outline:none;font-size:14px;
+    }
+    input:focus{border-color:rgba(122,162,255,.7)}
+    .warn{
+      border:1px solid rgba(255,209,102,.35);
+      background:rgba(255,209,102,.10);
+      border-radius:14px;
+      padding:10px 12px;
+      color:var(--text);
+      font-size:12px;
+      margin-top:10px;
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-
-  <!-- START -->
-  <section class="card" id="startCard">
-    <h1>Constitutional Foundations Review</h1>
-    <p class="sub">CS4–CS7 • Mastery Review • Name required • Auto-submit on click</p>
-
-    <div class="start-row">
-      <input id="studentName" type="text" placeholder="Enter your name" autocomplete="off">
-      <button class="btn" id="startBtn">Start Game</button>
-    </div>
-
-    <div class="feedback" id="startMsg"></div>
-  </section>
-
-  <!-- GAME -->
-  <section class="card hidden" id="gameCard">
-    <div class="topbar">
-      <div class="stat">
-        <div class="label">Student</div>
-        <div class="value" id="playerDisplay">—</div>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>AmStud Game 9 — Full-Year Spiral Exam (Mastery)</h1>
+        <div class="sub">
+          Mixed stimulus types + full-year spiral content. Auto-submit on selection. Wrong = hint + retry.
+          Mastery requires <strong>0 misses</strong>. (Build more items by adding to <span style="font-family:var(--mono)">QUESTIONS</span>.)
+        </div>
       </div>
-      <div class="stat">
-        <div class="label">Progress</div>
-        <div class="value" id="progressText">1 / 20</div>
-      </div>
-      <div class="stat">
-        <div class="label">Accuracy</div>
-        <div class="value" id="accuracyDisplay">100%</div>
-      </div>
-      <div class="stat">
-        <div class="label">Timer</div>
-        <div class="value" id="timerDisplay">0:00</div>
-      </div>
-      <div class="stat">
-        <div class="label">Started</div>
-        <div class="value" id="startedDisplay">—</div>
+      <div class="chips">
+        <div class="chip"><strong>LIVE</strong></div>
+        <div class="chip">CS 1–32 spiral</div>
+        <div class="chip">Exam-length</div>
+        <div class="chip">Ticket export</div>
+        <div class="chip">100% required</div>
       </div>
     </div>
 
-    <div class="progress-wrap">
-      <div class="progress-head">
-        <span>Review Progress</span>
-        <span id="progressPct">0%</span>
+    <div class="grid">
+      <div class="panel">
+        <div class="qhead">
+          <div class="qnum" id="qnum">Item —</div>
+          <div class="skill" id="skill">Spiral Exam</div>
+        </div>
+        <div class="bar"><div id="pbar"></div></div>
+
+        <div id="stimWrap" class="stim" style="display:none"></div>
+
+        <div class="prompt" id="prompt">—</div>
+        <div class="rule">MCQ: click ONE answer. Auto-check immediately. Wrong = hint + retry.</div>
+
+        <div class="choices" id="choices"></div>
+
+        <div class="msg bad" id="badMsg">
+          <div class="t">Not yet.</div>
+          <div id="hint">—</div>
+        </div>
+        <div class="msg good" id="goodMsg">
+          <div class="t">Correct.</div>
+          <div id="goodText">Auto-advancing…</div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="restartBtn" type="button">Restart</button>
+          <div class="qnum">Tip: Spiral = everything. Mastery = 0 misses.</div>
+        </div>
+
+        <div class="ticket" id="ticket">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+            <div><strong>Submit Ticket</strong> (screenshot this)</div>
+            <button class="btn primary" id="copyBtn" type="button">Copy Ticket</button>
+          </div>
+          <pre id="ticketText"></pre>
+        </div>
       </div>
-      <div class="progress">
-        <div class="progress-bar" id="progressBar"></div>
+
+      <div class="panel">
+        <div class="stats">
+          <div class="stat"><div class="k">Student</div><div class="v" id="student">—</div></div>
+          <div class="stat"><div class="k">Accuracy</div><div class="v" id="acc">100.0%</div></div>
+          <div class="stat"><div class="k">Start</div><div class="v" id="start">—</div></div>
+          <div class="stat"><div class="k">Now</div><div class="v" id="now">—</div></div>
+          <div class="stat"><div class="k">Correct Items</div><div class="v" id="correct">0</div></div>
+          <div class="stat"><div class="k">Misses</div><div class="v" id="misses">0</div></div>
+        </div>
+        <div class="warn">
+          <strong>Teacher note:</strong> This is a “skeleton exam” that’s ready to run now. Add items to the embedded
+          <span style="font-family:var(--mono)">QUESTIONS</span> array to expand to 40–60+ items.
+          This keeps your “no bank” rule while making the spiral exam truly exam-length.
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="q-meta" id="qMeta">Question 1</div>
-    <div class="stem" id="questionStem">Loading…</div>
-    <div class="answers" id="answers"></div>
-    <div class="feedback" id="feedback"></div>
-
-    <div class="controls">
-      <button class="btn-secondary" id="restartBtn" type="button">Restart Game</button>
-      <button class="btn-secondary" id="hubBtn" type="button">Back to Hub</button>
+  <!-- Name Gate -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true">
+    <div class="gateCard">
+      <h2>Enter your name to begin</h2>
+      <p>Your name + timestamps + accuracy will appear on the final submit ticket.</p>
+      <div class="inrow">
+        <input id="nameInput" type="text" placeholder="First and last name" autocomplete="name"/>
+        <button class="btn primary" id="beginBtn" type="button">Begin</button>
+      </div>
+      <p style="margin-top:10px;color:var(--muted);font-size:12px">
+        (If you close your device, refresh to restart clean.)
+      </p>
     </div>
-  </section>
-
-  <!-- FINISH -->
-  <section class="card hidden" id="finishCard">
-    <h2>Mastery Ticket</h2>
-    <div class="ticket" id="ticket"></div>
-
-    <div class="controls">
-      <button class="btn" id="playAgainBtn" type="button">Play Again</button>
-      <button class="btn-secondary" id="finishHubBtn" type="button">Back to Hub</button>
-    </div>
-  </section>
-
-</div>
+  </div>
 
 <script>
-/* =========================
-   QUESTION SET
-   New items covering CS4–CS7
-   ========================= */
-const MASTER_QUESTIONS = [
+/* =========================================================
+   FULL-YEAR SPIRAL — MIXED STIMULI (Embedded)
+   Add more items as you build the “exam-length” version.
+   ========================================================= */
+const QUESTIONS = [
   {
-    stem: "Which statement best reflects the Declaration of Independence’s idea that rights exist before government?",
-    correct: "People possess basic rights naturally, and government is created to protect them.",
-    wrong: [
-      "Rights are created only after Congress passes laws.",
-      "Rights belong only to those who own property.",
-      "Rights come from government and can be removed at any time without limits."
+    id:1, skill:"Cause & Effect (Industrialization)",
+    stim:{ kind:"text", label:"Context Blurb", excerpt:"In the late 1800s, new machines and factory systems increased production while cities grew rapidly as people moved for work." },
+    prompt:"Which change BEST reflects a major effect of industrialization on American life?",
+    choices:[
+      "More wage labor in factories and increased urban population",
+      "A return to small-scale subsistence farming across the U.S.",
+      "The end of immigration to American cities",
+      "The elimination of corporations and large businesses"
     ],
-    hint: "Think natural rights: government protects them; it does not create them."
+    answer:[0],
+    hint:"Industrialization → factories + urbanization."
   },
   {
-    stem: "A government cancels elections and ignores peaceful petitions from citizens. Which Declaration principle is being violated most directly?",
-    correct: "Consent of the governed",
-    wrong: [
-      "Federalism",
-      "Judicial review",
-      "Reserved powers"
+    id:2, skill:"Sourcing/Credibility",
+    stim:{ kind:"text", label:"Source Summary", excerpt:"A factory owner writes to a legislator opposing safety rules, claiming conditions are already safe and regulation is unnecessary." },
+    prompt:"Which factor most limits the source’s reliability about safety conditions?",
+    choices:[
+      "The author has a financial incentive to oppose regulation",
+      "The author wrote during the 1800s",
+      "The source is written rather than visual",
+      "The audience is a legislator"
     ],
-    hint: "The people must have a voice in government legitimacy."
+    answer:[0],
+    hint:"Incentives/bias can shape claims."
   },
   {
-    stem: "Why did the Declaration include a list of grievances against King George III?",
-    correct: "To provide evidence that the British government had violated colonists’ rights",
-    wrong: [
-      "To prove that all taxation is unconstitutional",
-      "To explain the structure of the new Congress",
-      "To justify replacing elections with appointed leaders"
+    id:3, skill:"Reconstruction/Jim Crow",
+    stim:{ kind:"text", label:"Law Summary", excerpt:"A state law in the 1890s requires separate facilities for different racial groups in public spaces." },
+    prompt:"Which context BEST explains why this law appeared?",
+    choices:[
+      "The rise of Jim Crow segregation after Reconstruction ended",
+      "The beginning of the Cold War",
+      "The passage of the 22nd Amendment",
+      "The creation of the Federal Reserve"
     ],
-    hint: "The grievances were evidence supporting separation from Britain."
+    answer:[0],
+    hint:"Separate facilities + 1890s = Jim Crow."
   },
   {
-    stem: "Which modern example best reflects the Declaration’s idea that government should protect liberty?",
-    correct: "Courts requiring fair legal procedures before a person can be punished",
-    wrong: [
-      "Leaders punishing critics without hearings",
-      "Officials denying one group equal treatment under the law",
-      "Government ending peaceful protest"
+    id:4, skill:"WWII Mobilization (table)",
+    stim:{
+      kind:"table",
+      label:"Mini-Table — Output Shift (illustrative)",
+      html:`
+        <table class="miniTable">
+          <tr><th>Category</th><th>1941</th><th>1944</th></tr>
+          <tr><td>Aircraft</td><td>Low</td><td>Very high</td></tr>
+          <tr><td>Consumer cars</td><td>High</td><td>Very low</td></tr>
+        </table>
+      `
+    },
+    prompt:"Which conclusion is BEST supported by the table?",
+    choices:[
+      "Production shifted from consumer goods to war-related output",
+      "The U.S. produced more consumer cars in 1944 than 1941",
+      "Industrial production stopped during WWII",
+      "The table proves rationing never happened"
     ],
-    hint: "Look for protection against arbitrary government action."
+    answer:[0],
+    hint:"Aircraft up + consumer cars down = mobilization shift."
   },
   {
-    stem: "Which feature of the Northwest Ordinance most directly helped prepare territories for self-government?",
-    correct: "Encouragement of schools and civic institutions",
-    wrong: [
-      "Permanent military rule over the territory",
-      "A ban on local representation",
-      "A requirement that territories remain colonies"
-    ],
-    hint: "A republic depends on informed citizens and functioning institutions."
+    id:5, skill:"Cold War (containment)",
+    stim:{ kind:"text", label:"Policy Summary", excerpt:"A U.S. official argues Congress should fund aid to stop hostile ideologies from spreading in unstable regions." },
+    prompt:"This argument is MOST closely connected to which Cold War strategy?",
+    choices:["Containment","Isolationism","Imperialism (colonialism)","Appeasement"],
+    answer:[0],
+    hint:"Aid to stop spread of ideologies = containment."
   },
   {
-    stem: "Which statement best describes the Northwest Ordinance’s statehood process?",
-    correct: "It created an orderly path for territories to become equal states in the Union.",
-    wrong: [
-      "It required territories to remain under federal control permanently.",
-      "It allowed territories to become foreign nations.",
-      "It replaced the Constitution’s structure of federalism."
-    ],
-    hint: "The ordinance organized expansion rather than leaving it chaotic."
+    id:6, skill:"Civics/Amendments",
+    stim:{ kind:"text", label:"Amendment Summary", excerpt:"A constitutional change limits presidents to two elected terms." },
+    prompt:"Which amendment does this describe?",
+    choices:["22nd","23rd","24th","25th"],
+    answer:[0],
+    hint:"Two-term limit = 22nd."
   },
   {
-    stem: "Why is the Northwest Ordinance considered important to civil liberties history?",
-    correct: "It protected certain basic rights in territories, including legal protections and religious freedom.",
-    wrong: [
-      "It eliminated courts from territorial government.",
-      "It allowed governors to ignore written laws.",
-      "It ended all citizen participation in the territory."
+    id:7, skill:"Civil Rights (corroboration)",
+    stim:{ kind:"text", label:"Claim", excerpt:"A resident in 1964 says they faced unfair ‘tests’ and extra requirements when trying to register to vote." },
+    prompt:"Which evidence would BEST corroborate this claim?",
+    choices:[
+      "Copies of the tests and multiple witness accounts from applicants in the same county",
+      "A sports score recap from 1964",
+      "A modern internet meme about elections",
+      "A map of county borders only"
     ],
-    hint: "Think protections, not arbitrary rule."
+    answer:[0],
+    hint:"Corroborate with direct documentation + multiple accounts."
   },
   {
-    stem: "Which principle of government is most clearly shown when powers are divided between the national government and state governments?",
-    correct: "Federalism",
-    wrong: [
-      "Popular sovereignty",
-      "Checks and balances",
-      "Judicial review"
+    id:8, skill:"Great Depression (cause/effect)",
+    stim:{ kind:"text", label:"Context Blurb", excerpt:"Bank failures and unemployment increased during the early 1930s, and many people lost savings." },
+    prompt:"Which government response is MOST associated with expanding the federal role during this period?",
+    choices:[
+      "New Deal programs that provided relief and financial regulation",
+      "The return to strict laissez-faire with no federal action",
+      "Ending all elections permanently",
+      "Creating the League of Nations"
     ],
-    hint: "This is division of power across levels of government."
-  },
-  {
-    stem: "Congress passes a bill, the president vetoes it, and Congress later overrides the veto. Which constitutional principle is best illustrated?",
-    correct: "Checks and balances",
-    wrong: [
-      "Popular sovereignty",
-      "Federalism",
-      "Elastic clause"
-    ],
-    hint: "One branch is limiting another."
-  },
-  {
-    stem: "Which scenario best demonstrates popular sovereignty?",
-    correct: "Citizens choosing public officials through elections",
-    wrong: [
-      "Judges rewriting the Constitution on their own",
-      "The military taking over lawmaking",
-      "State governments ignoring national law completely"
-    ],
-    hint: "Government authority comes from the people."
-  },
-  {
-    stem: "Why did the framers divide government power among legislative, executive, and judicial branches?",
-    correct: "To reduce the chance that too much power would be concentrated in one place",
-    wrong: [
-      "To eliminate the need for elections",
-      "To make state governments unnecessary",
-      "To ensure that one branch could control all policy"
-    ],
-    hint: "This design is a guard against tyranny."
-  },
-  {
-    stem: "Which Enlightenment thinker is most closely associated with the idea of separation of powers?",
-    correct: "Montesquieu",
-    wrong: [
-      "Hobbes",
-      "Rousseau",
-      "Adam Smith"
-    ],
-    hint: "He argued liberty is safer when power is divided."
-  },
-  {
-    stem: "Which statement best reflects the Anti-Federalist view of the Constitution during ratification?",
-    correct: "A bill of rights was needed to better protect individual liberties.",
-    wrong: [
-      "The national government should be stronger than any state government in all areas.",
-      "The president should have unlimited emergency authority.",
-      "The Articles of Confederation had created too strong a central government."
-    ],
-    hint: "Their biggest fear was abuse by the new national government."
-  },
-  {
-    stem: "Why did many Federalists support ratification of the Constitution?",
-    correct: "They believed the Articles of Confederation had created a government too weak to solve national problems.",
-    wrong: [
-      "They wanted each state to act like an independent country.",
-      "They opposed any national power to tax.",
-      "They wanted no executive branch at all."
-    ],
-    hint: "Federalists wanted a more effective national government."
-  },
-  {
-    stem: "What was the most important result of Anti-Federalist pressure during ratification?",
-    correct: "The adoption of the Bill of Rights",
-    wrong: [
-      "The rejection of the Constitution",
-      "The elimination of the presidency",
-      "The removal of Congress’s taxing power"
-    ],
-    hint: "Their concerns led to added protections."
-  },
-  {
-    stem: "Which clause most clearly supports the idea that valid national laws take priority over conflicting state laws?",
-    correct: "Supremacy Clause",
-    wrong: [
-      "Establishment Clause",
-      "Due Process Clause",
-      "Full Faith and Credit Clause"
-    ],
-    hint: "Think highest law of the land."
-  },
-  {
-    stem: "Which argument would a Federalist most likely make about the Necessary and Proper Clause?",
-    correct: "The national government needs enough flexibility to carry out its constitutional responsibilities.",
-    wrong: [
-      "The clause proves the Constitution should be rejected entirely.",
-      "The clause makes state governments illegal.",
-      "The clause removes all limits on federal power."
-    ],
-    hint: "Federalists defended implied powers as practical."
-  },
-  {
-    stem: "A student says, “The Constitution is designed so government cannot just do whatever it wants.” Which principle best matches that idea?",
-    correct: "Limited government",
-    wrong: [
-      "Mercantilism",
-      "Direct democracy",
-      "Confederation"
-    ],
-    hint: "Government must operate within constitutional limits."
-  },
-  {
-    stem: "Which example best shows a lasting influence of Declaration principles on later U.S. history?",
-    correct: "Reform movements using equality and natural-rights language to demand expanded civil rights",
-    wrong: [
-      "Leaders ending elections to promote stability",
-      "Citizens accepting that only one class deserves liberty",
-      "The military deciding public policy without civilian approval"
-    ],
-    hint: "The Declaration’s ideals were used later to argue for inclusion."
-  },
-  {
-    stem: "Which statement best explains why education was encouraged under the Northwest Ordinance?",
-    correct: "An informed citizenry is important to successful republican self-government.",
-    wrong: [
-      "Education was meant to replace voting.",
-      "Education was intended only for military command.",
-      "Education was discouraged in the territory."
-    ],
-    hint: "Knowledge supports civic participation."
+    answer:[0],
+    hint:"Great Depression → New Deal expansion."
   }
 ];
 
 /* =========================
-   GAME STATE
+   ENGINE — Auto-submit MCQ
+   Wrong = miss + hint, retry same item.
+   Correct = auto-advance.
    ========================= */
-let questions = [];
-let currentIndex = 0;
-let attempts = 0;
-let correctCount = 0;
-let locked = false;
-let timerInterval = null;
+const $ = (id)=>document.getElementById(id);
+
+let studentName = "";
 let startedAt = null;
-let finishedAt = null;
+let endedAt = null;
+let timer = null;
 
-/* =========================
-   HELPERS
-   ========================= */
-function shuffle(array){
-  const arr = [...array];
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+let order = [];
+let i = 0;
+let correct = 0;
+let misses = 0;
+let locked = false;
+
+function fmt(d){
+  if(!d) return "—";
+  const pad = (n)=>String(n).padStart(2,"0");
+  const mm = pad(d.getMonth()+1);
+  const dd = pad(d.getDate());
+  const yy = d.getFullYear();
+  let h = d.getHours(); const ampm = h>=12 ? "PM":"AM";
+  h = h%12; if(h===0) h=12;
+  const mi = pad(d.getMinutes());
+  const se = pad(d.getSeconds());
+  return `${mm}/${dd}/${yy} ${h}:${mi}:${se} ${ampm}`;
+}
+function durMS(a,b){
+  const ms = Math.max(0, b-a);
+  const s = Math.floor(ms/1000);
+  const hh = Math.floor(s/3600);
+  const mm = Math.floor((s%3600)/60);
+  const ss = s%60;
+  const pad = (n)=>String(n).padStart(2,"0");
+  return `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let k=a.length-1;k>0;k--){
+    const j = Math.floor(Math.random()*(k+1));
+    [a[k],a[j]]=[a[j],a[k]];
   }
-  return arr;
+  return a;
 }
-
-function formatElapsed(ms){
-  const total = Math.floor(ms / 1000);
-  const m = Math.floor(total / 60);
-  const s = String(total % 60).padStart(2,'0');
-  return `${m}:${s}`;
+function computeAcc(){
+  const total = correct + misses;
+  if(total === 0) return 100;
+  return (correct / total) * 100;
 }
-
-function formatStamp(date){
-  return date.toLocaleString();
+function setStats(){
+  $("acc").textContent = `${computeAcc().toFixed(1)}%`;
+  $("correct").textContent = String(correct);
+  $("misses").textContent = String(misses);
 }
+function tickNow(){ $("now").textContent = fmt(new Date()); }
 
-function updateTimer(){
-  if(!startedAt) return;
-  document.getElementById('timerDisplay').textContent = formatElapsed(Date.now() - startedAt.getTime());
-}
-
-function updateAccuracy(){
-  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
-  document.getElementById('accuracyDisplay').textContent = `${accuracy}%`;
-}
-
-function updateProgress(){
-  const total = questions.length;
-  const currentNumber = Math.min(currentIndex + 1, total);
-  const completed = currentIndex;
-  const pct = Math.round((completed / total) * 100);
-
-  document.getElementById('progressText').textContent = `${currentNumber} / ${total}`;
-  document.getElementById('progressPct').textContent = `${pct}%`;
-  document.getElementById('progressBar').style.width = `${pct}%`;
-  document.getElementById('qMeta').textContent = `Question ${currentNumber} of ${total}`;
-}
-
-function buildRun(){
-  // shuffle question order
-  const base = shuffle(MASTER_QUESTIONS);
-
-  // shuffle answers inside each question
-  return base.map(q => {
-    const options = shuffle([
-      { text:q.correct, isCorrect:true },
-      ...q.wrong.map(w => ({ text:w, isCorrect:false }))
-    ]);
-    return { ...q, options };
-  });
-}
-
-function goToHub(){
-  window.location.href = "../index.html";
-}
-
-/* =========================
-   RENDER
-   ========================= */
-function renderQuestion(){
-  if(currentIndex >= questions.length){
-    finishGame();
+function renderStim(stim){
+  const wrap = $("stimWrap");
+  if(!stim){
+    wrap.style.display = "none";
+    wrap.innerHTML = "";
     return;
   }
+  wrap.style.display = "block";
 
+  if(stim.kind === "table"){
+    wrap.innerHTML = `<div class="label">${stim.label || "Mini-Chart"}</div>${stim.html || ""}`;
+    return;
+  }
+  wrap.innerHTML = `<div class="label">${stim.label || "Stimulus"}</div><div class="excerpt">${stim.excerpt || ""}</div>`;
+}
+
+function startGame(){
+  order = shuffle(QUESTIONS.map((_,idx)=>idx));
+  i = 0; correct = 0; misses = 0;
+  startedAt = new Date(); endedAt = null;
+
+  $("student").textContent = studentName;
+  $("start").textContent = fmt(startedAt);
+
+  $("ticket").style.display = "none";
+  $("badMsg").style.display = "none";
+  $("goodMsg").style.display = "none";
+
+  setStats();
+  renderItem();
+  tickNow();
+  if(timer) clearInterval(timer);
+  timer = setInterval(tickNow, 500);
+}
+
+function renderItem(){
   locked = false;
-  updateProgress();
-  updateAccuracy();
+  $("badMsg").style.display = "none";
+  $("goodMsg").style.display = "none";
 
-  const q = questions[currentIndex];
-  document.getElementById('questionStem').textContent = q.stem;
-  document.getElementById('feedback').textContent = '';
+  const q = QUESTIONS[order[i]];
+  $("qnum").textContent = `Item ${i+1} / ${QUESTIONS.length}`;
+  $("skill").textContent = q.skill || "Spiral Exam";
+  $("prompt").textContent = q.prompt;
+  $("pbar").style.width = `${(i / QUESTIONS.length) * 100}%`;
 
-  const answers = document.getElementById('answers');
-  answers.innerHTML = '';
+  renderStim(q.stim || null);
 
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'answer';
-    btn.type = 'button';
-    btn.textContent = opt.text;
-    btn.addEventListener('click', () => handleAnswer(btn, opt.isCorrect, q.hint));
-    answers.appendChild(btn);
+  // shuffle choices + remap answer
+  const indices = q.choices.map((_, idx)=>idx);
+  const sh = shuffle(indices);
+
+  const ansSet = new Set(q.answer);
+  const correctPos = sh.map((orig, pos)=> ansSet.has(orig) ? pos : null).filter(v=>v!==null);
+
+  q.__correctPos = correctPos;
+
+  const letters = ["A","B","C","D","E","F"];
+  const box = $("choices");
+  box.innerHTML = "";
+
+  sh.forEach((origIdx, pos)=>{
+    const div = document.createElement("div");
+    div.className = "choice";
+    div.dataset.pos = String(pos);
+    div.innerHTML = `<div class="badge">${letters[pos] || "•"}</div><div>${q.choices[origIdx]}</div>`;
+    div.addEventListener("click", ()=>onPick(pos, div));
+    box.appendChild(div);
   });
 }
 
-function handleAnswer(button, isCorrect, hint){
+function flash(el, ok){
+  el.classList.remove("correctFlash","wrongFlash");
+  el.classList.add(ok ? "correctFlash" : "wrongFlash");
+  setTimeout(()=> el.classList.remove("wrongFlash","correctFlash"), 550);
+}
+function showBad(text){
+  $("hint").textContent = text;
+  $("badMsg").style.display = "block";
+  $("goodMsg").style.display = "none";
+}
+function showGood(){
+  $("goodText").textContent = "Correct. Auto-advancing…";
+  $("goodMsg").style.display = "block";
+  $("badMsg").style.display = "none";
+}
+
+function onPick(pos, el){
   if(locked) return;
   locked = true;
-  attempts++;
 
-  const allButtons = [...document.querySelectorAll('.answer')];
-  allButtons.forEach(b => b.classList.add('locked'));
+  const q = QUESTIONS[order[i]];
+  const ok = (q.__correctPos.length === 1 && q.__correctPos[0] === pos);
 
-  if(isCorrect){
-    correctCount++;
-    button.classList.add('correct');
-    updateAccuracy();
-    document.getElementById('feedback').textContent = 'Correct. Moving on...';
-    setTimeout(() => {
-      currentIndex++;
-      renderQuestion();
-    }, 550);
-    return;
-  }
+  flash(el, ok);
 
-  button.classList.add('incorrect');
-  updateAccuracy();
-  document.getElementById('feedback').textContent = `Hint: ${hint}`;
-
-  // unlock after short pause so student can try again and accuracy keeps the miss
-  setTimeout(() => {
+  if(ok){
+    correct++;
+    setStats();
+    showGood();
+    setTimeout(nextItem, 750);
+  }else{
+    misses++;
+    setStats();
+    showBad(q.hint || "Re-read the stimulus and match the most directly supported choice.");
     locked = false;
-    allButtons.forEach(b => b.classList.remove('locked'));
-    button.classList.remove('incorrect');
-  }, 700);
-}
-
-/* =========================
-   FLOW
-   ========================= */
-function startGame(){
-  const nameInput = document.getElementById('studentName');
-  const name = nameInput.value.trim();
-
-  if(!name){
-    document.getElementById('startMsg').textContent = 'Please enter your name to begin.';
-    nameInput.focus();
-    return;
   }
-
-  document.getElementById('startMsg').textContent = '';
-  document.getElementById('playerDisplay').textContent = name;
-
-  questions = buildRun();
-  currentIndex = 0;
-  attempts = 0;
-  correctCount = 0;
-  finishedAt = null;
-  startedAt = new Date();
-
-  document.getElementById('startedDisplay').textContent = formatStamp(startedAt);
-  document.getElementById('timerDisplay').textContent = '0:00';
-  document.getElementById('progressBar').style.width = '0%';
-  document.getElementById('progressPct').textContent = '0%';
-
-  clearInterval(timerInterval);
-  timerInterval = setInterval(updateTimer, 1000);
-
-  document.getElementById('startCard').classList.add('hidden');
-  document.getElementById('finishCard').classList.add('hidden');
-  document.getElementById('gameCard').classList.remove('hidden');
-
-  renderQuestion();
 }
 
-function finishGame(){
-  finishedAt = new Date();
-  clearInterval(timerInterval);
-  timerInterval = null;
-
-  const name = document.getElementById('playerDisplay').textContent;
-  const accuracy = attempts === 0 ? 100 : Math.round((correctCount / attempts) * 100);
-  const elapsed = formatElapsed(finishedAt.getTime() - startedAt.getTime());
-  const passed = accuracy === 100 ? 'YES' : 'NO';
-
-  document.getElementById('gameCard').classList.add('hidden');
-  document.getElementById('finishCard').classList.remove('hidden');
-
-  document.getElementById('ticket').innerHTML = `
-    <div><strong>Student:</strong> ${name}</div>
-    <div><strong>Passed 0-Miss Mastery:</strong> <span class="${passed === 'YES' ? 'pass' : 'fail'}">${passed}</span></div>
-    <div><strong>Accuracy:</strong> ${accuracy}%</div>
-    <div><strong>Questions:</strong> ${questions.length}</div>
-    <div><strong>Total Attempts:</strong> ${attempts}</div>
-    <div><strong>Correct Answers:</strong> ${correctCount}</div>
-    <div><strong>Started:</strong> ${formatStamp(startedAt)}</div>
-    <div><strong>Finished:</strong> ${formatStamp(finishedAt)}</div>
-    <div><strong>Time:</strong> ${elapsed}</div>
-  `;
+function nextItem(){
+  $("badMsg").style.display = "none";
+  $("goodMsg").style.display = "none";
+  i++;
+  if(i >= QUESTIONS.length) finish();
+  else renderItem();
 }
 
-function restartGame(){
-  clearInterval(timerInterval);
-  timerInterval = null;
+function finish(){
+  endedAt = new Date();
+  if(timer) clearInterval(timer);
+  $("pbar").style.width = "100%";
 
-  document.getElementById('gameCard').classList.add('hidden');
-  document.getElementById('finishCard').classList.add('hidden');
-  document.getElementById('startCard').classList.remove('hidden');
+  const acc = computeAcc();
+  const passed = (misses === 0);
 
-  document.getElementById('studentName').value = '';
-  document.getElementById('startMsg').textContent = '';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('answers').innerHTML = '';
-  document.getElementById('questionStem').textContent = 'Loading…';
-  document.getElementById('timerDisplay').textContent = '0:00';
-  document.getElementById('accuracyDisplay').textContent = '100%';
-  document.getElementById('progressText').textContent = `1 / ${MASTER_QUESTIONS.length}`;
-  document.getElementById('progressPct').textContent = '0%';
-  document.getElementById('progressBar').style.width = '0%';
-  document.getElementById('startedDisplay').textContent = '—';
+  const ticket =
+`AMERICAN STUDIES — OST MASTERY HUB
+Game: AmStud 9 — Full-Year Spiral Exam (Mastery)
 
-  questions = [];
-  currentIndex = 0;
-  attempts = 0;
-  correctCount = 0;
-  locked = false;
-  startedAt = null;
-  finishedAt = null;
+Student: ${studentName}
+Passed: ${passed ? "YES (Mastery)" : "NO"}
+Accuracy: ${acc.toFixed(1)}%
+Correct Items: ${correct}
+Misses: ${misses}
+
+Start: ${fmt(startedAt)}
+End:   ${fmt(endedAt)}
+Duration: ${durMS(startedAt, endedAt)}
+
+Reminder: Mastery requires 0 misses.`;
+
+  $("ticketText").textContent = ticket;
+  $("ticket").style.display = "block";
+
+  $("goodMsg").style.display = "block";
+  $("badMsg").style.display = "none";
+  $("goodText").textContent = passed
+    ? "Mastery earned. Screenshot your ticket."
+    : "Not mastery. Hit Restart and go again for 100%.";
 }
 
-/* =========================
-   EVENTS
-   ========================= */
-document.getElementById('startBtn').addEventListener('click', startGame);
-document.getElementById('restartBtn').addEventListener('click', restartGame);
-document.getElementById('playAgainBtn').addEventListener('click', restartGame);
-document.getElementById('hubBtn').addEventListener('click', goToHub);
-document.getElementById('finishHubBtn').addEventListener('click', goToHub);
-
-document.getElementById('studentName').addEventListener('keydown', (e) => {
-  if(e.key === 'Enter') startGame();
+/* Buttons */
+$("restartBtn").addEventListener("click", ()=>startGame());
+$("copyBtn").addEventListener("click", async ()=>{
+  try{
+    await navigator.clipboard.writeText($("ticketText").textContent);
+    $("copyBtn").textContent = "Copied!";
+    setTimeout(()=>$("copyBtn").textContent="Copy Ticket", 900);
+  }catch(e){
+    alert("Copy blocked by browser. Please screenshot instead.");
+  }
 });
+
+/* Name gate */
+const gate = $("gate");
+const nameInput = $("nameInput");
+const beginBtn = $("beginBtn");
+
+function begin(){
+  const v = (nameInput.value || "").trim();
+  if(!v){ nameInput.focus(); return; }
+  studentName = v;
+  localStorage.setItem("legend_amstud_student_name", studentName);
+  gate.style.display = "none";
+  startGame();
+}
+beginBtn.addEventListener("click", begin);
+nameInput.addEventListener("keydown", (e)=>{ if(e.key === "Enter") begin(); });
+
+const saved = localStorage.getItem("legend_amstud_student_name");
+if(saved){
+  nameInput.value = saved;
+  nameInput.select();
+}
+
+/* Clock */
+(function bootClock(){
+  $("now").textContent = fmt(new Date());
+  if(timer) clearInterval(timer);
+  timer = setInterval(()=> $("now").textContent = fmt(new Date()), 500);
+})();
 </script>
 </body>
 </html>
