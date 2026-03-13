@@ -1,69 +1,1721 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Specialty Questions Arena — American Studies OST Review</title><style>
-:root{--bg:#0b1220;--p:#111a2f;--t:#e7eefc;--m:#a8b4cf;--l:rgba(255,255,255,.12);--a:#7aa2ff;--g:#2bd576;--b:#ff5c7a}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1220,#070b14);color:var(--t);font-family:system-ui}.wrap{width:min(1160px,94vw);margin:24px auto}.panel{background:linear-gradient(180deg,#111a2f,#0f1730);border:1px solid var(--l);border-radius:18px;padding:18px;margin-bottom:18px}.grid{display:grid;grid-template-columns:310px 1fr;gap:18px}@media(max-width:980px){.grid{grid-template-columns:1fr}}h1,h2,h3,h4,p{margin:0 0 10px}.muted{color:var(--m)}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid rgba(122,162,255,.28);background:rgba(122,162,255,.12);padding:7px 10px;border-radius:999px;font-size:.85rem}.stat{border:1px solid var(--l);border-radius:14px;padding:10px 12px;background:rgba(255,255,255,.03);margin-bottom:10px}.k{color:var(--m);font-size:.82rem}.bar{height:10px;background:rgba(255,255,255,.08);border:1px solid var(--l);border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),#9dc1ff)}input,select,button{font:inherit}input,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--l);background:#091120;color:var(--t)}button{border:none;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer}.pri{background:linear-gradient(180deg,#7aa2ff,#5b85ea);color:#fff}.sec{background:rgba(255,255,255,.06);color:var(--t);border:1px solid var(--l)}.good{background:linear-gradient(180deg,#35d87a,#22b663);color:#fff}.stage{display:none}.stage.active{display:block}.source,.part,.sentence{border:1px solid var(--l);background:rgba(255,255,255,.03);border-radius:14px;padding:14px;margin-top:12px;line-height:1.55}.choices,.checks,.matrix,.zones{display:grid;gap:10px;margin-top:12px}.choice,.check{border:1px solid var(--l);padding:12px;border-radius:14px;background:rgba(255,255,255,.03);cursor:pointer}.choice:hover{border-color:var(--a)}.choice.correct,.hit{border-color:rgba(43,213,118,.6);background:rgba(43,213,118,.1)}.choice.incorrect,.miss{border-color:rgba(255,92,122,.6);background:rgba(255,92,122,.1)}.msg{display:none;margin-top:12px;padding:12px;border-radius:14px;font-weight:700}.msg.show{display:block}.msg.goodm{background:rgba(43,213,118,.12);border:1px solid rgba(43,213,118,.35)}.msg.badm{background:rgba(255,92,122,.12);border:1px solid rgba(255,92,122,.35)}.msg.warnm{background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.35)}.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.row2{grid-template-columns:1fr}}.bank,.zone{border-radius:14px;padding:12px;min-height:120px}.bank{border:1px dashed rgba(255,255,255,.25)}.zone{border:1px solid var(--l);background:rgba(122,162,255,.07)}.zone.over{outline:2px solid rgba(122,162,255,.4)}.card{background:#0b162a;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:9px 11px;margin:8px 0;cursor:grab}.matrixr{display:grid;grid-template-columns:1fr 220px;gap:10px;align-items:center;border:1px solid var(--l);border-radius:14px;padding:10px;background:rgba(255,255,255,.03)}@media(max-width:700px){.matrixr{grid-template-columns:1fr}}table{width:100%;border-collapse:collapse}th,td{border:1px solid rgba(255,255,255,.14);padding:8px;text-align:left}th{background:rgba(122,162,255,.12)}.ticket{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:700px){.ticket{grid-template-columns:1fr}}.ticket .stat{margin:0}.pass{color:#d9ffe8}.fail{color:#ffd5dd}
-</style></head><body><div class="wrap"><div class="panel"><h1>Specialty Questions Arena</h1><p class="muted">American Studies OST Review • Passages • Two-Part • Drag & Drop • Dropdowns • Evidence</p><div class="chips"><span class="chip">Name Required</span><span class="chip">Auto-Submit MCQ</span><span class="chip">Two-Part</span><span class="chip">Drag & Drop</span><span class="chip">Dropdowns</span><span class="chip">Ticket + Timestamps</span></div></div><div class="grid"><aside class="panel"><h2>Game Status</h2><div class="stat"><div class="k">Student</div><div id="sName">Not started</div></div><div class="stat"><div class="k">Progress</div><div><span id="sProg">0</span> / <span id="sTotal">30</span></div><div class="bar" style="margin-top:8px"><span id="bar"></span></div></div><div class="stat"><div class="k">Accuracy</div><div id="sAcc">0%</div></div><div class="stat"><div class="k">Started</div><div id="sStart">—</div></div><div class="stat"><div class="k">Completed</div><div id="sEnd">—</div></div><button class="sec" id="restartBtn" type="button">Restart Game</button><p class="muted" style="margin-top:12px;font-size:.84rem">Single-answer questions check on click. Specialty formats check automatically once all required selections or placements are complete.</p></aside><main><section class="panel stage active" id="startStage"><h2>Start the Arena</h2><p class="muted">Enter your name to begin. Your ticket includes name, date, start time, completion time, pass/fail, and accuracy.</p><input id="nameInput" placeholder="Enter your name"><div style="margin-top:10px"><button class="pri" id="startBtn">Start Game</button></div><div id="startMsg" class="msg"></div></section><section class="panel stage" id="gameStage"><div class="muted" id="qnum"></div><h2 id="qtitle"></h2><div id="qcontent"></div><div id="fb" class="msg"></div></section><section class="panel stage" id="endStage"><h2>Submit Ticket</h2><p class="muted">Screenshot this finished ticket and submit it.</p><div class="ticket"><div class="stat"><div class="k">Student Name</div><div id="tName"></div></div><div class="stat"><div class="k">Result</div><div id="tResult"></div></div><div class="stat"><div class="k">Accuracy</div><div id="tAcc"></div></div><div class="stat"><div class="k">Questions Completed</div><div id="tCount"></div></div><div class="stat"><div class="k">Date</div><div id="tDate"></div></div><div class="stat"><div class="k">Time Started</div><div id="tStart"></div></div><div class="stat"><div class="k">Time Completed</div><div id="tEnd"></div></div><div class="stat"><div class="k">Score Summary</div><div id="tSummary"></div></div></div><div style="margin-top:12px"><button class="good" id="againBtn">Play Again</button></div></section></main></div></div>
-<script>
-(()=>{const $=id=>document.getElementById(id), PASS=80; const fmtDT=d=>d.toLocaleString([], {year:'numeric',month:'2-digit',day:'2-digit',hour:'numeric',minute:'2-digit'}), fmtD=d=>d.toLocaleDateString([], {year:'numeric',month:'2-digit',day:'2-digit'}), fmtT=d=>d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}); const sh=a=>{a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a;};
-const qs=[
-{type:'mcq',title:'Homestead Strike Passage',src:`<div class='source'><p>In the late 1800s, Homestead, Pennsylvania, was home to one of the major steel mills of the Carnegie Steel Company. Its skilled workers were members of a labor union named the Amalgamated Association of Iron and Steel Workers. Because the workers in Homestead were among the highest paid in the steel industry, the company sought to lower their pay during contract negotiations. As negotiations broke down, the director of the steel mill, H. C. Frick, hired a group of 300 security workers from the Pinkerton National Detective Agency to guard the plant against the striking workers. As the Pinkertons were on their way to Homestead, thousands of striking workers, many of them armed, gathered outside the plant. When the Pinkertons arrived on July 6, a violent confrontation between the two groups occurred and resulted in at least 10 deaths and many more injuries.</p></div>`,prompt:'What caused the Carnegie Steel Company to lock union workers out of the Homestead plant?',opts:['Union workers attacked Pinkerton guards first.','Negotiations between the union and the company broke down.','Congress ordered a federal takeover.','Workers protested child labor laws.'],ans:'Negotiations between the union and the company broke down.',hint:'Look for the event before Pinkertons arrived.'},
-{type:'mcq',title:'Homestead Strike Consequence',src:`<div class='source'><p>The violent clash at Homestead became one of the best-known labor conflicts of the industrial era and showed how far companies and workers would go in disputes over wages and union power.</p></div>`,prompt:'What was a direct effect of the violent confrontation between Pinkerton security workers and the striking Homestead workers?',opts:['State militia was deployed to protect Carnegie Steel’s interests.','The federal government nationalized the steel industry.','The company restored union wages immediately.','H. C. Frick resigned the same day.'],ans:'State militia was deployed to protect Carnegie Steel’s interests.',hint:'Governments often intervened when strikes turned violent.'},
-{type:'mcq',title:'Source Credibility and Bias',src:`<div class='source'><p>H. C. Frick argued that Carnegie Steel should control the Homestead plant without union interference and claimed workers at nonunion mills were satisfied.</p></div>`,prompt:'Why might a student question the credibility of this source due to bias?',opts:['Frick lacked education.','Labor leaders could not respond publicly.','Convincing readers workers were treated fairly benefited Carnegie Steel financially.','Frick wanted to increase union power.'],ans:'Convincing readers workers were treated fairly benefited Carnegie Steel financially.',hint:'Ask who benefits if the public accepts the company’s side.'},
-{type:'mcq',title:'Industrialization Pattern',src:`<div class='source'><p>The Homestead conflict centered on wages, union recognition, and company resistance to organized labor during rapid industrialization.</p></div>`,prompt:'What common cause of conflict between corporations and labor unions led to the standoff at Homestead?',opts:['The wages paid to employees','The lack of child labor laws','The closing of western farms','Women’s suffrage demands'],ans:'The wages paid to employees',hint:'The company tried to cut something specific.'},
-{type:'mcq',title:'Laissez-Faire Context',src:`<div class='source'><p>During the late 1800s, large businesses often operated with limited government interference. Monopolies and trusts expanded, and labor disputes sometimes turned violent.</p></div>`,prompt:'Which historical trend directly contributed to the events described?',opts:['The federal government’s laissez-faire policies toward large businesses','The passage of federal antitrust acts','The decline of heavy industry','The expansion of women’s suffrage'],ans:'The federal government’s laissez-faire policies toward large businesses',hint:'Think little regulation.'},
-{type:'twopart',title:'U.S. Foreign Policy After World War I',a:{p:'PART A — Which foreign policy did the United States adopt to avoid future international conflicts?',opts:['Containment','Imperialism','Interventionism','Isolationism'],ans:'Isolationism'},b:{p:'PART B — Select all actions that reflect the policy identified in Part A.',opts:['Signing the Kellogg-Briand Pact','Refusing to join the League of Nations','Annexing Hawaii','Becoming involved in East Asian conflicts','Supporting military revolutions abroad'],ans:['Signing the Kellogg-Briand Pact','Refusing to join the League of Nations']},hint:'Choose the policy first, then the actions that limit entanglement.'},
-{type:'twopart',title:'Postwar Economy After World War II',a:{p:'PART A — Which statement describes the U.S. economy in the years following World War II?',opts:['The U.S. economy experienced rapid growth.','The U.S. economy experienced widespread unemployment.','The U.S. economy declined because infrastructure was destroyed.','The U.S. economy shifted back to agriculture.'],ans:'The U.S. economy experienced rapid growth.'},b:{p:'PART B — Select all statements that support your answer in Part A.',opts:['Commercial and residential property developed in suburban areas.','Consumer demand for housing and automobile ownership rose greatly.','Most wartime factories quickly remained closed forever.','Federalists and Anti-Federalists debated ratification.'],ans:['Commercial and residential property developed in suburban areas.','Consumer demand for housing and automobile ownership rose greatly.']},hint:'Think suburbs and consumer demand.'},
-{type:'mcq',title:'Federalist vs. Anti-Federalist Debate',src:`<div class='source'><p>“The Congress are therefore vested with the supreme legislative power, without control...”</p></div>`,prompt:'What would the author most likely have argued for during ratification?',opts:['A bill of rights that limited federal power','A system of national taxation','A standing army for national defense','An executive with unlimited legislative power'],ans:'A bill of rights that limited federal power',hint:'The concern is unchecked federal power.'},
-{type:'matrix',title:'Second Red Scare Classification',prompt:'Select whether each person or group served primarily as an investigator or as a target of investigation during the Second Red Scare.',cols:['Investigators','Targets of Investigation'],rows:[['Actors','Targets of Investigation'],['Writers','Targets of Investigation'],['Senator Joseph McCarthy','Investigators'],['House Un-American Activities Committee (HUAC)','Investigators']],hint:'McCarthy and HUAC investigated. Actors and writers were often investigated.'},
-{type:'twopart',title:'U.S. Foreign Policy in the 1930s',a:{p:'PART A — What was the focus of U.S. foreign policy during the 1930s?',opts:['Distancing the country from earlier global interventionist actions','Expanding overseas military bases','Halting international trade','Increasing nuclear weapons production'],ans:'Distancing the country from earlier global interventionist actions'},b:{p:'PART B — Select the two events that changed that foreign policy focus.',opts:['The bombing of Pearl Harbor','The expansionist policies of Japan','The collapse of the U.S. stock market','The division of Korea'],ans:['The bombing of Pearl Harbor','The expansionist policies of Japan']},hint:'Isolation ended because of Japanese aggression and Pearl Harbor.'},
-{type:'twopart',title:'Post-Cold War Economy',a:{p:'PART A — Which field of employment has decreased in the United States since the early 1990s?',opts:['Manufacturing jobs','Health care','Food service jobs','Information technology jobs'],ans:'Manufacturing jobs'},b:{p:'PART B — Why has the field identified in Part A decreased?',opts:['Many goods can be produced more cheaply in foreign countries.','The U.S. population became younger and healthier.','Computer literacy has been underfunded.','Crop prices rose.'],ans:['Many goods can be produced more cheaply in foreign countries.']},hint:'Think globalization and overseas competition.'},
-{type:'mcq',title:'Life Expectancy Table',src:`<div class='source'><table><tr><th>Year</th><th>Life Expectancy</th></tr><tr><td>1935</td><td>61.7 years</td></tr><tr><td>1940</td><td>62.9 years</td></tr><tr><td>1945</td><td>65.9 years</td></tr><tr><td>1950</td><td>68.2 years</td></tr><tr><td>1955</td><td>69.6 years</td></tr><tr><td>1960</td><td>69.7 years</td></tr><tr><td>1965</td><td>70.2 years</td></tr></table></div>`,prompt:'Which factor contributed to the trend shown in the table?',opts:['Advances in science and medicine','A shift from manufacturing to services','Population growth in rural areas','The establishment of organized labor unions'],ans:'Advances in science and medicine',hint:'The table shows people living longer.'},
-{type:'evidence',title:'Goals of U.S. Foreign Policy After World War I',prompt:'Select the two goals of U.S. foreign policy immediately following World War I.',opts:['Limiting the country’s involvement in international affairs','Preventing the occurrence of major wars in the future','Containing communism','Using the military to intervene overseas','Forming security alliances in Asia'],ans:['Limiting the country’s involvement in international affairs','Preventing the occurrence of major wars in the future'],hint:'Think isolationism plus peace efforts.'},
-{type:'drag',title:'Post-Reconstruction Developments and Effects',prompt:'Drag each development to the matching effect on race relations.',zones:[['Poll taxes, literacy tests, and grandfather clauses limited African American political participation',['Poll taxes, literacy tests, and grandfather clauses']],['Segregation was lawful as long as facilities were “separate but equal”',['Plessy v. Ferguson decision']],['Violence and intimidation were used to prevent African Americans from voting',['Rise of the Ku Klux Klan and similar groups']]],bank:['Plessy v. Ferguson decision','Poll taxes, literacy tests, and grandfather clauses','Rise of the Ku Klux Klan and similar groups'],hint:'Match voting limits, the court case, and intimidation.'},
-{type:'twopart',title:'Federal Government Response to the Great Depression',a:{p:'PART A — Which action was taken by the federal government in the 1930s to address the effects of the Great Depression?',opts:['Employing citizens in public works projects','Reducing spending on social welfare programs','Reimbursing stock market losses','Eliminating loans to farmers'],ans:'Employing citizens in public works projects'},b:{p:'PART B — Select all impacts of the action identified in Part A.',opts:['The role of the federal government greatly expanded.','Citizens became more dependent on federal government programs.','The stock market quickly recovered.','The U.S. became dependent on agricultural imports.','A national draft was created.'],ans:['The role of the federal government greatly expanded.','Citizens became more dependent on federal government programs.']},hint:'Focus on how New Deal programs changed Washington’s role.'},
-{type:'twopart',title:'Article I and Foundational Principles',a:{p:'PART A — What is the effect of the Article I excerpt shown below?',src:`<div class='source'><p><strong>Article I, Section 1.</strong> All legislative Powers herein granted shall be vested in a Congress of the United States, which shall consist of a Senate and House of Representatives.</p><p><strong>Section 2.</strong> The House of Representatives shall be composed of Members chosen every second Year by the People of the several States...</p><p><strong>Section 3.</strong> The Senate of the United States shall be composed of two Senators from each State...</p></div>`,opts:['It established a form of government in which the people elected representatives.','It created the relationship between state and federal law.','It founded three co-equal branches of government.','It protected certain individual rights.'],ans:'It established a form of government in which the people elected representatives.'},b:{p:'PART B — Which foundational principle is reflected in the effect selected in Part A?',opts:['Federalism','Limited government','Separation of powers','Consent of the people'],ans:['Consent of the people']},hint:'The key idea is popular approval through elections.'},
-{type:'matrix',title:'Population Changes and Social/Political Effects',prompt:'Match each cause of population change in the United States to its effect.',cols:['Social unrest occurred in big cities like Los Angeles and Chicago.','Hispanics became the fastest growing minority in the U.S.','Political power shifted toward states in the southern and western United States.'],rows:[['Urban employment opportunities decreased and infrastructure decayed.','Social unrest occurred in big cities like Los Angeles and Chicago.'],['Congress passed the Immigration Act of 1965.','Hispanics became the fastest growing minority in the U.S.'],['The Sunbelt saw growth in defense and high-tech employment opportunities.','Political power shifted toward states in the southern and western United States.']],hint:'Think Rust Belt decline, immigration, and Sunbelt growth.'},
-{type:'drag',title:'Atomic Weapons and the Cold War',prompt:'Drag the events into the correct box.',zones:[['Consequences of the Soviet Union exploding its first atomic bomb in 1949',['The USSR became a second superpower.','The balance of power shifted and world peace was threatened.','A nuclear arms race began.']],['Not direct consequences of the Soviet atomic bomb',['The United States used nuclear weapons against Japan.','Communists took over China.']]],bank:['The USSR became a second superpower.','The balance of power shifted and world peace was threatened.','A nuclear arms race began.','The United States used nuclear weapons against Japan.','Communists took over China.'],hint:'Keep only the outcomes that followed the USSR gaining atomic capability.'},
-{type:'mcq',title:'League of Nations Debate',src:`<div class='source'><p>“It is in conflict with the right of our people to govern themselves free from all restraint... America must... be permitted to live her own life.” — William E. Borah, 1919</p></div>`,prompt:'Which thesis statement could this quote best support?',opts:['The Senate was right to reject League membership because U.S. sovereignty would have been harmed by joining.','The Senate was wrong to reject League membership because it would have increased U.S. influence.','The Senate was wrong to reject League membership because U.S. membership would have guaranteed success.','The Senate was right to reject League membership because the League was doomed regardless.'],ans:'The Senate was right to reject League membership because U.S. sovereignty would have been harmed by joining.',hint:'The quote stresses self-government and avoiding foreign restraint.'},
-{type:'twopart',title:'USA PATRIOT Act',a:{p:'PART A — Which act was signed into law in 2001 for the purpose of strengthening America’s national security to combat terrorism?',opts:['The Espionage Act','The USA PATRIOT Act','The Social Security Act','The Federal Emergency Relief Act'],ans:'The USA PATRIOT Act'},b:{p:'PART B — Select all of the ways the act attempted to strengthen national security efforts.',opts:['It provided increased funding to border patrols, customs, and immigration officials.','It removed barriers that prevented government agencies from sharing information.','It enhanced privacy laws to protect citizens from government monitoring.','It imposed new penalties for tax avoidance.','It provided disaster aid to states.'],ans:['It provided increased funding to border patrols, customs, and immigration officials.','It removed barriers that prevented government agencies from sharing information.']},hint:'This law expanded information sharing and security powers after 9/11.'},
-{type:'drag',title:'Thesis and Supporting Evidence',prompt:'Drag the evidence that supports this thesis into the correct box: “Following Reconstruction, racial discrimination became institutionalized in the South.”',zones:[['Supports Thesis',['Plessy v. Ferguson case affirmed segregation','Poll taxes kept African Americans from voting','Jim Crow laws legalized racial segregation']],['Does Not Support Thesis',['14th Amendment gave due process to all citizens','Great Migration caused racial tension in the North','Slavery was banned in the Northwest Territory']]],bank:['14th Amendment gave due process to all citizens','Plessy v. Ferguson case affirmed segregation','Great Migration caused racial tension in the North','Poll taxes kept African Americans from voting','Jim Crow laws legalized racial segregation','Slavery was banned in the Northwest Territory'],hint:'Look for evidence that directly shows legalized segregation and blocked civil rights.'},
-{type:'twopart',title:'U.S. Policy Toward American Indians in the Late 1800s',a:{p:'PART A — What was the goal of the U.S. government’s policy toward American Indians in the late 1800s?',opts:['To increase the independence of American Indian tribes','To broaden economic opportunities while preserving tribal life','To pressure American Indians to assimilate into European American culture','To create a dialogue between tribes and settlers'],ans:'To pressure American Indians to assimilate into European American culture'},b:{p:'PART B — Select two ways implementation of this policy affected American Indians.',opts:['Reservation land was broken up and granted to individuals instead of tribes as a whole.','Tribal governments were weakened or eliminated as tribes officially recognized state and federal laws.','Tribes gained the right to negotiate foreign trade agreements.','Formal reservation systems were established for American Indians in the South.'],ans:['Reservation land was broken up and granted to individuals instead of tribes as a whole.','Tribal governments were weakened or eliminated as tribes officially recognized state and federal laws.']},hint:'Think Dawes Act, allotment, assimilation, and weakened tribal authority.'},
-{type:'twopart',title:'Prohibition',a:{p:'PART A — What impact did Prohibition have on U.S. society during the 1920s and early 1930s?',opts:['It led to the establishment of speakeasies and the rise of organized crime.','It created African American cultural centers in northern cities.','It caused a shift from agricultural to industrial production.','It led to increased migration of workers to northern states.'],ans:'It led to the establishment of speakeasies and the rise of organized crime.'},b:{p:'PART B — How did the impact identified in Part A affect the policy of Prohibition?',opts:['It was repealed due to its unpopularity and high costs of enforcement.','It was expanded nationwide after local success.','It was extended because it caused strong economic growth.','It was amended to apply only to cities.'],ans:['It was repealed due to its unpopularity and high costs of enforcement.']},hint:'Illegal alcohol sales undermined enforcement and public support.'},
-{type:'mcq',title:'Article IV and Government Protection of Rights',src:`<div class='source'><p>“The Citizens of each State shall be entitled to all Privileges and Immunities of Citizens in the several States.”</p></div>`,prompt:'How does this excerpt establish a relationship between the people and the government?',opts:['By affirming that the government must protect citizens’ rights and liberties','By dividing political power between state and national governments','By creating judicial review','By establishing the social contract directly'],ans:'By affirming that the government must protect citizens’ rights and liberties',hint:'The key idea is that citizens carry protected rights.'},
-{type:'dropdown',title:'Great Depression Cause and Response',sent:[['The Great Depression was caused in part by',['speculation and buying on margin','an uneven distribution of New Deal benefits','a lack of available consumer credit'],'speculation and buying on margin'],['In an effort to prevent this problem in the future, the federal government created the',['Securities and Exchange Commission','Civilian Conservation Corps','Works Progress Administration'],'Securities and Exchange Commission']],after:'to protect investors and help ensure fair markets.',hint:'One blank asks for a cause of the crash. The other asks for the watchdog agency created afterward.'},
-{type:'mcq',title:'Industrialization',src:`<div class='source'><p>Heavy industry, corporations, and mechanized farming transformed the American economy in the late 1800s and early 1900s.</p></div>`,prompt:'Which change best reflects that transformation?',opts:['A shift from rural living to urban living','A shift from factory work to farm labor','A decline in mechanized production','A reduction in immigration'],ans:'A shift from rural living to urban living',hint:'Industrial growth pulled people toward cities.'},
-{type:'mcq',title:'Organized Labor',src:`<div class='source'><p>Labor unions used strikes, boycotts, and collective bargaining to improve wages and working conditions.</p></div>`,prompt:'Which tactic did labor unions use to negotiate directly with employers over wages and working conditions?',opts:['Collective bargaining','Imperialism','Laissez-faire','Assimilation'],ans:'Collective bargaining',hint:'This tactic involves organized negotiation between workers and management.'},
-{type:'evidence',title:'Progressive Era Reforms',prompt:'Select the reforms that are examples of Progressive Era efforts to address industrial capitalism and public welfare.',opts:['Pure Food and Drug Act','Meat Inspection Act','Sherman Antitrust Act','Dawes Act','Kansas-Nebraska Act'],ans:['Pure Food and Drug Act','Meat Inspection Act','Sherman Antitrust Act'],hint:'Choose the reforms tied to consumer protection and powerful corporations.'},
-{type:'mcq',title:'Urbanization',src:`<div class='source'><p>Rapid immigration, migration, and industrialization caused cities to grow quickly, often faster than services could keep up.</p></div>`,prompt:'Which condition was a common result of rapid urbanization?',opts:['Overcrowded and unsanitary living conditions','Fewer ethnic neighborhoods','Improved sanitation everywhere','A decline in public transportation'],ans:'Overcrowded and unsanitary living conditions',hint:'Urban growth often outpaced housing and sanitation services.'},
-{type:'mcq',title:'Westward Expansion and American Indians',src:`<div class='source'><p>Industrialization increased demand for land and natural resources, intensifying conflict with American Indians and reinforcing reservation policies.</p></div>`,prompt:'Which federal law helped break up tribal landholdings and pushed assimilation?',opts:['Dawes Act','Social Security Act','Lend-Lease Act','Sherman Antitrust Act'],ans:'Dawes Act',hint:'It divided reservation land into individual allotments.'},
-{type:'mcq',title:'Post-Reconstruction',src:`<div class='source'><p>Following Reconstruction, many Southern states passed Jim Crow laws and restricted voting rights, while segregation and intimidation maintained white supremacy.</p></div>`,prompt:'Which Supreme Court decision affirmed segregation under the “separate but equal” doctrine?',opts:['Plessy v. Ferguson','Brown v. Board of Education','Marbury v. Madison','McCulloch v. Maryland'],ans:'Plessy v. Ferguson',hint:'It is the 1896 case later overturned by Brown.'},
-{type:'evidence',title:'Women’s Suffrage',prompt:'Select the developments that support the claim that women gained greater political rights during the Progressive Era and 1920s.',opts:['19th Amendment','Women’s suffrage movement success','Increased participation in public life','17th Amendment','Sharecropping contracts'],ans:['19th Amendment','Women’s suffrage movement success','Increased participation in public life'],hint:'Choose the items tied directly to voting rights and women’s expanded public role.'},
-{type:'mcq',title:'Harlem Renaissance',src:`<div class='source'><p>The Harlem Renaissance celebrated African American culture through art, literature, and music, while jazz became a major American genre.</p></div>`,prompt:'Which statement best describes the significance of the Harlem Renaissance?',opts:['It celebrated African American culture and increased awareness of racial injustice.','It ended segregation in Southern schools.','It created the League of Nations.','It restricted immigration from Europe.'],ans:'It celebrated African American culture and increased awareness of racial injustice.',hint:'Think cultural pride and social awareness.'},
-{type:'mcq',title:'Great Depression Causes',src:`<div class='source'><p>Excessive lending, consumer debt, stock speculation, and Federal Reserve actions contributed to worsening economic conditions in the late 1920s and early 1930s.</p></div>`,prompt:'Which practice contributed directly to the stock market crash that helped trigger the Great Depression?',opts:['Buying stocks on margin','Collective bargaining','Rationing consumer goods','Cash-and-carry trade'],ans:'Buying stocks on margin',hint:'This involved purchasing stocks with borrowed money.'},
-{type:'evidence',title:'Transition to World War II',prompt:'Select the policies or actions that reflected the gradual U.S. shift from isolationism toward involvement in World War II before Pearl Harbor.',opts:['Lend-Lease Act','Atlantic Charter','Cash-and-carry policy','Neutrality Acts','Marshall Plan'],ans:['Lend-Lease Act','Atlantic Charter','Cash-and-carry policy'],hint:'Choose the measures that aided countries fighting fascist aggression before direct U.S. entry.'},
-{type:'mcq',title:'World War II Home Front',src:`<div class='source'><p>Wartime mobilization changed daily life through rationing, propaganda, war production, drafting, and expanded work opportunities.</p></div>`,prompt:'Which example best reflects a personal sacrifice made by Americans on the home front during World War II?',opts:['Rationing food and fuel','Joining the League of Nations','Passing antitrust legislation','Buying stocks on margin'],ans:'Rationing food and fuel',hint:'Think of conserving resources for the war effort.'},
-{type:'evidence',title:'Containment',prompt:'Select the policies or alliances associated with the U.S. policy of containment during the Cold War.',opts:['Truman Doctrine','Marshall Plan','North Atlantic Treaty Organization (NATO)','Dawes Act','Kellogg-Briand Pact'],ans:['Truman Doctrine','Marshall Plan','North Atlantic Treaty Organization (NATO)'],hint:'Containment aimed to stop the spread of communism after World War II.'},
-{type:'mcq',title:'Civil Rights After World War II',src:`<div class='source'><p>Organizations such as the NAACP, SCLC, and SNCC challenged segregation and inequality through demonstrations, court cases, and federal legislation.</p></div>`,prompt:'Which Supreme Court case helped end legal school segregation?',opts:['Brown v. Board of Education','Plessy v. Ferguson','Dred Scott v. Sandford','Schenck v. United States'],ans:'Brown v. Board of Education',hint:'It overturned the logic of “separate but equal” in public schools.'},
-{type:'mcq',title:'Postwar Boom',src:`<div class='source'><p>After World War II, the United States experienced major economic growth. Suburbs expanded, consumer demand increased, and advances in medicine, transportation, and television reshaped daily life.</p></div>`,prompt:'Which development was most closely tied to the postwar economic boom?',opts:['Growth of suburbs','A return to isolationism','Collapse of consumer demand','A shift away from television'],ans:'Growth of suburbs',hint:'Affordable housing and prosperity fueled this pattern.'},
-{type:'mcq',title:'Sunbelt Migration',src:`<div class='source'><p>Population movement from the Rust Belt to the Sun Belt changed the country politically and economically as jobs expanded in southern and western states.</p></div>`,prompt:'What was one important political effect of migration to the Sun Belt?',opts:['Political power shifted toward southern and western states.','Congressional reapportionment ended.','Urban employment in the Northeast sharply increased.','Immigration from Latin America ended.'],ans:'Political power shifted toward southern and western states.',hint:'More population meant more representation and influence.'},
-{type:'mcq',title:'Domestic Policy After September 11, 2001',src:`<div class='source'><p>After 9/11, the United States faced debates over balancing national security with civil liberties. Changes included the USA PATRIOT Act and the creation of the TSA.</p></div>`,prompt:'Which issue became a major domestic debate after the attacks of September 11, 2001?',opts:['Balancing national security with civil liberties','Whether to return to the Articles of Confederation','Whether to legalize segregation','How to restore the gold standard'],ans:'Balancing national security with civil liberties',hint:'This debate centers on safety versus constitutional protections.'}
-];
-const st={name:'',start:null,end:null,i:0,attempts:0,correct:0}; $('sTotal').textContent=qs.length;
-function stage(id){['startStage','gameStage','endStage'].forEach(x=>$(x).classList.remove('active')); $(id).classList.add('active');}
-function sidebar(){ $('sName').textContent=st.name||'Not started'; $('sProg').textContent=Math.min(st.i,qs.length); $('bar').style.width=((st.i/qs.length)*100)+'%'; $('sAcc').textContent=(st.attempts?Math.round(st.correct/st.attempts*100):0)+'%'; $('sStart').textContent=st.start?fmtDT(st.start):'—'; $('sEnd').textContent=st.end?fmtDT(st.end):'—'; }
-function fb(kind,text){const x=$('fb'); x.className='msg show '+kind; x.textContent=text;} function fbHide(){ $('fb').className='msg'; $('fb').textContent=''; }
-function attempt(ok){ st.attempts++; if(ok) st.correct++; sidebar(); }
-function next(delay=900){ setTimeout(()=>{ st.i++; sidebar(); if(st.i>=qs.length) finish(); else render(); },delay); }
-function finish(){ st.end=new Date(); sidebar(); const acc=st.attempts?Math.round(st.correct/st.attempts*100):0; $('tName').textContent=st.name; $('tResult').innerHTML=acc>=PASS?'<span class="pass">Passed</span>':'<span class="fail">Failed</span>'; $('tAcc').textContent=acc+'%'; $('tCount').textContent=qs.length+' / '+qs.length; $('tDate').textContent=fmtD(st.end); $('tStart').textContent=fmtT(st.start); $('tEnd').textContent=fmtT(st.end); $('tSummary').textContent=st.correct+' correct out of '+st.attempts+' scored attempts'; stage('endStage'); }
-function reset(){ st.name=''; st.start=null; st.end=null; st.i=0; st.attempts=0; st.correct=0; $('nameInput').value=''; $('startMsg').className='msg'; $('startMsg').textContent=''; sidebar(); stage('startStage'); }
-function start(){ const n=$('nameInput').value.trim(); if(!n){$('startMsg').className='msg show badm'; $('startMsg').textContent='Please enter your name before starting.'; return;} st.name=n; st.start=new Date(); st.end=null; st.i=0; st.attempts=0; st.correct=0; sidebar(); stage('gameStage'); render(); }
-function render(){ fbHide(); const q=qs[st.i], c=$('qcontent'); $('qnum').textContent='Question '+(st.i+1)+' of '+qs.length; $('qtitle').textContent=q.title; c.innerHTML=''; if(q.type==='mcq') rMCQ(q,c); if(q.type==='twopart') rTP(q,c); if(q.type==='matrix') rMX(q,c); if(q.type==='evidence') rEV(q,c); if(q.type==='drag') rDR(q,c); if(q.type==='dropdown') rDD(q,c); }
-function rMCQ(q,c){ if(q.src) c.insertAdjacentHTML('beforeend',q.src); c.insertAdjacentHTML('beforeend','<div class="part"><h4>'+q.prompt+'</h4></div>'); const wrap=document.createElement('div'); wrap.className='choices'; sh(q.opts).forEach(opt=>{const d=document.createElement('div'); d.className='choice'; d.textContent=opt; d.onclick=()=>{ if(wrap.dataset.locked) return; wrap.dataset.locked=1; [...wrap.children].forEach(ch=>{if(ch.textContent===q.ans) ch.classList.add('correct');}); const ok=opt===q.ans; attempt(ok); if(ok){ d.classList.add('correct'); fb('goodm','Correct. Moving to the next question.'); next(); } else { d.classList.add('incorrect'); fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,1600);} }; wrap.appendChild(d);}); c.appendChild(wrap); }
-function rTP(q,c){ if(q.a.src) c.insertAdjacentHTML('beforeend',q.a.src); const A=document.createElement('div'); A.className='part'; A.innerHTML='<h4>'+q.a.p+'</h4>'; const aw=document.createElement('div'); aw.className='choices'; let sa=null, locked=false; sh(q.a.opts).forEach(opt=>{const d=document.createElement('div'); d.className='choice'; d.textContent=opt; d.onclick=()=>{ if(locked) return; [...aw.children].forEach(x=>x.classList.remove('selected')); d.classList.add('selected'); sa=opt; chk();}; aw.appendChild(d);}); A.appendChild(aw); c.appendChild(A); const B=document.createElement('div'); B.className='part'; B.innerHTML='<h4>'+q.b.p+'</h4>'; const bw=document.createElement('div'); bw.className='checks'; const sb=new Set(), need=q.b.ans.length; sh(q.b.opts).forEach(opt=>{const lab=document.createElement('label'); lab.className='check'; lab.innerHTML='<input type="checkbox"> <span>'+opt+'</span>'; const inp=lab.querySelector('input'); inp.onchange=()=>{ if(locked) return; inp.checked?sb.add(opt):sb.delete(opt); if(sb.size>need){inp.checked=false; sb.delete(opt); fb('warnm','Select exactly '+need+' answer'+(need>1?'s':'')+'.'); return;} chk();}; bw.appendChild(lab);}); B.appendChild(bw); c.appendChild(B); function eq(a,b){ if(a.size!==b.size) return false; for(const v of a) if(!b.has(v)) return false; return true;} function chk(){ if(!sa||sb.size!==need||locked) return; locked=true; const ok=sa===q.a.ans && eq(sb,new Set(q.b.ans)); attempt(ok); [...aw.children].forEach(x=>{ if(x.textContent===q.a.ans) x.classList.add('correct'); if(x.textContent===sa && sa!==q.a.ans) x.classList.add('incorrect');}); [...bw.children].forEach(x=>{const t=x.textContent.trim(), chosen=x.querySelector('input').checked, right=q.b.ans.includes(t); if(right) x.classList.add('hit'); if(chosen&&!right) x.classList.add('miss');}); if(ok){fb('goodm','Correct. Moving to the next question.'); next();} else {fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,1900);} } }
-function rMX(q,c){ c.insertAdjacentHTML('beforeend','<div class="part"><h4>'+q.prompt+'</h4></div>'); const w=document.createElement('div'); w.className='matrix'; const vals={}; let locked=false; q.rows.forEach((r,i)=>{const d=document.createElement('div'); d.className='matrixr'; const s=document.createElement('select'); s.innerHTML='<option value="">Choose...</option>'+q.cols.map(x=>'<option>'+x+'</option>').join(''); s.onchange=()=>{ if(locked) return; vals[i]=s.value; chk();}; d.innerHTML='<div>'+r[0]+'</div>'; d.appendChild(s); w.appendChild(d);}); c.appendChild(w); function chk(){ if(locked||q.rows.some((_,i)=>!vals[i])) return; locked=true; const ok=q.rows.every((r,i)=>vals[i]===r[1]); attempt(ok); [...w.children].forEach((row,i)=>row.classList.add(vals[i]===q.rows[i][1]?'hit':'miss')); if(ok){fb('goodm','Correct. Moving to the next question.'); next();} else {fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,1800);} } }
-function rEV(q,c){ c.insertAdjacentHTML('beforeend','<div class="part"><h4>'+q.prompt+'</h4></div>'); const w=document.createElement('div'); w.className='checks'; const set=new Set(), need=q.ans.length; let locked=false; sh(q.opts).forEach(opt=>{const lab=document.createElement('label'); lab.className='check'; lab.innerHTML='<input type="checkbox"> <span>'+opt+'</span>'; const inp=lab.querySelector('input'); inp.onchange=()=>{ if(locked) return; inp.checked?set.add(opt):set.delete(opt); if(set.size>need){inp.checked=false; set.delete(opt); fb('warnm','Select exactly '+need+' answers.'); return;} if(set.size===need){locked=true; const ok=q.ans.every(x=>set.has(x)); attempt(ok); [...w.children].forEach(r=>{const t=r.textContent.trim(), chosen=r.querySelector('input').checked, right=q.ans.includes(t); if(right) r.classList.add('hit'); if(chosen&&!right) r.classList.add('miss');}); if(ok){fb('goodm','Correct. Moving to the next question.'); next();} else {fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,1800);} }}; w.appendChild(lab);}); c.appendChild(w); }
-function rDR(q,c){ c.insertAdjacentHTML('beforeend','<div class="part"><h4>'+q.prompt+'</h4></div>'); const box=document.createElement('div'); box.className='row2'; const bank=document.createElement('div'); bank.className='bank'; bank.innerHTML='<strong>Card Bank</strong>'; const zones=document.createElement('div'); zones.className='zones'; const drag={t:null}; let locked=false; q.bank.forEach(t=>bank.appendChild(card(t))); q.zones.forEach((z,i)=>{const d=document.createElement('div'); d.className='zone'; d.innerHTML='<strong>'+z[0]+'</strong>'; d.ondragover=e=>{e.preventDefault(); if(!locked) d.classList.add('over');}; d.ondragleave=()=>d.classList.remove('over'); d.ondrop=e=>{e.preventDefault(); d.classList.remove('over'); if(locked||!drag.t) return; d.appendChild([...c.querySelectorAll('.card')].find(x=>x.dataset.t===drag.t)); chk();}; zones.appendChild(d);}); bank.ondragover=e=>e.preventDefault(); bank.ondrop=e=>{e.preventDefault(); if(locked||!drag.t) return; bank.appendChild([...c.querySelectorAll('.card')].find(x=>x.dataset.t===drag.t));}; box.appendChild(bank); box.appendChild(zones); c.appendChild(box); function card(t){const d=document.createElement('div'); d.className='card'; d.draggable=true; d.dataset.t=t; d.textContent=t; d.ondragstart=()=>drag.t=t; d.ondragend=()=>drag.t=null; return d;} function chk(){ if(locked||q.bank.some(t=>[...c.querySelectorAll('.card')].find(x=>x.dataset.t===t).parentElement===bank)) return; locked=true; let ok=true; [...zones.children].forEach((z,i)=>{const have=[...z.querySelectorAll('.card')].map(x=>x.dataset.t).sort().join('|'); const want=q.zones[i][1].slice().sort().join('|'); if(have===want) z.classList.add('hit'); else {z.classList.add('miss'); ok=false;}}); attempt(ok); if(ok){fb('goodm','Correct. Moving to the next question.'); next();} else {fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,2000);} } }
-function rDD(q,c){ c.insertAdjacentHTML('beforeend','<div class="part"><h4>'+q.title+'</h4></div>'); const w=document.createElement('div'); w.className='dropdown-row'; const vals={}; let locked=false; q.sent.forEach((s,i)=>{const d=document.createElement('div'); d.className='sentence'; const sel=document.createElement('select'); sel.innerHTML='<option value="">Choose...</option>'+sh(s[1]).map(x=>'<option>'+x+'</option>').join(''); sel.onchange=()=>{ if(locked) return; vals[i]=sel.value; chk();}; d.append(document.createTextNode(s[0]+' ')); d.appendChild(sel); if(i===q.sent.length-1&&q.after) d.append(document.createTextNode(' '+q.after)); w.appendChild(d);}); c.appendChild(w); function chk(){ if(locked||q.sent.some((_,i)=>!vals[i])) return; locked=true; const ok=q.sent.every((s,i)=>vals[i]===s[2]); attempt(ok); [...w.children].forEach((r,i)=>r.classList.add(vals[i]===q.sent[i][2]?'hit':'miss')); if(ok){fb('goodm','Correct. Moving to the next question.'); next();} else {fb('badm','Incorrect. Hint: '+q.hint); setTimeout(render,1800);} } }
-$('startBtn').onclick=start; $('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter') start();}); $('restartBtn').onclick=reset; $('againBtn').onclick=reset; sidebar();
-})();
-</script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Specialty Questions Arena — American Studies OST Review</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --p: #111a2f;
+        --t: #e7eefc;
+        --m: #a8b4cf;
+        --l: rgba(255, 255, 255, 0.12);
+        --a: #7aa2ff;
+        --g: #2bd576;
+        --b: #ff5c7a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #0b1220, #070b14);
+        color: var(--t);
+        font-family: system-ui;
+      }
+      .wrap {
+        width: min(1160px, 94vw);
+        margin: 24px auto;
+      }
+      .panel {
+        background: linear-gradient(180deg, #111a2f, #0f1730);
+        border: 1px solid var(--l);
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 310px 1fr;
+        gap: 18px;
+      }
+      @media (max-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      p {
+        margin: 0 0 10px;
+      }
+      .muted {
+        color: var(--m);
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        border: 1px solid rgba(122, 162, 255, 0.28);
+        background: rgba(122, 162, 255, 0.12);
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+      }
+      .stat {
+        border: 1px solid var(--l);
+        border-radius: 14px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 10px;
+      }
+      .k {
+        color: var(--m);
+        font-size: 0.82rem;
+      }
+      .bar {
+        height: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--l);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--a), #9dc1ff);
+      }
+      input,
+      select,
+      button {
+        font: inherit;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid var(--l);
+        background: #091120;
+        color: var(--t);
+      }
+      button {
+        border: none;
+        border-radius: 12px;
+        padding: 11px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .pri {
+        background: linear-gradient(180deg, #7aa2ff, #5b85ea);
+        color: #fff;
+      }
+      .sec {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--t);
+        border: 1px solid var(--l);
+      }
+      .good {
+        background: linear-gradient(180deg, #35d87a, #22b663);
+        color: #fff;
+      }
+      .stage {
+        display: none;
+      }
+      .stage.active {
+        display: block;
+      }
+      .source,
+      .part,
+      .sentence {
+        border: 1px solid var(--l);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        padding: 14px;
+        margin-top: 12px;
+        line-height: 1.55;
+      }
+      .choices,
+      .checks,
+      .matrix,
+      .zones {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .choice,
+      .check {
+        border: 1px solid var(--l);
+        padding: 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        cursor: pointer;
+      }
+      .choice:hover {
+        border-color: var(--a);
+      }
+      .choice.selected {
+        border-color: var(--a);
+        background: rgba(122, 162, 255, 0.18);
+        box-shadow: 0 0 0 2px rgba(122, 162, 255, 0.18) inset;
+      }
+      .choice.correct,
+      .hit {
+        border-color: rgba(43, 213, 118, 0.6);
+        background: rgba(43, 213, 118, 0.1);
+      }
+      .choice.incorrect,
+      .miss {
+        border-color: rgba(255, 92, 122, 0.6);
+        background: rgba(255, 92, 122, 0.1);
+      }
+      .msg {
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        border-radius: 14px;
+        font-weight: 700;
+      }
+      .msg.show {
+        display: block;
+      }
+      .msg.goodm {
+        background: rgba(43, 213, 118, 0.12);
+        border: 1px solid rgba(43, 213, 118, 0.35);
+      }
+      .msg.badm {
+        background: rgba(255, 92, 122, 0.12);
+        border: 1px solid rgba(255, 92, 122, 0.35);
+      }
+      .msg.warnm {
+        background: rgba(255, 209, 102, 0.12);
+        border: 1px solid rgba(255, 209, 102, 0.35);
+      }
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 760px) {
+        .row2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .bank,
+      .zone {
+        border-radius: 14px;
+        padding: 12px;
+        min-height: 120px;
+      }
+      .bank {
+        border: 1px dashed rgba(255, 255, 255, 0.25);
+      }
+      .zone {
+        border: 1px solid var(--l);
+        background: rgba(122, 162, 255, 0.07);
+      }
+      .zone.over {
+        outline: 2px solid rgba(122, 162, 255, 0.4);
+      }
+      .card {
+        background: #0b162a;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 9px 11px;
+        margin: 8px 0;
+        cursor: grab;
+      }
+      .matrixr {
+        display: grid;
+        grid-template-columns: 1fr 220px;
+        gap: 10px;
+        align-items: center;
+        border: 1px solid var(--l);
+        border-radius: 14px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      @media (max-width: 700px) {
+        .matrixr {
+          grid-template-columns: 1fr;
+        }
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: rgba(122, 162, 255, 0.12);
+      }
+      .ticket {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 700px) {
+        .ticket {
+          grid-template-columns: 1fr;
+        }
+      }
+      .ticket .stat {
+        margin: 0;
+      }
+      .pass {
+        color: #d9ffe8;
+      }
+      .fail {
+        color: #ffd5dd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="panel">
+        <h1>Specialty Questions Arena</h1>
+        <p class="muted">
+          American Studies OST Review • Passages • Two-Part • Drag & Drop •
+          Dropdowns • Evidence
+        </p>
+        <div class="chips">
+          <span class="chip">Name Required</span
+          ><span class="chip">Auto-Submit MCQ</span
+          ><span class="chip">Two-Part</span
+          ><span class="chip">Drag & Drop</span
+          ><span class="chip">Dropdowns</span
+          ><span class="chip">Ticket + Timestamps</span>
+        </div>
+      </div>
+      <div class="grid">
+        <aside class="panel">
+          <h2>Game Status</h2>
+          <div class="stat">
+            <div class="k">Student</div>
+            <div id="sName">Not started</div>
+          </div>
+          <div class="stat">
+            <div class="k">Progress</div>
+            <div><span id="sProg">0</span> / <span id="sTotal">30</span></div>
+            <div class="bar" style="margin-top: 8px">
+              <span id="bar"></span>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="k">Accuracy</div>
+            <div id="sAcc">0%</div>
+          </div>
+          <div class="stat">
+            <div class="k">Started</div>
+            <div id="sStart">—</div>
+          </div>
+          <div class="stat">
+            <div class="k">Completed</div>
+            <div id="sEnd">—</div>
+          </div>
+          <button class="sec" id="restartBtn" type="button">
+            Restart Game
+          </button>
+          <p class="muted" style="margin-top: 12px; font-size: 0.84rem">
+            Single-answer questions check on click. Specialty formats check
+            automatically once all required selections or placements are
+            complete.
+          </p>
+        </aside>
+        <main>
+          <section class="panel stage active" id="startStage">
+            <h2>Start the Arena</h2>
+            <p class="muted">
+              Enter your name to begin. Your ticket includes name, date, start
+              time, completion time, pass/fail, and accuracy.
+            </p>
+            <input id="nameInput" placeholder="Enter your name" />
+            <div style="margin-top: 10px">
+              <button class="pri" id="startBtn">Start Game</button>
+            </div>
+            <div id="startMsg" class="msg"></div>
+          </section>
+          <section class="panel stage" id="gameStage">
+            <div class="muted" id="qnum"></div>
+            <h2 id="qtitle"></h2>
+            <div id="qcontent"></div>
+            <div id="fb" class="msg"></div>
+          </section>
+          <section class="panel stage" id="endStage">
+            <h2>Submit Ticket</h2>
+            <p class="muted">Screenshot this finished ticket and submit it.</p>
+            <div class="ticket">
+              <div class="stat">
+                <div class="k">Student Name</div>
+                <div id="tName"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Result</div>
+                <div id="tResult"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Accuracy</div>
+                <div id="tAcc"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Questions Completed</div>
+                <div id="tCount"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Date</div>
+                <div id="tDate"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Time Started</div>
+                <div id="tStart"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Time Completed</div>
+                <div id="tEnd"></div>
+              </div>
+              <div class="stat">
+                <div class="k">Score Summary</div>
+                <div id="tSummary"></div>
+              </div>
+            </div>
+            <div style="margin-top: 12px">
+              <button class="good" id="againBtn">Play Again</button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const $ = (id) => document.getElementById(id),
+          PASS = 80;
+        const fmtDT = (d) =>
+            d.toLocaleString([], {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "2-digit",
+            }),
+          fmtD = (d) =>
+            d.toLocaleDateString([], {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }),
+          fmtT = (d) =>
+            d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+        const sh = (a) => {
+          a = a.slice();
+          for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+          }
+          return a;
+        };
+        const qs = [
+          {
+            type: "mcq",
+            title: "Homestead Strike Passage",
+            src: `<div class='source'><p>In the late 1800s, Homestead, Pennsylvania, was home to one of the major steel mills of the Carnegie Steel Company. Its skilled workers were members of a labor union named the Amalgamated Association of Iron and Steel Workers. Because the workers in Homestead were among the highest paid in the steel industry, the company sought to lower their pay during contract negotiations. As negotiations broke down, the director of the steel mill, H. C. Frick, hired a group of 300 security workers from the Pinkerton National Detective Agency to guard the plant against the striking workers. As the Pinkertons were on their way to Homestead, thousands of striking workers, many of them armed, gathered outside the plant. When the Pinkertons arrived on July 6, a violent confrontation between the two groups occurred and resulted in at least 10 deaths and many more injuries.</p></div>`,
+            prompt:
+              "What caused the Carnegie Steel Company to lock union workers out of the Homestead plant?",
+            opts: [
+              "Union workers attacked Pinkerton guards first.",
+              "Negotiations between the union and the company broke down.",
+              "Congress ordered a federal takeover.",
+              "Workers protested child labor laws.",
+            ],
+            ans: "Negotiations between the union and the company broke down.",
+            hint: "Look for the event before Pinkertons arrived.",
+          },
+          {
+            type: "mcq",
+            title: "Homestead Strike Consequence",
+            src: `<div class='source'><p>The violent clash at Homestead became one of the best-known labor conflicts of the industrial era and showed how far companies and workers would go in disputes over wages and union power.</p></div>`,
+            prompt:
+              "What was a direct effect of the violent confrontation between Pinkerton security workers and the striking Homestead workers?",
+            opts: [
+              "State militia was deployed to protect Carnegie Steel’s interests.",
+              "The federal government nationalized the steel industry.",
+              "The company restored union wages immediately.",
+              "H. C. Frick resigned the same day.",
+            ],
+            ans: "State militia was deployed to protect Carnegie Steel’s interests.",
+            hint: "Governments often intervened when strikes turned violent.",
+          },
+          {
+            type: "mcq",
+            title: "Source Credibility and Bias",
+            src: `<div class='source'><p>H. C. Frick argued that Carnegie Steel should control the Homestead plant without union interference and claimed workers at nonunion mills were satisfied.</p></div>`,
+            prompt:
+              "Why might a student question the credibility of this source due to bias?",
+            opts: [
+              "Frick lacked education.",
+              "Labor leaders could not respond publicly.",
+              "Convincing readers workers were treated fairly benefited Carnegie Steel financially.",
+              "Frick wanted to increase union power.",
+            ],
+            ans: "Convincing readers workers were treated fairly benefited Carnegie Steel financially.",
+            hint: "Ask who benefits if the public accepts the company’s side.",
+          },
+          {
+            type: "mcq",
+            title: "Industrialization Pattern",
+            src: `<div class='source'><p>The Homestead conflict centered on wages, union recognition, and company resistance to organized labor during rapid industrialization.</p></div>`,
+            prompt:
+              "What common cause of conflict between corporations and labor unions led to the standoff at Homestead?",
+            opts: [
+              "The wages paid to employees",
+              "The lack of child labor laws",
+              "The closing of western farms",
+              "Women’s suffrage demands",
+            ],
+            ans: "The wages paid to employees",
+            hint: "The company tried to cut something specific.",
+          },
+          {
+            type: "mcq",
+            title: "Laissez-Faire Context",
+            src: `<div class='source'><p>During the late 1800s, large businesses often operated with limited government interference. Monopolies and trusts expanded, and labor disputes sometimes turned violent.</p></div>`,
+            prompt:
+              "Which historical trend directly contributed to the events described?",
+            opts: [
+              "The federal government’s laissez-faire policies toward large businesses",
+              "The passage of federal antitrust acts",
+              "The decline of heavy industry",
+              "The expansion of women’s suffrage",
+            ],
+            ans: "The federal government’s laissez-faire policies toward large businesses",
+            hint: "Think little regulation.",
+          },
+          {
+            type: "twopart",
+            title: "U.S. Foreign Policy After World War I",
+            a: {
+              p: "PART A — Which foreign policy did the United States adopt to avoid future international conflicts?",
+              opts: [
+                "Containment",
+                "Imperialism",
+                "Interventionism",
+                "Isolationism",
+              ],
+              ans: "Isolationism",
+            },
+            b: {
+              p: "PART B — Select all actions that reflect the policy identified in Part A.",
+              opts: [
+                "Signing the Kellogg-Briand Pact",
+                "Refusing to join the League of Nations",
+                "Annexing Hawaii",
+                "Becoming involved in East Asian conflicts",
+                "Supporting military revolutions abroad",
+              ],
+              ans: [
+                "Signing the Kellogg-Briand Pact",
+                "Refusing to join the League of Nations",
+              ],
+            },
+            hint: "Choose the policy first, then the actions that limit entanglement.",
+          },
+          {
+            type: "twopart",
+            title: "Postwar Economy After World War II",
+            a: {
+              p: "PART A — Which statement describes the U.S. economy in the years following World War II?",
+              opts: [
+                "The U.S. economy experienced rapid growth.",
+                "The U.S. economy experienced widespread unemployment.",
+                "The U.S. economy declined because infrastructure was destroyed.",
+                "The U.S. economy shifted back to agriculture.",
+              ],
+              ans: "The U.S. economy experienced rapid growth.",
+            },
+            b: {
+              p: "PART B — Select all statements that support your answer in Part A.",
+              opts: [
+                "Commercial and residential property developed in suburban areas.",
+                "Consumer demand for housing and automobile ownership rose greatly.",
+                "Most wartime factories quickly remained closed forever.",
+                "Federalists and Anti-Federalists debated ratification.",
+              ],
+              ans: [
+                "Commercial and residential property developed in suburban areas.",
+                "Consumer demand for housing and automobile ownership rose greatly.",
+              ],
+            },
+            hint: "Think suburbs and consumer demand.",
+          },
+          {
+            type: "mcq",
+            title: "Federalist vs. Anti-Federalist Debate",
+            src: `<div class='source'><p>“The Congress are therefore vested with the supreme legislative power, without control...”</p></div>`,
+            prompt:
+              "What would the author most likely have argued for during ratification?",
+            opts: [
+              "A bill of rights that limited federal power",
+              "A system of national taxation",
+              "A standing army for national defense",
+              "An executive with unlimited legislative power",
+            ],
+            ans: "A bill of rights that limited federal power",
+            hint: "The concern is unchecked federal power.",
+          },
+          {
+            type: "matrix",
+            title: "Second Red Scare Classification",
+            prompt:
+              "Select whether each person or group served primarily as an investigator or as a target of investigation during the Second Red Scare.",
+            cols: ["Investigators", "Targets of Investigation"],
+            rows: [
+              ["Actors", "Targets of Investigation"],
+              ["Writers", "Targets of Investigation"],
+              ["Senator Joseph McCarthy", "Investigators"],
+              [
+                "House Un-American Activities Committee (HUAC)",
+                "Investigators",
+              ],
+            ],
+            hint: "McCarthy and HUAC investigated. Actors and writers were often investigated.",
+          },
+          {
+            type: "twopart",
+            title: "U.S. Foreign Policy in the 1930s",
+            a: {
+              p: "PART A — What was the focus of U.S. foreign policy during the 1930s?",
+              opts: [
+                "Distancing the country from earlier global interventionist actions",
+                "Expanding overseas military bases",
+                "Halting international trade",
+                "Increasing nuclear weapons production",
+              ],
+              ans: "Distancing the country from earlier global interventionist actions",
+            },
+            b: {
+              p: "PART B — Select the two events that changed that foreign policy focus.",
+              opts: [
+                "The bombing of Pearl Harbor",
+                "The expansionist policies of Japan",
+                "The collapse of the U.S. stock market",
+                "The division of Korea",
+              ],
+              ans: [
+                "The bombing of Pearl Harbor",
+                "The expansionist policies of Japan",
+              ],
+            },
+            hint: "Isolation ended because of Japanese aggression and Pearl Harbor.",
+          },
+          {
+            type: "twopart",
+            title: "Post-Cold War Economy",
+            a: {
+              p: "PART A — Which field of employment has decreased in the United States since the early 1990s?",
+              opts: [
+                "Manufacturing jobs",
+                "Health care",
+                "Food service jobs",
+                "Information technology jobs",
+              ],
+              ans: "Manufacturing jobs",
+            },
+            b: {
+              p: "PART B — Why has the field identified in Part A decreased?",
+              opts: [
+                "Many goods can be produced more cheaply in foreign countries.",
+                "The U.S. population became younger and healthier.",
+                "Computer literacy has been underfunded.",
+                "Crop prices rose.",
+              ],
+              ans: [
+                "Many goods can be produced more cheaply in foreign countries.",
+              ],
+            },
+            hint: "Think globalization and overseas competition.",
+          },
+          {
+            type: "mcq",
+            title: "Life Expectancy Table",
+            src: `<div class='source'><table><tr><th>Year</th><th>Life Expectancy</th></tr><tr><td>1935</td><td>61.7 years</td></tr><tr><td>1940</td><td>62.9 years</td></tr><tr><td>1945</td><td>65.9 years</td></tr><tr><td>1950</td><td>68.2 years</td></tr><tr><td>1955</td><td>69.6 years</td></tr><tr><td>1960</td><td>69.7 years</td></tr><tr><td>1965</td><td>70.2 years</td></tr></table></div>`,
+            prompt: "Which factor contributed to the trend shown in the table?",
+            opts: [
+              "Advances in science and medicine",
+              "A shift from manufacturing to services",
+              "Population growth in rural areas",
+              "The establishment of organized labor unions",
+            ],
+            ans: "Advances in science and medicine",
+            hint: "The table shows people living longer.",
+          },
+          {
+            type: "evidence",
+            title: "Goals of U.S. Foreign Policy After World War I",
+            prompt:
+              "Select the two goals of U.S. foreign policy immediately following World War I.",
+            opts: [
+              "Limiting the country’s involvement in international affairs",
+              "Preventing the occurrence of major wars in the future",
+              "Containing communism",
+              "Using the military to intervene overseas",
+              "Forming security alliances in Asia",
+            ],
+            ans: [
+              "Limiting the country’s involvement in international affairs",
+              "Preventing the occurrence of major wars in the future",
+            ],
+            hint: "Think isolationism plus peace efforts.",
+          },
+          {
+            type: "drag",
+            title: "Post-Reconstruction Developments and Effects",
+            prompt:
+              "Drag each development to the matching effect on race relations.",
+            zones: [
+              [
+                "Poll taxes, literacy tests, and grandfather clauses limited African American political participation",
+                ["Poll taxes, literacy tests, and grandfather clauses"],
+              ],
+              [
+                "Segregation was lawful as long as facilities were “separate but equal”",
+                ["Plessy v. Ferguson decision"],
+              ],
+              [
+                "Violence and intimidation were used to prevent African Americans from voting",
+                ["Rise of the Ku Klux Klan and similar groups"],
+              ],
+            ],
+            bank: [
+              "Plessy v. Ferguson decision",
+              "Poll taxes, literacy tests, and grandfather clauses",
+              "Rise of the Ku Klux Klan and similar groups",
+            ],
+            hint: "Match voting limits, the court case, and intimidation.",
+          },
+          {
+            type: "twopart",
+            title: "Federal Government Response to the Great Depression",
+            a: {
+              p: "PART A — Which action was taken by the federal government in the 1930s to address the effects of the Great Depression?",
+              opts: [
+                "Employing citizens in public works projects",
+                "Reducing spending on social welfare programs",
+                "Reimbursing stock market losses",
+                "Eliminating loans to farmers",
+              ],
+              ans: "Employing citizens in public works projects",
+            },
+            b: {
+              p: "PART B — Select all impacts of the action identified in Part A.",
+              opts: [
+                "The role of the federal government greatly expanded.",
+                "Citizens became more dependent on federal government programs.",
+                "The stock market quickly recovered.",
+                "The U.S. became dependent on agricultural imports.",
+                "A national draft was created.",
+              ],
+              ans: [
+                "The role of the federal government greatly expanded.",
+                "Citizens became more dependent on federal government programs.",
+              ],
+            },
+            hint: "Focus on how New Deal programs changed Washington’s role.",
+          },
+          {
+            type: "twopart",
+            title: "Article I and Foundational Principles",
+            a: {
+              p: "PART A — What is the effect of the Article I excerpt shown below?",
+              src: `<div class='source'><p><strong>Article I, Section 1.</strong> All legislative Powers herein granted shall be vested in a Congress of the United States, which shall consist of a Senate and House of Representatives.</p><p><strong>Section 2.</strong> The House of Representatives shall be composed of Members chosen every second Year by the People of the several States...</p><p><strong>Section 3.</strong> The Senate of the United States shall be composed of two Senators from each State...</p></div>`,
+              opts: [
+                "It established a form of government in which the people elected representatives.",
+                "It created the relationship between state and federal law.",
+                "It founded three co-equal branches of government.",
+                "It protected certain individual rights.",
+              ],
+              ans: "It established a form of government in which the people elected representatives.",
+            },
+            b: {
+              p: "PART B — Which foundational principle is reflected in the effect selected in Part A?",
+              opts: [
+                "Federalism",
+                "Limited government",
+                "Separation of powers",
+                "Consent of the people",
+              ],
+              ans: ["Consent of the people"],
+            },
+            hint: "The key idea is popular approval through elections.",
+          },
+          {
+            type: "matrix",
+            title: "Population Changes and Social/Political Effects",
+            prompt:
+              "Match each cause of population change in the United States to its effect.",
+            cols: [
+              "Social unrest occurred in big cities like Los Angeles and Chicago.",
+              "Hispanics became the fastest growing minority in the U.S.",
+              "Political power shifted toward states in the southern and western United States.",
+            ],
+            rows: [
+              [
+                "Urban employment opportunities decreased and infrastructure decayed.",
+                "Social unrest occurred in big cities like Los Angeles and Chicago.",
+              ],
+              [
+                "Congress passed the Immigration Act of 1965.",
+                "Hispanics became the fastest growing minority in the U.S.",
+              ],
+              [
+                "The Sunbelt saw growth in defense and high-tech employment opportunities.",
+                "Political power shifted toward states in the southern and western United States.",
+              ],
+            ],
+            hint: "Think Rust Belt decline, immigration, and Sunbelt growth.",
+          },
+          {
+            type: "drag",
+            title: "Atomic Weapons and the Cold War",
+            prompt: "Drag the events into the correct box.",
+            zones: [
+              [
+                "Consequences of the Soviet Union exploding its first atomic bomb in 1949",
+                [
+                  "The USSR became a second superpower.",
+                  "The balance of power shifted and world peace was threatened.",
+                  "A nuclear arms race began.",
+                ],
+              ],
+              [
+                "Not direct consequences of the Soviet atomic bomb",
+                [
+                  "The United States used nuclear weapons against Japan.",
+                  "Communists took over China.",
+                ],
+              ],
+            ],
+            bank: [
+              "The USSR became a second superpower.",
+              "The balance of power shifted and world peace was threatened.",
+              "A nuclear arms race began.",
+              "The United States used nuclear weapons against Japan.",
+              "Communists took over China.",
+            ],
+            hint: "Keep only the outcomes that followed the USSR gaining atomic capability.",
+          },
+          {
+            type: "mcq",
+            title: "League of Nations Debate",
+            src: `<div class='source'><p>“It is in conflict with the right of our people to govern themselves free from all restraint... America must... be permitted to live her own life.” — William E. Borah, 1919</p></div>`,
+            prompt: "Which thesis statement could this quote best support?",
+            opts: [
+              "The Senate was right to reject League membership because U.S. sovereignty would have been harmed by joining.",
+              "The Senate was wrong to reject League membership because it would have increased U.S. influence.",
+              "The Senate was wrong to reject League membership because U.S. membership would have guaranteed success.",
+              "The Senate was right to reject League membership because the League was doomed regardless.",
+            ],
+            ans: "The Senate was right to reject League membership because U.S. sovereignty would have been harmed by joining.",
+            hint: "The quote stresses self-government and avoiding foreign restraint.",
+          },
+          {
+            type: "twopart",
+            title: "USA PATRIOT Act",
+            a: {
+              p: "PART A — Which act was signed into law in 2001 for the purpose of strengthening America’s national security to combat terrorism?",
+              opts: [
+                "The Espionage Act",
+                "The USA PATRIOT Act",
+                "The Social Security Act",
+                "The Federal Emergency Relief Act",
+              ],
+              ans: "The USA PATRIOT Act",
+            },
+            b: {
+              p: "PART B — Select all of the ways the act attempted to strengthen national security efforts.",
+              opts: [
+                "It provided increased funding to border patrols, customs, and immigration officials.",
+                "It removed barriers that prevented government agencies from sharing information.",
+                "It enhanced privacy laws to protect citizens from government monitoring.",
+                "It imposed new penalties for tax avoidance.",
+                "It provided disaster aid to states.",
+              ],
+              ans: [
+                "It provided increased funding to border patrols, customs, and immigration officials.",
+                "It removed barriers that prevented government agencies from sharing information.",
+              ],
+            },
+            hint: "This law expanded information sharing and security powers after 9/11.",
+          },
+          {
+            type: "drag",
+            title: "Thesis and Supporting Evidence",
+            prompt:
+              "Drag the evidence that supports this thesis into the correct box: “Following Reconstruction, racial discrimination became institutionalized in the South.”",
+            zones: [
+              [
+                "Supports Thesis",
+                [
+                  "Plessy v. Ferguson case affirmed segregation",
+                  "Poll taxes kept African Americans from voting",
+                  "Jim Crow laws legalized racial segregation",
+                ],
+              ],
+              [
+                "Does Not Support Thesis",
+                [
+                  "14th Amendment gave due process to all citizens",
+                  "Great Migration caused racial tension in the North",
+                  "Slavery was banned in the Northwest Territory",
+                ],
+              ],
+            ],
+            bank: [
+              "14th Amendment gave due process to all citizens",
+              "Plessy v. Ferguson case affirmed segregation",
+              "Great Migration caused racial tension in the North",
+              "Poll taxes kept African Americans from voting",
+              "Jim Crow laws legalized racial segregation",
+              "Slavery was banned in the Northwest Territory",
+            ],
+            hint: "Look for evidence that directly shows legalized segregation and blocked civil rights.",
+          },
+          {
+            type: "twopart",
+            title: "U.S. Policy Toward American Indians in the Late 1800s",
+            a: {
+              p: "PART A — What was the goal of the U.S. government’s policy toward American Indians in the late 1800s?",
+              opts: [
+                "To increase the independence of American Indian tribes",
+                "To broaden economic opportunities while preserving tribal life",
+                "To pressure American Indians to assimilate into European American culture",
+                "To create a dialogue between tribes and settlers",
+              ],
+              ans: "To pressure American Indians to assimilate into European American culture",
+            },
+            b: {
+              p: "PART B — Select two ways implementation of this policy affected American Indians.",
+              opts: [
+                "Reservation land was broken up and granted to individuals instead of tribes as a whole.",
+                "Tribal governments were weakened or eliminated as tribes officially recognized state and federal laws.",
+                "Tribes gained the right to negotiate foreign trade agreements.",
+                "Formal reservation systems were established for American Indians in the South.",
+              ],
+              ans: [
+                "Reservation land was broken up and granted to individuals instead of tribes as a whole.",
+                "Tribal governments were weakened or eliminated as tribes officially recognized state and federal laws.",
+              ],
+            },
+            hint: "Think Dawes Act, allotment, assimilation, and weakened tribal authority.",
+          },
+          {
+            type: "twopart",
+            title: "Prohibition",
+            a: {
+              p: "PART A — What impact did Prohibition have on U.S. society during the 1920s and early 1930s?",
+              opts: [
+                "It led to the establishment of speakeasies and the rise of organized crime.",
+                "It created African American cultural centers in northern cities.",
+                "It caused a shift from agricultural to industrial production.",
+                "It led to increased migration of workers to northern states.",
+              ],
+              ans: "It led to the establishment of speakeasies and the rise of organized crime.",
+            },
+            b: {
+              p: "PART B — How did the impact identified in Part A affect the policy of Prohibition?",
+              opts: [
+                "It was repealed due to its unpopularity and high costs of enforcement.",
+                "It was expanded nationwide after local success.",
+                "It was extended because it caused strong economic growth.",
+                "It was amended to apply only to cities.",
+              ],
+              ans: [
+                "It was repealed due to its unpopularity and high costs of enforcement.",
+              ],
+            },
+            hint: "Illegal alcohol sales undermined enforcement and public support.",
+          },
+          {
+            type: "mcq",
+            title: "Article IV and Government Protection of Rights",
+            src: `<div class='source'><p>“The Citizens of each State shall be entitled to all Privileges and Immunities of Citizens in the several States.”</p></div>`,
+            prompt:
+              "How does this excerpt establish a relationship between the people and the government?",
+            opts: [
+              "By affirming that the government must protect citizens’ rights and liberties",
+              "By dividing political power between state and national governments",
+              "By creating judicial review",
+              "By establishing the social contract directly",
+            ],
+            ans: "By affirming that the government must protect citizens’ rights and liberties",
+            hint: "The key idea is that citizens carry protected rights.",
+          },
+          {
+            type: "dropdown",
+            title: "Great Depression Cause and Response",
+            sent: [
+              [
+                "The Great Depression was caused in part by",
+                [
+                  "speculation and buying on margin",
+                  "an uneven distribution of New Deal benefits",
+                  "a lack of available consumer credit",
+                ],
+                "speculation and buying on margin",
+              ],
+              [
+                "In an effort to prevent this problem in the future, the federal government created the",
+                [
+                  "Securities and Exchange Commission",
+                  "Civilian Conservation Corps",
+                  "Works Progress Administration",
+                ],
+                "Securities and Exchange Commission",
+              ],
+            ],
+            after: "to protect investors and help ensure fair markets.",
+            hint: "One blank asks for a cause of the crash. The other asks for the watchdog agency created afterward.",
+          },
+          {
+            type: "mcq",
+            title: "Industrialization",
+            src: `<div class='source'><p>Heavy industry, corporations, and mechanized farming transformed the American economy in the late 1800s and early 1900s.</p></div>`,
+            prompt: "Which change best reflects that transformation?",
+            opts: [
+              "A shift from rural living to urban living",
+              "A shift from factory work to farm labor",
+              "A decline in mechanized production",
+              "A reduction in immigration",
+            ],
+            ans: "A shift from rural living to urban living",
+            hint: "Industrial growth pulled people toward cities.",
+          },
+          {
+            type: "mcq",
+            title: "Organized Labor",
+            src: `<div class='source'><p>Labor unions used strikes, boycotts, and collective bargaining to improve wages and working conditions.</p></div>`,
+            prompt:
+              "Which tactic did labor unions use to negotiate directly with employers over wages and working conditions?",
+            opts: [
+              "Collective bargaining",
+              "Imperialism",
+              "Laissez-faire",
+              "Assimilation",
+            ],
+            ans: "Collective bargaining",
+            hint: "This tactic involves organized negotiation between workers and management.",
+          },
+          {
+            type: "evidence",
+            title: "Progressive Era Reforms",
+            prompt:
+              "Select the reforms that are examples of Progressive Era efforts to address industrial capitalism and public welfare.",
+            opts: [
+              "Pure Food and Drug Act",
+              "Meat Inspection Act",
+              "Sherman Antitrust Act",
+              "Dawes Act",
+              "Kansas-Nebraska Act",
+            ],
+            ans: [
+              "Pure Food and Drug Act",
+              "Meat Inspection Act",
+              "Sherman Antitrust Act",
+            ],
+            hint: "Choose the reforms tied to consumer protection and powerful corporations.",
+          },
+          {
+            type: "mcq",
+            title: "Urbanization",
+            src: `<div class='source'><p>Rapid immigration, migration, and industrialization caused cities to grow quickly, often faster than services could keep up.</p></div>`,
+            prompt:
+              "Which condition was a common result of rapid urbanization?",
+            opts: [
+              "Overcrowded and unsanitary living conditions",
+              "Fewer ethnic neighborhoods",
+              "Improved sanitation everywhere",
+              "A decline in public transportation",
+            ],
+            ans: "Overcrowded and unsanitary living conditions",
+            hint: "Urban growth often outpaced housing and sanitation services.",
+          },
+          {
+            type: "mcq",
+            title: "Westward Expansion and American Indians",
+            src: `<div class='source'><p>Industrialization increased demand for land and natural resources, intensifying conflict with American Indians and reinforcing reservation policies.</p></div>`,
+            prompt:
+              "Which federal law helped break up tribal landholdings and pushed assimilation?",
+            opts: [
+              "Dawes Act",
+              "Social Security Act",
+              "Lend-Lease Act",
+              "Sherman Antitrust Act",
+            ],
+            ans: "Dawes Act",
+            hint: "It divided reservation land into individual allotments.",
+          },
+          {
+            type: "mcq",
+            title: "Post-Reconstruction",
+            src: `<div class='source'><p>Following Reconstruction, many Southern states passed Jim Crow laws and restricted voting rights, while segregation and intimidation maintained white supremacy.</p></div>`,
+            prompt:
+              "Which Supreme Court decision affirmed segregation under the “separate but equal” doctrine?",
+            opts: [
+              "Plessy v. Ferguson",
+              "Brown v. Board of Education",
+              "Marbury v. Madison",
+              "McCulloch v. Maryland",
+            ],
+            ans: "Plessy v. Ferguson",
+            hint: "It is the 1896 case later overturned by Brown.",
+          },
+          {
+            type: "evidence",
+            title: "Women’s Suffrage",
+            prompt:
+              "Select the developments that support the claim that women gained greater political rights during the Progressive Era and 1920s.",
+            opts: [
+              "19th Amendment",
+              "Women’s suffrage movement success",
+              "Increased participation in public life",
+              "17th Amendment",
+              "Sharecropping contracts",
+            ],
+            ans: [
+              "19th Amendment",
+              "Women’s suffrage movement success",
+              "Increased participation in public life",
+            ],
+            hint: "Choose the items tied directly to voting rights and women’s expanded public role.",
+          },
+          {
+            type: "mcq",
+            title: "Harlem Renaissance",
+            src: `<div class='source'><p>The Harlem Renaissance celebrated African American culture through art, literature, and music, while jazz became a major American genre.</p></div>`,
+            prompt:
+              "Which statement best describes the significance of the Harlem Renaissance?",
+            opts: [
+              "It celebrated African American culture and increased awareness of racial injustice.",
+              "It ended segregation in Southern schools.",
+              "It created the League of Nations.",
+              "It restricted immigration from Europe.",
+            ],
+            ans: "It celebrated African American culture and increased awareness of racial injustice.",
+            hint: "Think cultural pride and social awareness.",
+          },
+          {
+            type: "mcq",
+            title: "Great Depression Causes",
+            src: `<div class='source'><p>Excessive lending, consumer debt, stock speculation, and Federal Reserve actions contributed to worsening economic conditions in the late 1920s and early 1930s.</p></div>`,
+            prompt:
+              "Which practice contributed directly to the stock market crash that helped trigger the Great Depression?",
+            opts: [
+              "Buying stocks on margin",
+              "Collective bargaining",
+              "Rationing consumer goods",
+              "Cash-and-carry trade",
+            ],
+            ans: "Buying stocks on margin",
+            hint: "This involved purchasing stocks with borrowed money.",
+          },
+          {
+            type: "evidence",
+            title: "Transition to World War II",
+            prompt:
+              "Select the policies or actions that reflected the gradual U.S. shift from isolationism toward involvement in World War II before Pearl Harbor.",
+            opts: [
+              "Lend-Lease Act",
+              "Atlantic Charter",
+              "Cash-and-carry policy",
+              "Neutrality Acts",
+              "Marshall Plan",
+            ],
+            ans: [
+              "Lend-Lease Act",
+              "Atlantic Charter",
+              "Cash-and-carry policy",
+            ],
+            hint: "Choose the measures that aided countries fighting fascist aggression before direct U.S. entry.",
+          },
+          {
+            type: "mcq",
+            title: "World War II Home Front",
+            src: `<div class='source'><p>Wartime mobilization changed daily life through rationing, propaganda, war production, drafting, and expanded work opportunities.</p></div>`,
+            prompt:
+              "Which example best reflects a personal sacrifice made by Americans on the home front during World War II?",
+            opts: [
+              "Rationing food and fuel",
+              "Joining the League of Nations",
+              "Passing antitrust legislation",
+              "Buying stocks on margin",
+            ],
+            ans: "Rationing food and fuel",
+            hint: "Think of conserving resources for the war effort.",
+          },
+          {
+            type: "evidence",
+            title: "Containment",
+            prompt:
+              "Select the policies or alliances associated with the U.S. policy of containment during the Cold War.",
+            opts: [
+              "Truman Doctrine",
+              "Marshall Plan",
+              "North Atlantic Treaty Organization (NATO)",
+              "Dawes Act",
+              "Kellogg-Briand Pact",
+            ],
+            ans: [
+              "Truman Doctrine",
+              "Marshall Plan",
+              "North Atlantic Treaty Organization (NATO)",
+            ],
+            hint: "Containment aimed to stop the spread of communism after World War II.",
+          },
+          {
+            type: "mcq",
+            title: "Civil Rights After World War II",
+            src: `<div class='source'><p>Organizations such as the NAACP, SCLC, and SNCC challenged segregation and inequality through demonstrations, court cases, and federal legislation.</p></div>`,
+            prompt:
+              "Which Supreme Court case helped end legal school segregation?",
+            opts: [
+              "Brown v. Board of Education",
+              "Plessy v. Ferguson",
+              "Dred Scott v. Sandford",
+              "Schenck v. United States",
+            ],
+            ans: "Brown v. Board of Education",
+            hint: "It overturned the logic of “separate but equal” in public schools.",
+          },
+          {
+            type: "mcq",
+            title: "Postwar Boom",
+            src: `<div class='source'><p>After World War II, the United States experienced major economic growth. Suburbs expanded, consumer demand increased, and advances in medicine, transportation, and television reshaped daily life.</p></div>`,
+            prompt:
+              "Which development was most closely tied to the postwar economic boom?",
+            opts: [
+              "Growth of suburbs",
+              "A return to isolationism",
+              "Collapse of consumer demand",
+              "A shift away from television",
+            ],
+            ans: "Growth of suburbs",
+            hint: "Affordable housing and prosperity fueled this pattern.",
+          },
+          {
+            type: "mcq",
+            title: "Sunbelt Migration",
+            src: `<div class='source'><p>Population movement from the Rust Belt to the Sun Belt changed the country politically and economically as jobs expanded in southern and western states.</p></div>`,
+            prompt:
+              "What was one important political effect of migration to the Sun Belt?",
+            opts: [
+              "Political power shifted toward southern and western states.",
+              "Congressional reapportionment ended.",
+              "Urban employment in the Northeast sharply increased.",
+              "Immigration from Latin America ended.",
+            ],
+            ans: "Political power shifted toward southern and western states.",
+            hint: "More population meant more representation and influence.",
+          },
+          {
+            type: "mcq",
+            title: "Domestic Policy After September 11, 2001",
+            src: `<div class='source'><p>After 9/11, the United States faced debates over balancing national security with civil liberties. Changes included the USA PATRIOT Act and the creation of the TSA.</p></div>`,
+            prompt:
+              "Which issue became a major domestic debate after the attacks of September 11, 2001?",
+            opts: [
+              "Balancing national security with civil liberties",
+              "Whether to return to the Articles of Confederation",
+              "Whether to legalize segregation",
+              "How to restore the gold standard",
+            ],
+            ans: "Balancing national security with civil liberties",
+            hint: "This debate centers on safety versus constitutional protections.",
+          },
+        ];
+        const st = {
+          name: "",
+          start: null,
+          end: null,
+          i: 0,
+          attempts: 0,
+          correct: 0,
+        };
+        $("sTotal").textContent = qs.length;
+        function stage(id) {
+          ["startStage", "gameStage", "endStage"].forEach((x) =>
+            $(x).classList.remove("active"),
+          );
+          $(id).classList.add("active");
+        }
+        function sidebar() {
+          $("sName").textContent = st.name || "Not started";
+          $("sProg").textContent = Math.min(st.i, qs.length);
+          $("bar").style.width = (st.i / qs.length) * 100 + "%";
+          $("sAcc").textContent =
+            (st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0) +
+            "%";
+          $("sStart").textContent = st.start ? fmtDT(st.start) : "—";
+          $("sEnd").textContent = st.end ? fmtDT(st.end) : "—";
+        }
+        function fb(kind, text) {
+          const x = $("fb");
+          x.className = "msg show " + kind;
+          x.textContent = text;
+        }
+        function fbHide() {
+          $("fb").className = "msg";
+          $("fb").textContent = "";
+        }
+        function attempt(ok) {
+          st.attempts++;
+          if (ok) st.correct++;
+          sidebar();
+        }
+        function next(delay = 900) {
+          setTimeout(() => {
+            st.i++;
+            sidebar();
+            if (st.i >= qs.length) finish();
+            else render();
+          }, delay);
+        }
+        function finish() {
+          st.end = new Date();
+          sidebar();
+          const acc = st.attempts
+            ? Math.round((st.correct / st.attempts) * 100)
+            : 0;
+          $("tName").textContent = st.name;
+          $("tResult").innerHTML =
+            acc >= PASS
+              ? '<span class="pass">Passed</span>'
+              : '<span class="fail">Failed</span>';
+          $("tAcc").textContent = acc + "%";
+          $("tCount").textContent = qs.length + " / " + qs.length;
+          $("tDate").textContent = fmtD(st.end);
+          $("tStart").textContent = fmtT(st.start);
+          $("tEnd").textContent = fmtT(st.end);
+          $("tSummary").textContent =
+            st.correct + " correct out of " + st.attempts + " scored attempts";
+          stage("endStage");
+        }
+        function reset() {
+          st.name = "";
+          st.start = null;
+          st.end = null;
+          st.i = 0;
+          st.attempts = 0;
+          st.correct = 0;
+          $("nameInput").value = "";
+          $("startMsg").className = "msg";
+          $("startMsg").textContent = "";
+          sidebar();
+          stage("startStage");
+        }
+        function start() {
+          const n = $("nameInput").value.trim();
+          if (!n) {
+            $("startMsg").className = "msg show badm";
+            $("startMsg").textContent =
+              "Please enter your name before starting.";
+            return;
+          }
+          st.name = n;
+          st.start = new Date();
+          st.end = null;
+          st.i = 0;
+          st.attempts = 0;
+          st.correct = 0;
+          sidebar();
+          stage("gameStage");
+          render();
+        }
+        function render() {
+          fbHide();
+          const q = qs[st.i],
+            c = $("qcontent");
+          $("qnum").textContent = "Question " + (st.i + 1) + " of " + qs.length;
+          $("qtitle").textContent = q.title;
+          c.innerHTML = "";
+          if (q.type === "mcq") rMCQ(q, c);
+          if (q.type === "twopart") rTP(q, c);
+          if (q.type === "matrix") rMX(q, c);
+          if (q.type === "evidence") rEV(q, c);
+          if (q.type === "drag") rDR(q, c);
+          if (q.type === "dropdown") rDD(q, c);
+        }
+        function rMCQ(q, c) {
+          if (q.src) c.insertAdjacentHTML("beforeend", q.src);
+          c.insertAdjacentHTML(
+            "beforeend",
+            '<div class="part"><h4>' + q.prompt + "</h4></div>",
+          );
+          const wrap = document.createElement("div");
+          wrap.className = "choices";
+          sh(q.opts).forEach((opt) => {
+            const d = document.createElement("div");
+            d.className = "choice";
+            d.textContent = opt;
+            d.onclick = () => {
+              if (wrap.dataset.locked) return;
+              wrap.dataset.locked = 1;
+              [...wrap.children].forEach((ch) => {
+                if (ch.textContent === q.ans) ch.classList.add("correct");
+              });
+              const ok = opt === q.ans;
+              attempt(ok);
+              if (ok) {
+                d.classList.add("correct");
+                fb("goodm", "Correct. Moving to the next question.");
+                next();
+              } else {
+                d.classList.add("incorrect");
+                fb("badm", "Incorrect. Hint: " + q.hint);
+                setTimeout(render, 1600);
+              }
+            };
+            wrap.appendChild(d);
+          });
+          c.appendChild(wrap);
+        }
+        function rTP(q, c) {
+          if (q.a.src) c.insertAdjacentHTML("beforeend", q.a.src);
+          const A = document.createElement("div");
+          A.className = "part";
+          A.innerHTML = "<h4>" + q.a.p + "</h4>";
+          const aw = document.createElement("div");
+          aw.className = "choices";
+          let sa = null,
+            locked = false;
+          sh(q.a.opts).forEach((opt) => {
+            const d = document.createElement("div");
+            d.className = "choice";
+            d.textContent = opt;
+            d.onclick = () => {
+              if (locked) return;
+              [...aw.children].forEach((x) => x.classList.remove("selected"));
+              d.classList.add("selected");
+              sa = opt;
+              chk();
+            };
+            aw.appendChild(d);
+          });
+          A.appendChild(aw);
+          c.appendChild(A);
+          const B = document.createElement("div");
+          B.className = "part";
+          B.innerHTML = "<h4>" + q.b.p + "</h4>";
+          const bw = document.createElement("div");
+          bw.className = "checks";
+          const sb = new Set(),
+            need = q.b.ans.length;
+          sh(q.b.opts).forEach((opt) => {
+            const lab = document.createElement("label");
+            lab.className = "check";
+            lab.innerHTML = '<input type="checkbox"> <span>' + opt + "</span>";
+            const inp = lab.querySelector("input");
+            inp.onchange = () => {
+              if (locked) return;
+              inp.checked ? sb.add(opt) : sb.delete(opt);
+              if (sb.size > need) {
+                inp.checked = false;
+                sb.delete(opt);
+                fb(
+                  "warnm",
+                  "Select exactly " +
+                    need +
+                    " answer" +
+                    (need > 1 ? "s" : "") +
+                    ".",
+                );
+                return;
+              }
+              chk();
+            };
+            bw.appendChild(lab);
+          });
+          B.appendChild(bw);
+          c.appendChild(B);
+          function eq(a, b) {
+            if (a.size !== b.size) return false;
+            for (const v of a) if (!b.has(v)) return false;
+            return true;
+          }
+          function chk() {
+            if (!sa || sb.size !== need || locked) return;
+            locked = true;
+            const ok = sa === q.a.ans && eq(sb, new Set(q.b.ans));
+            attempt(ok);
+            [...aw.children].forEach((x) => {
+              if (x.textContent === q.a.ans) x.classList.add("correct");
+              if (x.textContent === sa && sa !== q.a.ans)
+                x.classList.add("incorrect");
+            });
+            [...bw.children].forEach((x) => {
+              const t = x.textContent.trim(),
+                chosen = x.querySelector("input").checked,
+                right = q.b.ans.includes(t);
+              if (right) x.classList.add("hit");
+              if (chosen && !right) x.classList.add("miss");
+            });
+            if (ok) {
+              fb("goodm", "Correct. Moving to the next question.");
+              next();
+            } else {
+              fb("badm", "Incorrect. Hint: " + q.hint);
+              setTimeout(render, 1900);
+            }
+          }
+        }
+        function rMX(q, c) {
+          c.insertAdjacentHTML(
+            "beforeend",
+            '<div class="part"><h4>' + q.prompt + "</h4></div>",
+          );
+          const w = document.createElement("div");
+          w.className = "matrix";
+          const vals = {};
+          let locked = false;
+          q.rows.forEach((r, i) => {
+            const d = document.createElement("div");
+            d.className = "matrixr";
+            const s = document.createElement("select");
+            s.innerHTML =
+              '<option value="">Choose...</option>' +
+              q.cols.map((x) => "<option>" + x + "</option>").join("");
+            s.onchange = () => {
+              if (locked) return;
+              vals[i] = s.value;
+              chk();
+            };
+            d.innerHTML = "<div>" + r[0] + "</div>";
+            d.appendChild(s);
+            w.appendChild(d);
+          });
+          c.appendChild(w);
+          function chk() {
+            if (locked || q.rows.some((_, i) => !vals[i])) return;
+            locked = true;
+            const ok = q.rows.every((r, i) => vals[i] === r[1]);
+            attempt(ok);
+            [...w.children].forEach((row, i) =>
+              row.classList.add(vals[i] === q.rows[i][1] ? "hit" : "miss"),
+            );
+            if (ok) {
+              fb("goodm", "Correct. Moving to the next question.");
+              next();
+            } else {
+              fb("badm", "Incorrect. Hint: " + q.hint);
+              setTimeout(render, 1800);
+            }
+          }
+        }
+        function rEV(q, c) {
+          c.insertAdjacentHTML(
+            "beforeend",
+            '<div class="part"><h4>' + q.prompt + "</h4></div>",
+          );
+          const w = document.createElement("div");
+          w.className = "checks";
+          const set = new Set(),
+            need = q.ans.length;
+          let locked = false;
+          sh(q.opts).forEach((opt) => {
+            const lab = document.createElement("label");
+            lab.className = "check";
+            lab.innerHTML = '<input type="checkbox"> <span>' + opt + "</span>";
+            const inp = lab.querySelector("input");
+            inp.onchange = () => {
+              if (locked) return;
+              inp.checked ? set.add(opt) : set.delete(opt);
+              if (set.size > need) {
+                inp.checked = false;
+                set.delete(opt);
+                fb("warnm", "Select exactly " + need + " answers.");
+                return;
+              }
+              if (set.size === need) {
+                locked = true;
+                const ok = q.ans.every((x) => set.has(x));
+                attempt(ok);
+                [...w.children].forEach((r) => {
+                  const t = r.textContent.trim(),
+                    chosen = r.querySelector("input").checked,
+                    right = q.ans.includes(t);
+                  if (right) r.classList.add("hit");
+                  if (chosen && !right) r.classList.add("miss");
+                });
+                if (ok) {
+                  fb("goodm", "Correct. Moving to the next question.");
+                  next();
+                } else {
+                  fb("badm", "Incorrect. Hint: " + q.hint);
+                  setTimeout(render, 1800);
+                }
+              }
+            };
+            w.appendChild(lab);
+          });
+          c.appendChild(w);
+        }
+        function rDR(q, c) {
+          c.insertAdjacentHTML(
+            "beforeend",
+            '<div class="part"><h4>' + q.prompt + "</h4></div>",
+          );
+          const box = document.createElement("div");
+          box.className = "row2";
+          const bank = document.createElement("div");
+          bank.className = "bank";
+          bank.innerHTML = "<strong>Card Bank</strong>";
+          const zones = document.createElement("div");
+          zones.className = "zones";
+          const drag = { t: null };
+          let locked = false;
+          q.bank.forEach((t) => bank.appendChild(card(t)));
+          q.zones.forEach((z, i) => {
+            const d = document.createElement("div");
+            d.className = "zone";
+            d.innerHTML = "<strong>" + z[0] + "</strong>";
+            d.ondragover = (e) => {
+              e.preventDefault();
+              if (!locked) d.classList.add("over");
+            };
+            d.ondragleave = () => d.classList.remove("over");
+            d.ondrop = (e) => {
+              e.preventDefault();
+              d.classList.remove("over");
+              if (locked || !drag.t) return;
+              d.appendChild(
+                [...c.querySelectorAll(".card")].find(
+                  (x) => x.dataset.t === drag.t,
+                ),
+              );
+              chk();
+            };
+            zones.appendChild(d);
+          });
+          bank.ondragover = (e) => e.preventDefault();
+          bank.ondrop = (e) => {
+            e.preventDefault();
+            if (locked || !drag.t) return;
+            bank.appendChild(
+              [...c.querySelectorAll(".card")].find(
+                (x) => x.dataset.t === drag.t,
+              ),
+            );
+          };
+          box.appendChild(bank);
+          box.appendChild(zones);
+          c.appendChild(box);
+          function card(t) {
+            const d = document.createElement("div");
+            d.className = "card";
+            d.draggable = true;
+            d.dataset.t = t;
+            d.textContent = t;
+            d.ondragstart = () => (drag.t = t);
+            d.ondragend = () => (drag.t = null);
+            return d;
+          }
+          function chk() {
+            if (
+              locked ||
+              q.bank.some(
+                (t) =>
+                  [...c.querySelectorAll(".card")].find(
+                    (x) => x.dataset.t === t,
+                  ).parentElement === bank,
+              )
+            )
+              return;
+            locked = true;
+            let ok = true;
+            [...zones.children].forEach((z, i) => {
+              const have = [...z.querySelectorAll(".card")]
+                .map((x) => x.dataset.t)
+                .sort()
+                .join("|");
+              const want = q.zones[i][1].slice().sort().join("|");
+              if (have === want) z.classList.add("hit");
+              else {
+                z.classList.add("miss");
+                ok = false;
+              }
+            });
+            attempt(ok);
+            if (ok) {
+              fb("goodm", "Correct. Moving to the next question.");
+              next();
+            } else {
+              fb("badm", "Incorrect. Hint: " + q.hint);
+              setTimeout(render, 2000);
+            }
+          }
+        }
+        function rDD(q, c) {
+          c.insertAdjacentHTML(
+            "beforeend",
+            '<div class="part"><h4>' + q.title + "</h4></div>",
+          );
+          const w = document.createElement("div");
+          w.className = "dropdown-row";
+          const vals = {};
+          let locked = false;
+          q.sent.forEach((s, i) => {
+            const d = document.createElement("div");
+            d.className = "sentence";
+            const sel = document.createElement("select");
+            sel.innerHTML =
+              '<option value="">Choose...</option>' +
+              sh(s[1])
+                .map((x) => "<option>" + x + "</option>")
+                .join("");
+            sel.onchange = () => {
+              if (locked) return;
+              vals[i] = sel.value;
+              chk();
+            };
+            d.append(document.createTextNode(s[0] + " "));
+            d.appendChild(sel);
+            if (i === q.sent.length - 1 && q.after)
+              d.append(document.createTextNode(" " + q.after));
+            w.appendChild(d);
+          });
+          c.appendChild(w);
+          function chk() {
+            if (locked || q.sent.some((_, i) => !vals[i])) return;
+            locked = true;
+            const ok = q.sent.every((s, i) => vals[i] === s[2]);
+            attempt(ok);
+            [...w.children].forEach((r, i) =>
+              r.classList.add(vals[i] === q.sent[i][2] ? "hit" : "miss"),
+            );
+            if (ok) {
+              fb("goodm", "Correct. Moving to the next question.");
+              next();
+            } else {
+              fb("badm", "Incorrect. Hint: " + q.hint);
+              setTimeout(render, 1800);
+            }
+          }
+        }
+        $("startBtn").onclick = start;
+        $("nameInput").addEventListener("keydown", (e) => {
+          if (e.key === "Enter") start();
+        });
+        $("restartBtn").onclick = reset;
+        $("againBtn").onclick = reset;
+        sidebar();
+      })();
+    </script>
+  </body>
+</html>
